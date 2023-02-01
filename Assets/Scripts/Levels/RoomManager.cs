@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GGJ.Utilities.Extensions;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace GGJ.Levels
 {
@@ -32,6 +34,14 @@ namespace GGJ.Levels
         public Room GetRoom(int roomIndex)
         {
             return roomPrefabs[roomIndex];
+        }
+
+        public DungeonProfile dungeonProfile;
+        [ContextMenu("TestDungeonGeneration")]
+        public void TestDungeonGeneration()
+        {
+            var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
+            Debug.Log(data);
         }
 
         //Unity Editor Functions
