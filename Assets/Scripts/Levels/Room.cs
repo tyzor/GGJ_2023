@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GGJ.Levels
 {
@@ -7,15 +8,15 @@ namespace GGJ.Levels
     {
         public int MaxFolderCount => folderSpawnLocations.Length;
         public int RoomId => roomId;
-        public bool CanRepeat => canRepeat;
+        public bool CannotRepeat => cannotRepeat;
         
 
         [SerializeField]
         private string roomName;
         //[SerializeField, Min(0)]
         private int roomId;
-        [SerializeField]
-        private bool canRepeat;
+        [FormerlySerializedAs("canRepeat")] [SerializeField]
+        private bool cannotRepeat;
 
         
         [SerializeField]
