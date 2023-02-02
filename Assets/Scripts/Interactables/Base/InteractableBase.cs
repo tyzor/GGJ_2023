@@ -13,7 +13,7 @@ namespace GGJ.Interactables
         private static IInteractableListener _playerInteractableListener;
         protected static Transform PlayerTransform;
 
-        
+        public Bounds ColliderBounds => _collider.bounds;
         private Collider _collider;
         private bool _playerInInteractRange;
         protected bool IgnoreExits { get; set; }
@@ -31,7 +31,7 @@ namespace GGJ.Interactables
             
             _collider = GetComponent<Collider>();
             Assert.IsTrue(_collider.isTrigger, $"{gameObject.name} Collider must be a trigger");
-
+            
             OnStart();
         }
 

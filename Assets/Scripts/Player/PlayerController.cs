@@ -48,7 +48,7 @@ namespace GGJ.Player
             if (_currentInteractablesInRange == null || _currentInteractablesInRange.Count == 0)
                 return;
 
-            //Look for doors, and interact. Prevent dropping holding items.
+            //Look for doors, and interact. Prevents dropping held items.
             //------------------------------------------------//
             var door = _currentInteractablesInRange
                 .FirstOrDefault(x => x is DoorInteractable);
@@ -60,9 +60,10 @@ namespace GGJ.Player
             }
             //------------------------------------------------//
 
-            //FIXME Need a way of making sure we don't drop the file if we're going through a door
-            foreach (var interactable in _currentInteractablesInRange)
+            var count = _currentInteractablesInRange.Count;
+            for (var i = count - 1; i >= 0; i--)
             {
+                var interactable = _currentInteractablesInRange[i];
                 interactable?.Interact();
             }
         }

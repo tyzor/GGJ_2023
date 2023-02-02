@@ -11,6 +11,8 @@ namespace GGJ.Levels
 {
     public class RoomManager : MonoBehaviour
     {
+        public Room CurrentRoom { get; private set; }
+
         [SerializeField]
         private Room rootRoom;
         [SerializeField]

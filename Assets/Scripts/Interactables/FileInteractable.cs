@@ -1,5 +1,4 @@
 ﻿using System;
-using GGJ.Player;
 using UnityEngine;
 
 namespace GGJ.Interactables
@@ -8,7 +7,8 @@ namespace GGJ.Interactables
     {
         //TODO Needs to return the file data
         public static event Action<FileInteractable> OnPickedUpFile;
-
+        public static event Action<FileInteractable> OnDroppedFile;
+        public static event Action<FileInteractable> OnRecycledFile;
         //Properties
         //============================================================================================================//
         
@@ -20,6 +20,13 @@ namespace GGJ.Interactables
 
         private new Transform transform;
 
+        //============================================================================================================//
+        
+        public void Init(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+        
         //Unity Functions
         //============================================================================================================//
         
@@ -35,6 +42,11 @@ namespace GGJ.Interactables
                 return;
             
             transform.position = PlayerTransform.position + Vector3.up * 1.5f;
+        }
+
+        private void OnDestroy()
+        {
+            OnRecycledFile?.Invoke(this);
         }
 
         //============================================================================================================//
@@ -59,6 +71,7 @@ namespace GGJ.Interactables
                 currentPos.y = _startingHeight;
 
                 transform.position = currentPos;
+                OnDroppedFile?.Invoke(this);
             }
         }
         //============================================================================================================//
