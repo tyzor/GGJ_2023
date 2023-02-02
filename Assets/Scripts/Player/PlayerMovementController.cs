@@ -8,7 +8,7 @@ namespace GGJ.Player
 
     public class PlayerMovementController : MonoBehaviour
     {
-        public static bool CanMove { get; set; }
+        public static bool CanMove { get; set; } = true;
 
         [SerializeField] 
         private CinemachineVirtualCamera _virtualCamera;
@@ -39,8 +39,6 @@ namespace GGJ.Player
             rigidbody = GetComponent<Rigidbody>();
             
             _cameraTransform = Camera.main.transform;
-            
-            
         }
 
         private void FixedUpdate()
