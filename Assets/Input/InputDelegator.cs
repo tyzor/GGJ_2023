@@ -10,7 +10,8 @@ namespace GGJ.Inputs
     {
         public static event Action<bool> OnAttackPressed;
         public static event Action<(float x, float y)> OnMoveChanged;
-        private static float _currentX, _currentY;
+        
+        private float _currentX, _currentY;
 
         private void Start()
         {
