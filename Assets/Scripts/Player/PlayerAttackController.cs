@@ -14,12 +14,14 @@ namespace GGJ.Player
         {
             if (isPressed)
             {
+                Debug.Log("Inside PlayerAttackController");
                 //Start Attack Charge
             }
             else
             {
                 //Determine how long we were pressing 
                 //Do appropriate attack
+                Debug.Log("Inside PlayerAttackController");
             }
         }
     }
