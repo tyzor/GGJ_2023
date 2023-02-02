@@ -40,8 +40,9 @@ namespace GGJ.Levels
         [ContextMenu("TestDungeonGeneration")]
         public void TestDungeonGeneration()
         {
-            var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
-            Debug.Log(data);
+            FindObjectOfType<ComputerFileSystemGenerator>().RandallFunction(dungeonProfile, roomPrefabs);
+            //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
+            //Debug.Log(data);
         }
 
         //Unity Editor Functions
