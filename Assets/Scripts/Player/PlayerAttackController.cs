@@ -12,15 +12,22 @@ namespace GGJ.Player
 
         private void OnAttackPressed(bool isPressed)
         {
+            float intensity = 0;
             if (isPressed)
             {
-                //Start Attack Charge
+                intensity +=0.1f;
+                if (intensity >10)
+                {
+                    intensity = 10;
+                }
             }
             else
             {
                 //Determine how long we were pressing 
                 //Do appropriate attack
             }
+
+            Debug.Log(intensity);
         }
     }
 }
