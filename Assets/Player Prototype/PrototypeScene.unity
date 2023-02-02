@@ -324,6 +324,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294920076e881c54db0d0d40a217dc29, type: 3}
+--- !u!114 &176864452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3305939814933455908, guid: 294920076e881c54db0d0d40a217dc29,
+    type: 3}
+  m_PrefabInstance: {fileID: 3305939814823975136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0317005bfab94e05836060e612141580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,6 +1934,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ==== OBJECTIVE CONTROLLER ====
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659158664372135207, guid: 835957e93fefeb54c8df54a1db863ea1,
+        type: 3}
+      propertyPath: _objectiveTarget
+      value: 
+      objectReference: {fileID: 176864452}
+    - target: {fileID: 7659158664372135207, guid: 835957e93fefeb54c8df54a1db863ea1,
+        type: 3}
+      propertyPath: _currentObjective
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 835957e93fefeb54c8df54a1db863ea1, type: 3}
