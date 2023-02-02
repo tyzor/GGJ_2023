@@ -15,7 +15,6 @@ namespace GGJ.Prototype
     [RequireComponent(typeof(Rigidbody))]
     public class CharacterPrototype : MonoBehaviour, GameInputs.IGameplayActions
     {
-
         public CameraType cameraType;
         
         [SerializeField] private CinemachineFreeLook _freeLookCamera;
@@ -111,7 +110,12 @@ namespace GGJ.Prototype
             
             _currentYInput = Mathf.RoundToInt(context.ReadValue<float>());
         }
-        
+
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+
+        }
+
         //============================================================================================================//
     }
 }

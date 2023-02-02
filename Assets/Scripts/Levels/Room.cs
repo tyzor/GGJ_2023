@@ -7,14 +7,11 @@ namespace GGJ.Levels
     public class Room : MonoBehaviour
     {
         public int MaxFolderCount => folderSpawnLocations.Length;
-        public int RoomId => roomId;
         public bool CannotRepeat => cannotRepeat;
         
 
         [SerializeField]
         private string roomName;
-        //[SerializeField, Min(0)]
-        private int roomId;
         [FormerlySerializedAs("canRepeat")] [SerializeField]
         private bool cannotRepeat;
 

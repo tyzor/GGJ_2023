@@ -44,6 +44,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a6e7130-ef90-4845-89ad-ed4883b372f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,28 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Vertical Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""306a7d1d-6c86-475a-8a94-47f568a08972"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52608b5f-4329-4559-9a40-6f6e71b13626"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +153,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_HorizontalMovement = m_Gameplay.FindAction("Horizontal Movement", throwIfNotFound: true);
         m_Gameplay_VerticalMovement = m_Gameplay.FindAction("Vertical Movement", throwIfNotFound: true);
+        m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,12 +215,14 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_HorizontalMovement;
     private readonly InputAction m_Gameplay_VerticalMovement;
+    private readonly InputAction m_Gameplay_Attack;
     public struct GameplayActions
     {
         private @GameInputs m_Wrapper;
         public GameplayActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @HorizontalMovement => m_Wrapper.m_Gameplay_HorizontalMovement;
         public InputAction @VerticalMovement => m_Wrapper.m_Gameplay_VerticalMovement;
+        public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -204,6 +238,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @VerticalMovement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVerticalMovement;
                 @VerticalMovement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVerticalMovement;
                 @VerticalMovement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnVerticalMovement;
+                @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -214,6 +251,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @VerticalMovement.started += instance.OnVerticalMovement;
                 @VerticalMovement.performed += instance.OnVerticalMovement;
                 @VerticalMovement.canceled += instance.OnVerticalMovement;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -222,5 +262,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
         void OnVerticalMovement(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }
