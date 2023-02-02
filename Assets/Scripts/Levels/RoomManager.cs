@@ -40,7 +40,7 @@ namespace GGJ.Levels
         [ContextMenu("TestDungeonGeneration")]
         public void TestDungeonGeneration()
         {
-            FindObjectOfType<ComputerFileSystemGenerator>().RandallFunction(dungeonProfile, roomPrefabs);
+            FindObjectOfType<ComputerFileSystemGenerator>().GenerateFolderStructure(dungeonProfile, roomPrefabs);
             //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
             //Debug.Log(data);
         }

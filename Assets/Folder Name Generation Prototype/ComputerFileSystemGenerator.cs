@@ -1,45 +1,36 @@
 using GGJ.Levels;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEditor;
 using UnityEngine;
 using static ComputerFileSystemGenerator;
 
-// review DungeonProfileExtensions for static
-
 public class ComputerFileSystemGenerator : MonoBehaviour
 {
-    [SerializeField] private int stageDifficulty = 10;
-    [SerializeField] private int stageMaxDepth = 2;
-
-    [SerializeField] private int minFolders = 0;
-    [SerializeField] private int maxFolders = 3;
-
-    [SerializeField] private int minFiles = 1;
+    //[SerializeField] private int stageDifficulty = 10;
+    //[SerializeField] private int stageMaxDepth = 2;
+    //[SerializeField] private int minFolders = 0;
+    //[SerializeField] private int maxFolders = 3;
+    [SerializeField] private int minFiles = 0;
     [SerializeField] private int maxFiles = 2;
+    //[SerializeField] private int maxRoomCount = 10;
 
-    [SerializeField] private int maxRoomCount = 10;
+    [SerializeField] private List<FolderRoom> folderRoomsList = new List<FolderRoom>();
+    [SerializeField] private List<FolderStub> folderStubsList = new List<FolderStub>();
+    [SerializeField] private List<File> filesList = new List<File>();
 
-    //[SerializeField] private List<DungeonRoom> dungeonRooms = new List<DungeonRoom>();
-    [SerializeField] private List<FolderRoom> folderRooms = new List<FolderRoom>();
-    [SerializeField] private List<SimpleFolder> simpleFolders = new List<SimpleFolder>();
-    [SerializeField] private List<File> dungeonFiles = new List<File>();
+    [SerializeField] private List<int> usedRoomIndexes = new List<int>(); // not used properly
 
-    [SerializeField] private List<int> usedRoomIndexes = new List<int>();
-
-    //public List<DungeonRoom> DungeonRooms() { return dungeonRooms; }
-    //public List<SimpleFolder> DungeonFolders() { return simpleFolders; }
-    //public List<File> DungeonFiles() { return dungeonFiles; }
 
     private string[] availableFolderFileNames = new string[]{"Boot",
 "Cache",
-"common",
-"config",
+"Common",
 "Config",
-"css",
+"Css",
 "Cursors",
-"data",
-"debug",
+"Data",
+"Debug",
 "Drivers",
 "DVD",
 "Engine",
@@ -48,9 +39,9 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 "Games",
 "Globalization",
 "Graphics",
-"Help",
+//"Help",
 "Helper",
-"images",
+"Images",
 "Interface",
 "Interface",
 "Language",
@@ -63,15 +54,15 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 "Plugins",
 "Printer",
 "ProgramData",
-"saves",
-"schemas",
-"security",
+"Saves",
+"Schemas",
+"Security",
 "Settings",
 "Setup",
 "Shaders",
-"shell",
-"sounds",
-"symbols",
+"Shell",
+"Sounds",
+"Symbols",
 "Tasks",
 "Temp",
 "Textures",
@@ -79,8 +70,7 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 "Users",
 "Utils",
 "Web",
-"workshop"};
-
+"Workshop"};
     private string[] availableFileExtensions = new string[]{"avi",
 "bat",
 "cur",
@@ -103,59 +93,84 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 
     [SerializeField] DungeonProfile dungeonProfile;
 
-    void Awake()
+
+    public List<FolderRoom> GenerateFolderStructure(DungeonProfile dungeonProfile, in Room[] rooms)
     {
-        //// test making x maps
-        //for (int i = 0; i < 1; i++)
-        //{
-        //    // create computer map
-        //    CreateComputerMap();
-        //}
+        CreateFolderRoomMap(dungeonProfile, rooms);
 
+        List<FolderRoom> folderList = new List<FolderRoom>();
 
-        //RandallFunction
-    }
-
-    
-    public List<FolderRoom> RandallFunction(DungeonProfile dungeonProfile, in Room[] rooms)
-    {
-        CreateAlexMap(dungeonProfile, rooms);
-
-        List<FolderRoom> returnListOfRooms = new List<FolderRoom>();
-
-        foreach(FolderRoom f in folderRooms)
+        foreach (FolderRoom f in folderRoomsList)
         {
-            returnListOfRooms.Add(f);
+            folderList.Add(f);
         }
 
-        return returnListOfRooms;
+        return folderList;
     }
-    
 
-
-    private void CreateAlexMap(DungeonProfile dungeonProfile, Room[] rooms)
+    private void CreateFolderRoomMap(DungeonProfile dungeonProfile, Room[] rooms)
     {
         // clear local list of rooms, folders, files
-        //dungeonRooms.Clear();
-        folderRooms.Clear();
-        simpleFolders.Clear();
-        dungeonFiles.Clear();
+        folderRoomsList.Clear();
+        folderStubsList.Clear();
+        filesList.Clear();
         usedRoomIndexes.Clear();
 
-        // create the root folder
-        SimpleFolder rootFolder = new SimpleFolder(null, "ROOT");
-        CreateAlexDungeonRoom(rootFolder, dungeonProfile, rooms);
 
-        // create a debug for what was created
-        string debugString = "Dungeon created with [" + folderRooms.Count + "] ROOMS, [" + simpleFolders.Count + "] SUBFOLDERS, [" + dungeonFiles.Count + "] FILES\n";
+        // create list to hold all rooms
+        List<FolderRoom> folderList = new List<FolderRoom>();
 
-        foreach (FolderRoom r in folderRooms)
+        // create the root folder - and nested rooms recursively
+        FolderStub rootFolder = new FolderStub(null, "ROOT");
+        folderStubsList.Add(rootFolder);
+        CreateFolderRoom(rootFolder, dungeonProfile, rooms);
+
+        // need to iterate back through the FolderRooms and use the FolderStub indexes to properly set the parentFolders
+        int i = 0;
+        foreach (FolderRoom f in folderRoomsList)
         {
-            foreach (File f in r.Files())
+            // find appropriate index
+            int index = f.FolderRoomListIndex;
+            FolderStub folderStub = folderStubsList[index];
+            int parentStubIndex = folderStubsList.IndexOf(folderStub.ParentFolder);
+
+            // using the index, apply the parent FolderRoom to this folderRooom
+            if(parentStubIndex > -1)
+            {
+                f.ParentFolder = folderRoomsList[parentStubIndex];
+            }
+
+            i += 1;
+        }
+
+        // print debug log to console
+        PrintFileSystem();
+
+        // verify each folder room has the correct data for its parent
+        //string debugString = "";
+        //foreach (FolderRoom f in folderRoomsList)
+        //{
+        //    if (f.ParentFolder != null)
+        //    {
+        //        debugString += f.FolderName + " has parent [" + f.ParentFolder.FolderName + "]\n";
+        //    }
+        //}
+        //Debug.Log(debugString);
+    }
+
+    // print debug to console
+    private void PrintFileSystem()
+    {
+        // create a debug for what was created
+        string debugString = "Dungeon created with [" + folderRoomsList.Count + "] ROOMS, [" + folderStubsList.Count + "] SUBFOLDERS, [" + filesList.Count + "] FILES\n";
+
+        foreach (FolderRoom r in folderRoomsList)
+        {
+            foreach (File f in r.Files)
             {
                 debugString += f.GetAbsolutePath() + "\n";
             }
-            foreach (SimpleFolder f in r.Folders())
+            foreach (FolderStub f in r.Subfolders)
             {
                 //Debug.Log(f.FolderName);
                 debugString += f.GetAbsolutePath() + "\n";
@@ -197,14 +212,16 @@ public class ComputerFileSystemGenerator : MonoBehaviour
     }
     */
 
-    private void CreateAlexDungeonRoom(SimpleFolder thisRoomsFolder, DungeonProfile dungeonProfile, Room[] rooms)
+    // create a room
+    private void CreateFolderRoom(FolderStub folderStub, DungeonProfile dungeonProfile, Room[] rooms)
     {
         // select a room template for this room
-        Room roomTemplate = rooms[Random.Range(0, rooms.Length)];
+        int roomTemplateIndex = Random.Range(0, rooms.Length);
+        Room roomTemplate = rooms[roomTemplateIndex];
 
         // check depth so we don't go infinitely deep
         int depth = 0;
-        SimpleFolder parentFolder = thisRoomsFolder.ParentFolder;
+        FolderStub parentFolder = folderStub.ParentFolder;
         while (parentFolder != null)
         {
             parentFolder = parentFolder.ParentFolder;
@@ -212,16 +229,17 @@ public class ComputerFileSystemGenerator : MonoBehaviour
         }
 
         // create room navigation objects
-        int roomIndex = folderRooms.Count;
-        string roomName = thisRoomsFolder.FolderName;
+        int roomIndex = folderRoomsList.Count;
+        string folderName = folderStub.FolderName;
 
         // determine number of subfolders to create
         //int numSubfoldersToCreate = (depth >= stageMaxDepth) ? 0 : Random.Range(minFolders, maxFolders + 1);
         int numSubfoldersToCreate = 0;
-        int curRooms = folderRooms.Count + numSubfoldersToCreate;
+        int curRooms = folderRoomsList.Count + numSubfoldersToCreate;
         if (depth < dungeonProfile.maxDepth && curRooms < dungeonProfile.roomCount)
         {
-            numSubfoldersToCreate = Random.Range(minFolders, maxFolders + 1);
+            //numSubfoldersToCreate = Random.Range(minFolders, maxFolders + 1);
+            numSubfoldersToCreate = Random.Range(0, roomTemplate.MaxFolderCount + 1);
         }
         // make sure the root folder has at least one subfolder
         numSubfoldersToCreate = (depth == 0) ? Mathf.Clamp(numSubfoldersToCreate, 1, numSubfoldersToCreate) : numSubfoldersToCreate;
@@ -231,14 +249,14 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 
 
         // create subfolders
-        SimpleFolder[] roomSubfolders = new SimpleFolder[numSubfoldersToCreate];
+        FolderStub[] roomSubfolders = new FolderStub[numSubfoldersToCreate];
         // also check that you have not reached max room count
         for (int i = 0; i < numSubfoldersToCreate; i += 1)
         {
             // create folder
             string newFolderName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
-            SimpleFolder newSubfolder = new SimpleFolder(thisRoomsFolder, newFolderName);
-            simpleFolders.Add(newSubfolder);
+            FolderStub newSubfolder = new FolderStub(folderStub, newFolderName);
+            //folderStubsList.Add(newSubfolder);
             roomSubfolders[i] = newSubfolder;
         }
 
@@ -250,191 +268,62 @@ public class ComputerFileSystemGenerator : MonoBehaviour
             // create file
             string newFileName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
             string newFileExtension = availableFileExtensions[Random.Range(0, availableFileExtensions.Length)];
-            File newFile = new File(thisRoomsFolder, newFileName, newFileExtension);
-            dungeonFiles.Add(newFile);
+            File newFile = new File(folderStub, newFileName, newFileExtension);
+            filesList.Add(newFile);
             roomFiles[i] = newFile;
         }
 
-        //DungeonRoom newRoom = new DungeonRoom(roomIndex, roomName, roomSubfolders, roomFiles, depth);
-        FolderRoom newRoom = new FolderRoom(roomIndex, thisRoomsFolder, roomSubfolders, roomFiles);
-        folderRooms.Add(newRoom);
+        int folderRoomCount = folderRoomsList.Count;
+        FolderRoom newRoom = new FolderRoom(folderRoomCount, roomTemplateIndex, folderName, folderStub, roomSubfolders, roomFiles);
+        folderRoomsList.Add(newRoom);
 
         // now create a dungeon room for each subfolder
-        foreach (SimpleFolder subfolder in roomSubfolders)
+        foreach (FolderStub subfolder in roomSubfolders)
         {
-            CreateAlexDungeonRoom(subfolder, dungeonProfile, rooms);
+            folderStubsList.Add(subfolder);
+            CreateFolderRoom(subfolder, dungeonProfile, rooms);
         }
     }
 
-    /*
-    private void CreateDungeonRoom(SimpleFolder thisRoomsFolder)
-    {
-
-        // check depth so we don't go infinitely deep
-        int depth = 0;
-        SimpleFolder parentFolder = thisRoomsFolder.ParentFolder;
-        while (parentFolder != null)
-        {
-            parentFolder = parentFolder.ParentFolder;
-            depth += 1;
-        }
-
-        //Debug.Log("Depth = " + depth);
-
-        // create room navigation objects
-        int roomIndex = dungeonRooms.Count;
-        string roomName = thisRoomsFolder.FolderName;
-
-        // determine number of subfolders to create
-        //int numSubfoldersToCreate = (depth >= stageMaxDepth) ? 0 : Random.Range(minFolders, maxFolders + 1);
-        int numSubfoldersToCreate = 0;
-        int curRooms = dungeonRooms.Count + numSubfoldersToCreate;
-        if (depth < stageMaxDepth && curRooms < maxRoomCount)
-        {
-            numSubfoldersToCreate = Random.Range(minFolders, maxFolders + 1);
-        }
-        // make sure the root folder has at least one subfolder
-        numSubfoldersToCreate = (depth == 0) ? Mathf.Clamp(numSubfoldersToCreate, 1, numSubfoldersToCreate) : numSubfoldersToCreate;
-
-        // determine number of files to create
-        int numFilesToCreate = Random.Range(minFiles, maxFiles + 1);
-
-
-        // create subfolders
-        SimpleFolder[] roomSubfolders = new SimpleFolder[numSubfoldersToCreate];
-        // also check that you have not reached max room count
-        for (int i = 0; i < numSubfoldersToCreate; i += 1)
-        {
-            // create folder
-            string newFolderName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
-            SimpleFolder newSubfolder = new SimpleFolder(thisRoomsFolder, newFolderName);
-            simpleFolders.Add(newSubfolder);
-            roomSubfolders[i] = newSubfolder;
-        }
-
-
-        // create files
-        File[] roomFiles = new File[numFilesToCreate];
-        for (int i = 0; i < numFilesToCreate; i += 1)
-        {
-            // create file
-            string newFileName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
-            string newFileExtension = availableFileExtensions[Random.Range(0, availableFileExtensions.Length)];
-            File newFile = new File(thisRoomsFolder, newFileName, newFileExtension);
-            dungeonFiles.Add(newFile);
-            roomFiles[i] = newFile;
-        }
-
-        //DungeonRoom newRoom = new DungeonRoom(roomIndex, roomName, roomSubfolders, roomFiles, depth);
-        DungeonRoom newRoom = new DungeonRoom(roomIndex, thisRoomsFolder, roomSubfolders, roomFiles, depth);
-        dungeonRooms.Add(newRoom);
-
-        // now create a dungeon room for each subfolder
-        foreach (SimpleFolder subfolder in roomSubfolders)
-        {
-            CreateDungeonRoom(subfolder);
-        }
-
-
-    }
-    */
-
+    // FolderRoom is the main object with all room connection information in the file system
     public class FolderRoom
     {
+        private int _folderRoomListIndex;
         private int _roomLayoutIndex;
         private Room _roomTemplate;
-        private SimpleFolder _selfFolder;
-        private SimpleFolder[] _subfolders;
+        private string _titleName;
+        private FolderRoom _parentFolder;
+        private FolderStub _parentStub;
+        private FolderStub[] _subfolders;
         private File[] _files;
 
-        public int RoomLayoutIndex() { return _roomLayoutIndex; }
-        public Room RoomTemplate() { return _roomTemplate; }
-        public File[] Files() { return _files; }
-        public SimpleFolder[] Folders() { return _subfolders; }
-        public SimpleFolder SelfFolder() { return _selfFolder; }
+        public int FolderRoomListIndex { get { return _folderRoomListIndex; } }
+        public int RoomLayoutIndex { get { return _roomLayoutIndex; } }
+        public Room RoomTemplate { get { return _roomTemplate; } }
+        public string FolderName { get { return _titleName; } }
+        public FolderStub ParentStub { get { return _parentStub; } }
+        public FolderRoom ParentFolder { get { return _parentFolder; } set { _parentFolder = value; } }
+        public File[] Files { get { return _files; } }
+        public FolderStub[] Subfolders { get { return _subfolders; } }
 
-        public FolderRoom(int roomLayoutIndex, SimpleFolder selfFolder, SimpleFolder[] subfolders, File[] files)
+        public FolderRoom(int folderRoomCount, int roomLayoutIndex, string folderName, FolderStub parentFolder, FolderStub[] subfolders, File[] files)
         {
+            _folderRoomListIndex = folderRoomCount;
             _roomLayoutIndex = roomLayoutIndex;
-            _selfFolder = selfFolder;
+            _titleName = folderName;
+            _parentStub = parentFolder;
             _subfolders = subfolders;
             _files = files;
         }
-    }
 
-    public class DungeonRoom
-    {
-        // merge folder and dungeon room
-        // room name can be derived from folder name?
-
-
-        private int _fileSystemRoomIndex;
-        private int _roomLayoutIndex;
-        private SimpleFolder _selfFolder;
-        private SimpleFolder[] _subfolders;
-        private File[] _files;
-        private int _depth;
-
-        public File[] Files() { return _files; }
-        public SimpleFolder[] Folders() { return _subfolders; }
-
-        public SimpleFolder SelfFolder() { return _selfFolder; }
-
-        public DungeonRoom(int index, SimpleFolder selfFolder, SimpleFolder[] subfolders, File[] files, int depth)
-        {
-            _fileSystemRoomIndex = index;
-            _selfFolder = selfFolder;
-            _subfolders = subfolders;
-            _files = files;
-            _depth = depth;
-        }
-
-        public string ToString()
-        {
-            string s = "";
-            foreach (SimpleFolder f in _subfolders)
-            {
-                s += f.GetAbsolutePath() + "\n";
-            }
-
-            foreach (File f in _files)
-            {
-                s += f.GetAbsolutePath() + "\n";
-            }
-
-            return s;
-        }
-    }
-
-    public class SimpleFolder
-    {
-        private SimpleFolder _parentFolder;
-        private string _folderName;
-
-        public SimpleFolder ParentFolder
-        {
-            get { return _parentFolder; }
-            set { _parentFolder = value; }
-        }
-        public string FolderName
-        {
-            get { return _folderName; }
-            set { _folderName = value; }
-        }
-
-        public SimpleFolder(SimpleFolder parentFolder, string folderName)
-        {
-            _parentFolder = parentFolder;
-            _folderName = folderName;
-        }
-
+        // return string with folder's path from root
         public string GetAbsolutePath()
         {
             string s = "Folder - ";
 
-            SimpleFolder p = _parentFolder;
+            FolderStub p = _parentStub;
 
-            List<SimpleFolder> path = new List<SimpleFolder>();
+            List<FolderStub> path = new List<FolderStub>();
 
             do
             {
@@ -444,7 +333,7 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 
             path.Reverse();
 
-            foreach (SimpleFolder f in path)
+            foreach (FolderStub f in path)
             {
                 s += "\\" + f.FolderName;
             }
@@ -455,31 +344,37 @@ public class ComputerFileSystemGenerator : MonoBehaviour
         }
     }
 
-    public class File
+    // FolderStub is required for recursive generation as a FolderRoom cannot be referenced as a parent until it is created
+    public class FolderStub
     {
-        private SimpleFolder _parentFolder;
-        private string _fileName;
-        private string _fileExtension;
+        private FolderStub _parentFolder;
+        private string _folderName;
 
-        public string GetFileNameExtension()
+        public FolderStub ParentFolder
         {
-            return _fileName + "." + _fileExtension;
+            get { return _parentFolder; }
+            set { _parentFolder = value; }
+        }
+        public string FolderName
+        {
+            get { return _folderName; }
+            set { _folderName = value; }
         }
 
-        public File(SimpleFolder parentFolder, string fileName, string fileExtension)
+        public FolderStub(FolderStub parentFolder, string folderName)
         {
             _parentFolder = parentFolder;
-            _fileName = fileName;
-            _fileExtension = fileExtension;
+            _folderName = folderName;
         }
 
+        // return string with folder's path from root
         public string GetAbsolutePath()
         {
-            string s = "<File> - ";
+            string s = "Folder - ";
 
-            SimpleFolder p = _parentFolder;
+            FolderStub p = _parentFolder;
 
-            List<SimpleFolder> path = new List<SimpleFolder>();
+            List<FolderStub> path = new List<FolderStub>();
 
             do
             {
@@ -489,7 +384,54 @@ public class ComputerFileSystemGenerator : MonoBehaviour
 
             path.Reverse();
 
-            foreach (SimpleFolder f in path)
+            foreach (FolderStub f in path)
+            {
+                s += "\\" + f.FolderName;
+            }
+
+            s += "\\" + FolderName;
+
+            return s;
+        }
+    }
+
+    // file contains its name and containing folder
+    public class File
+    {
+        private FolderStub _parentFolder;
+        private string _fileName;
+        private string _fileExtension;
+
+        public string GetFileNameExtension()
+        {
+            return _fileName + "." + _fileExtension;
+        }
+
+        public File(FolderStub parentFolder, string fileName, string fileExtension)
+        {
+            _parentFolder = parentFolder;
+            _fileName = fileName;
+            _fileExtension = fileExtension;
+        }
+
+        // return string with file's path from root
+        public string GetAbsolutePath()
+        {
+            string s = "<File> - ";
+
+            FolderStub p = _parentFolder;
+
+            List<FolderStub> path = new List<FolderStub>();
+
+            do
+            {
+                path.Add(p);
+                p = p.ParentFolder;
+            } while (p != null);
+
+            path.Reverse();
+
+            foreach (FolderStub f in path)
             {
                 s += "\\" + f.FolderName;
             }
