@@ -1,32 +1,72 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GGJ.Inputs;
+using GGJ.Interactables;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace GGJ.Player
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerController : MonoBehaviour, IInteractableListener
     {
-        InputDelegator.OnAttackPressed += OnAttackPressed;
-    }
+        private List<IInteractable> _currentInteractablesInRange;
 
-    private void OnAttackPressed(bool isPressed)
-    {
-        if (isPressed)
-        {
-            //Start Attack Charge
-        }
-        else
-        {
-            //Determine how long we were pressing 
-            //Do appropriate attack
-        }
-    }
+        //Unity Functions
+        //============================================================================================================//
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnEnable()
+        {
+            InputDelegator.OnAttackPressed += OnInteractPressed;
+        }
+
+
+        private void OnDisable()
+        {
+            InputDelegator.OnAttackPressed -= OnInteractPressed;
+        }
+
+        //IInteractableListener Implementation
+        //============================================================================================================//
+        public void OnEnterInteractRange(IInteractable interactable)
+        {
+            if (_currentInteractablesInRange == null)
+                _currentInteractablesInRange = new List<IInteractable>();
+
+
+            _currentInteractablesInRange.Add(interactable);
+        }
+
+        public void OnExitInteractRange(IInteractable interactable)
+        {
+            _currentInteractablesInRange.Remove(interactable);
+        }
+
+        //Callbacks
+        //============================================================================================================//
+
+        private void OnInteractPressed(bool _)
+        {
+            if (_currentInteractablesInRange == null || _currentInteractablesInRange.Count == 0)
+                return;
+
+            //Look for doors, and interact. Prevent dropping holding items.
+            //------------------------------------------------//
+            var door = _currentInteractablesInRange
+                .FirstOrDefault(x => x is DoorInteractable);
+
+            if (door != null)
+            {
+                door.Interact();
+                return;
+            }
+            //------------------------------------------------//
+
+            //FIXME Need a way of making sure we don't drop the file if we're going through a door
+            foreach (var interactable in _currentInteractablesInRange)
+            {
+                interactable?.Interact();
+            }
+        }
+
+        //============================================================================================================//
     }
 }

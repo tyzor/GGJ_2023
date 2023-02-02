@@ -6,6 +6,7 @@ namespace GGJ.Levels
 {
     public class Room : MonoBehaviour
     {
+        public Vector3 PlayerSpawnPosition => playerSpawnLocation.position;
         public int MaxFolderCount => folderSpawnLocations.Length;
         public bool CannotRepeat => cannotRepeat;
         
