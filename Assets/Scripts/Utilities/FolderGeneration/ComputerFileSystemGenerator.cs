@@ -99,6 +99,7 @@ namespace GGJ.Utilities.Extensions
             usedFolderNames = new List<string>();
             usedFileNames = new List<string>();
 
+
         int maxIterations = 50;
             int iterationCount = 0;
             do
