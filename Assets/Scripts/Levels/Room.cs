@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Unity.AI.Navigation;
 
 namespace GGJ.Levels
 {
@@ -23,9 +24,12 @@ namespace GGJ.Levels
         private Transform exitLocation;
         [SerializeField]
         private Transform[] folderSpawnLocations;
-
         public void SetupRoom(in RoomConnectionData roomConnectionData)
         {
+            // Navmesh generation
+            NavMeshSurface navMesh = GetComponent<NavMeshSurface>();
+            navMesh.BuildNavMesh();
+
             //TODO Setup folder connection data
         }
     }

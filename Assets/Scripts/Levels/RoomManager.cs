@@ -39,12 +39,23 @@ namespace GGJ.Levels
             return roomPrefabs[roomIndex];
         }
 
+        private Room _loadedRoom;
         public DungeonProfile dungeonProfile;
         [ContextMenu("TestDungeonGeneration")]
         public void TestDungeonGeneration()
         {
-            var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
-            Debug.Log(data);
+            // Despawn current room
+            if(_loadedRoom)
+            {
+                DestroyImmediate(_loadedRoom.gameObject);
+            }
+
+            // Load in new room
+            _loadedRoom = Instantiate(roomPrefabs[0], new Vector3(0, 0, 0), Quaternion.identity);
+            _loadedRoom.SetupRoom(default);
+            
+            //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
+            //Debug.Log(data);
         }
 
         //Unity Editor Functions
