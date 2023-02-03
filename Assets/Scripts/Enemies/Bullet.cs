@@ -73,7 +73,7 @@ public class Bullet : MonoBehaviour
         _owner = owner;
         _ownerCollider = owner.GetComponent<Collider>();
         this.direction = new Vector3(dir.x,0,dir.y);
-        //this.speed = speed;
+        this.speed = speed;
         transform.forward = this.direction;
     }
 

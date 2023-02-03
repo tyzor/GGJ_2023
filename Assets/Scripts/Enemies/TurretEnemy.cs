@@ -10,9 +10,11 @@ public class TurretEnemy : EnemyBase
     private AttackType attackType;
 
     [SerializeField]
-    private GameObject bulletPrefab;
+    private Bullet bulletPrefab;
     [SerializeField]
     private float attackCooldown = 2.0f; // Attack cooldown in seconds
+    [SerializeField]
+    private float bulletSpeed = 10.0f;
     private float attackTimer;
 
 
@@ -48,8 +50,8 @@ public class TurretEnemy : EnemyBase
                 // Get direction
                 float angle = (2.0f * Mathf.PI / 6.0f) * i + (Mathf.PI/6.0f);
                 Vector2 direction = new Vector2(Mathf.Cos(angle),Mathf.Sin(angle));
-                GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, 4.0f);
+                Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
             }
             
         }
@@ -62,39 +64,39 @@ public class TurretEnemy : EnemyBase
                 // Get direction
                 float angle = i * (Mathf.PI/2.0f);
                 Vector2 direction = new Vector2(Mathf.Cos(angle),Mathf.Sin(angle));
-                GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, 4.0f);
+                Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
             }   
         }
         // Shooting directly at player
         else if(attackType == AttackType.AtPlayer)
         {
             
-            // Get direction
-
-            /* 
-            // OLD DIRECT FIRE CODE
-            Vector2 direction = new Vector2(_player.transform.position.x - transform.position.x, _player.transform.position.z - transform.position.z);
-            GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, 4.0f);
-            */
-         
             // NEW LEADING TARGET CODE
             Vector2 _player2 = new Vector2(_player.transform.position.x,_player.transform.position.z);
+            Vector2 _thisPos = new Vector2(transform.position.x, transform.position.z);
             float distance = Vector2.Distance(
-                new Vector2(transform.position.x,transform.position.z),
+                _thisPos,
                 _player2
             );//distance in between in meters
             // TODO -- move bullet velocity to variable
-            float travelTime = distance/4.0f;//time in seconds the shot would need to arrive at the target
+            float travelTime = distance/bulletSpeed;//time in seconds the shot would need to arrive at the target
             //Debug.Log(_player.GetComponent<Rigidbody>().velocity);
             Vector3 vel = _player.GetComponent<Rigidbody>().velocity;
             Vector2 vel2 = new Vector2(vel.x,vel.z);
-            Vector3 aimPoint = _player2 + vel2*travelTime;
-            Debug.Log("aimpoint:" + aimPoint);
-            Debug.Log("playerpos:"+ _player2);
-            GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint-transform.position, 4.0f);
+
+            // Lets lead the target if the shot would be fast
+            Vector2 aimPoint;
+            if(travelTime < 2.0f)
+            {
+                aimPoint = _player2 + vel2*travelTime;
+            } else {
+                aimPoint = _player2;
+            }
+            //Debug.Log("aimpoint:" + aimPoint);
+            //Debug.Log("playerpos:"+ _player2);
+            Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint-_thisPos, this.bulletSpeed);
             
         }
 
