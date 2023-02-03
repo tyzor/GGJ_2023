@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using GGJ.Prototype;
 using GGJ.Utilities.Extensions;
+using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 namespace GGJ.Levels
 {
     public class RoomManager : MonoBehaviour
     {
+        public Room CurrentRoom { get; private set; }
+
         [SerializeField]
         private Room rootRoom;
         [SerializeField]
@@ -41,8 +43,9 @@ namespace GGJ.Levels
         [ContextMenu("TestDungeonGeneration")]
         public void TestDungeonGeneration()
         {
-            var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
-            Debug.Log(data);
+            var folderRoom = dungeonProfile.GenerateFolderStructure(roomPrefabs);
+            //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
+            //Debug.Log(data);
         }
 
         //Unity Editor Functions
