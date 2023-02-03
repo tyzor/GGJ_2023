@@ -1027,8 +1027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: TEMPLATE
-  roomId: 0
-  canRepeat: 0
+  cannotRepeat: 0
   playerSpawnLocation: {fileID: 1278524046149000167}
   exitLocation: {fileID: 919368019747637778}
   folderSpawnLocations:
