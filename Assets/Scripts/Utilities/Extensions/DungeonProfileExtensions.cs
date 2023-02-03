@@ -9,6 +9,7 @@ namespace GGJ.Utilities.Extensions
     //TODO This is a WIP
     public static class DungeonProfileExtensions
     {
+        /*
         public static RoomConnectionData GenerateDungeon(this DungeonProfile dungeonProfile, in Room rootRoom, in Room[] rooms)
         {
             //var flatRoomList = new List<RoomConnectionData>(dungeonProfile.roomCount); 
@@ -193,5 +194,6 @@ namespace GGJ.Utilities.Extensions
                 }
             }
         }
+        */
     }
 }
