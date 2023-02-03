@@ -41,7 +41,7 @@ namespace GGJ.Levels
             {
                 var exit = Instantiate(exitDoorInteractablePrefab, exitLocation.position, Quaternion.identity, transform);
                 //FIXME I need a ref to the room!!
-                exit.Init(folderRoom.ParentFolder.FolderName);
+                exit.Init(folderRoom.ParentFolder);
             }
 
             var options = new List<Transform>(folderSpawnLocations);
@@ -52,7 +52,7 @@ namespace GGJ.Levels
                 
                 var door = Instantiate(doorInteractablePrefab, folderLocation.position, Quaternion.identity, transform);
                 //FIXME I need a ref to the room!!
-                door.Init(folderRoom.Subfolders[i].FolderName);
+                door.Init(folderRoom.Subfolders[i]);
 
                 options.RemoveAt(targetIndex);
             }

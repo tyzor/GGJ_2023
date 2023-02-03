@@ -37,6 +37,12 @@ namespace GGJ.Levels
 
         //Unity Functions
         //============================================================================================================//
+        private void OnEnable()
+        {
+            DoorInteractable.LoadNewRoom += OnLoadNewRoom;
+        }
+
+
 
         private void Awake()
         {
@@ -44,6 +50,10 @@ namespace GGJ.Levels
             Assert.IsNotNull(roomPrefabs, $"Cannot start game without {nameof(roomPrefabs)} having values");
         }
 
+        private void OnDisable()
+        {
+            DoorInteractable.LoadNewRoom -= OnLoadNewRoom;
+        }
         //============================================================================================================//
 
         public Room GetRoom(int roomIndex)
@@ -72,9 +82,17 @@ namespace GGJ.Levels
             
         }
 
-        public (FolderRoom root, List<FolderRoom> allFolders) GenerateDungeon(in DungeonProfile dungeonProfile)
+        public FolderRoom GenerateDungeon(in DungeonProfile dungeonProfile)
         {
             return dungeonProfile.GenerateFolderStructure(roomPrefabs);
+        }
+
+        //Callbacks
+        //============================================================================================================//
+        
+        private void OnLoadNewRoom(FolderRoom folderRoom)
+        {
+            SetRoom(folderRoom.RoomLayoutIndex, folderRoom);
         }
 
         //Unity Editor Functions
