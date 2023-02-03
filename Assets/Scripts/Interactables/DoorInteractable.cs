@@ -8,17 +8,16 @@ namespace GGJ.Interactables
 {
     public class DoorInteractable : InteractableBase
     {
-        public static event Action<string> LoadNewRoom;
+        public static event Action<FolderRoom> LoadNewRoom;
         
         //TODO Determine if this is the right data to be storing
         private FolderRoom _targetRoom;
 
-        private string TEMP_folderName;
         //============================================================================================================//
         
-        public void Init(string folderName/*Room room*/)
+        public void Init(FolderRoom folderRoom/*Room room*/)
         {
-            TEMP_folderName = folderName;
+            _targetRoom = folderRoom;
         }
 
         // InteractableBase Overrides
@@ -37,7 +36,7 @@ namespace GGJ.Interactables
             //TODO Let RoomManager set _targetRoom as active room
 
             //PlayerTransform.position = _targetRoom.PlayerSpawnPosition;
-            LoadNewRoom?.Invoke(TEMP_folderName);
+            LoadNewRoom?.Invoke(_targetRoom);
         }
         
         //============================================================================================================//

@@ -23,15 +23,7 @@ namespace GGJ.Utilities
 
         private int _currentDungeonIndex;
 
-        private List<FolderRoom> _dungeon;
         //============================================================================================================//
-
-        private void OnEnable()
-        {
-            DoorInteractable.LoadNewRoom += OnLoadNewRoom;
-        }
-
-
 
         // Start is called before the first frame update
         private void Start()
@@ -39,24 +31,14 @@ namespace GGJ.Utilities
             _roomManager = FindObjectOfType<RoomManager>();
 
             var folderRoom = _roomManager.GenerateDungeon(dungeonProfiles[0]);
-            _dungeon = folderRoom.allFolders;
 
             _currentPlayer = Instantiate(playerPrefab);
             _currentPlayerTransform = _currentPlayer.transform;
             
-            _roomManager.SetRoom(-1, folderRoom.root);
+            _roomManager.SetRoom(-1, folderRoom);
         }
 
-        private void OnDisable()
-        {
-            DoorInteractable.LoadNewRoom -= OnLoadNewRoom;
-        }
         //============================================================================================================//
-        private void OnLoadNewRoom(string roomName)
-        {
-            var room = _dungeon.FirstOrDefault(x => x.FolderName == roomName);
-            
-            _roomManager.SetRoom(room.RoomLayoutIndex, room);
-        }
+
     }
 }
