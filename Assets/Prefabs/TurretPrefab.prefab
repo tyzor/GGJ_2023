@@ -113,4 +113,4 @@ MonoBehaviour:
   attackType: 0
   bulletPrefab: {fileID: 6423505247978311330, guid: fe9e6a1875c47f34c93f48a904aae678,
     type: 3}
-  attackCooldown: 1
+  attackCooldown: 3
