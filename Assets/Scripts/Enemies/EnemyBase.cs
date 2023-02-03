@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using GGJ.Destructibles;
 
 public class EnemyBase : HealthBase
 {
@@ -14,6 +14,13 @@ public class EnemyBase : HealthBase
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public static event Action OnEnemyDied;
+    
+    protected override void Kill()
+    {
+        OnEnemyDied?.Invoke();
     }
 }

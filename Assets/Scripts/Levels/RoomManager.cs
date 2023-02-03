@@ -130,6 +130,27 @@ namespace GGJ.Levels
             if (roomPrefabs.Contains(rootRoomPrefab))
                 throw new Exception($"{nameof(rootRoomPrefab)} cannot be included as a {nameof(roomPrefabs)} option!!!");
         }
+
+
+        private Room _loadedRoom;
+        public DungeonProfile dungeonProfile;
+        [ContextMenu("TestDungeonGeneration")]
+        public void TestDungeonGeneration()
+        {
+            // Despawn current room
+            if(_loadedRoom)
+            {
+                DestroyImmediate(_loadedRoom.gameObject);
+            }
+
+            // Load in new room
+            _loadedRoom = Instantiate(GetRoom(0), new Vector3(0, 0, 0), Quaternion.identity);
+            //_loadedRoom.SetupRoom(default,default,default,default,default);
+            
+            //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
+            //Debug.Log(data);
+        }
+
 #endif
 
         #endregion //Unity Editor Functions
