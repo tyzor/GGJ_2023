@@ -86,7 +86,7 @@ namespace GGJ.Utilities.Extensions
 //"zip"
         };
 
-        public static FolderRoom GenerateFolderStructure(this DungeonProfile dungeonProfile, in Room[] rooms)
+        public static (FolderRoom root, List<FolderRoom> allFolders) GenerateFolderStructure(this DungeonProfile dungeonProfile, in Room[] rooms)
         {
             folderRoomsList = new List<FolderRoom>();
             folderStubsList = new List<FolderStub>();
@@ -94,14 +94,14 @@ namespace GGJ.Utilities.Extensions
             usedRoomIndexes = new List<int>(); // not used properly
             CreateFolderRoomMap(dungeonProfile, rooms);
 
-            //List<FolderRoom> folderList = new List<FolderRoom>();
+            List<FolderRoom> folderList = new List<FolderRoom>();
 
-            /*foreach (FolderRoom f in folderRoomsList)
+            foreach (FolderRoom f in folderRoomsList)
             {
                 folderList.Add(f);
-            }*/
+            }
 
-            return folderRoomsList[0];
+            return (folderRoomsList[0], folderList);
         }
 
         private static void CreateFolderRoomMap(DungeonProfile dungeonProfile, Room[] rooms)

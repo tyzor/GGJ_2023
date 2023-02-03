@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GGJ.Interactables;
+using GGJ.Player;
 using GGJ.Prototype;
 using GGJ.Utilities.Extensions;
 using GGJ.Utilities.FolderGeneration;
@@ -13,39 +15,66 @@ namespace GGJ.Levels
     {
         public Room CurrentRoom { get; private set; }
 
-        [SerializeField]
-        private Room rootRoom;
+        [SerializeField,Header("Rooms")]
+        private Room rootRoomPrefab;
         [SerializeField]
         private Room[] roomPrefabs;
+
+        //TODO These should be a collection
+        [SerializeField, Header("Objects")] 
+        private DoorInteractable doorInteractablePrefab;
+        [SerializeField]
+        private DoorInteractable exitDoorInteractablePrefab;
+        [SerializeField]
+        private FileInteractable fileInteractablePrefab;
+
+        //------------------------------------------------//
+
+        private Transform _playerTransform;
+        
+        private Room _currentRoom;
+        
 
         //Unity Functions
         //============================================================================================================//
 
         private void Awake()
         {
-            Assert.IsNotNull(rootRoom, $"Cannot start game without {nameof(rootRoom)} set");
+            Assert.IsNotNull(rootRoomPrefab, $"Cannot start game without {nameof(rootRoomPrefab)} set");
             Assert.IsNotNull(roomPrefabs, $"Cannot start game without {nameof(roomPrefabs)} having values");
-        }
-
-        private void Start()
-        {
-            
         }
 
         //============================================================================================================//
 
         public Room GetRoom(int roomIndex)
         {
+            if (roomIndex < 0)
+                return rootRoomPrefab;
+            
             return roomPrefabs[roomIndex];
         }
 
-        public DungeonProfile dungeonProfile;
-        [ContextMenu("TestDungeonGeneration")]
-        public void TestDungeonGeneration()
+        public void SetRoom(int index, FolderRoom folderRoom)
         {
-            var folderRoom = dungeonProfile.GenerateFolderStructure(roomPrefabs);
-            //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
-            //Debug.Log(data);
+            if(_currentRoom != null)
+                Destroy(_currentRoom.gameObject);
+
+            _currentRoom = Instantiate(GetRoom(index));
+            
+            if (_playerTransform == null)
+                _playerTransform = FindObjectOfType<PlayerController>().transform;
+            
+            _currentRoom.SetupRoom(_playerTransform,
+                folderRoom, 
+                exitDoorInteractablePrefab, 
+                doorInteractablePrefab, 
+                fileInteractablePrefab);
+            
+        }
+
+        public (FolderRoom root, List<FolderRoom> allFolders) GenerateDungeon(in DungeonProfile dungeonProfile)
+        {
+            return dungeonProfile.GenerateFolderStructure(roomPrefabs);
         }
 
         //Unity Editor Functions
@@ -59,8 +88,8 @@ namespace GGJ.Levels
             if (roomPrefabs == null)
                 return;
             
-            if (roomPrefabs.Contains(rootRoom))
-                throw new Exception($"{nameof(rootRoom)} cannot be included as a {nameof(roomPrefabs)} option!!!");
+            if (roomPrefabs.Contains(rootRoomPrefab))
+                throw new Exception($"{nameof(rootRoomPrefab)} cannot be included as a {nameof(roomPrefabs)} option!!!");
         }
 #endif
 

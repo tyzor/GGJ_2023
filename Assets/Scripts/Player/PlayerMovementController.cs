@@ -10,9 +10,6 @@ namespace GGJ.Player
     {
         public static bool CanMove { get; set; } = true;
 
-        [SerializeField] 
-        private CinemachineVirtualCamera _virtualCamera;
-        
         [SerializeField, Min(0f)]
         private float moveSpeed;
 
