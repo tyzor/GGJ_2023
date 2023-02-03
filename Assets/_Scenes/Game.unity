@@ -606,7 +606,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 100
-  field of view: 45.97
+  field of view: 24
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -677,7 +677,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 45.97
+    FieldOfView: 24
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 100
@@ -948,7 +948,7 @@ PrefabInstance:
     - target: {fileID: 5734254849366051182, guid: 835957e93fefeb54c8df54a1db863ea1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7659158664372135207, guid: 835957e93fefeb54c8df54a1db863ea1,
         type: 3}
@@ -969,6 +969,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1897887763762530578, guid: 044cb64cc222da8498ca67124d7424d3,
+        type: 3}
+      propertyPath: virtualCamera
+      value: 
+      objectReference: {fileID: 1506845488}
     - target: {fileID: 1949251106247102553, guid: 044cb64cc222da8498ca67124d7424d3,
         type: 3}
       propertyPath: m_Name

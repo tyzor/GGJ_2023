@@ -8,15 +8,15 @@ namespace GGJ.Utilities.Extensions
 {
     public static class ComputerFileSystemGeneratorExtension
     {
-        private static int runningRoomCount;
-        private static List<FolderRoom> folderRoomsList;
-        private static List<FolderStub> folderStubsList;
-        private static List<File> filesList;
-        private static List<int> usedRoomIndexes;
-        private static List<string> usedFolderNames;
-        private static List<string> usedFileNames;
+        private static int _runningRoomCount;
+        private static List<FolderRoom> _folderRoomsList;
+        private static List<FolderStub> _folderStubsList;
+        private static List<File> _filesList;
+        private static List<int> _usedRoomIndexes;
+        private static List<string> _usedFolderNames;
+        private static List<string> _usedFileNames;
 
-        private static readonly string[] availableFolderFileNames = new string[]
+        private static readonly string[] AvailableFolderFileNames = new string[]
         {
             "Boot",
             "Cache",
@@ -68,7 +68,7 @@ namespace GGJ.Utilities.Extensions
             "Workshop"
         };
 
-        private static readonly string[] availableFileExtensions = new string[]
+        private static readonly string[] AvailableFileExtensions = new string[]
         {
             "avi",
             "bat",
@@ -92,37 +92,38 @@ namespace GGJ.Utilities.Extensions
 
         public static FolderRoom GenerateFolderStructure(this DungeonProfile dungeonProfile, in Room[] rooms)
         {
-            folderRoomsList = new List<FolderRoom>();
-            folderStubsList = new List<FolderStub>();
-            filesList = new List<File>();
-            usedRoomIndexes = new List<int>(); // not used properly
-            usedFolderNames = new List<string>();
-            usedFileNames = new List<string>();
+            _folderRoomsList = new List<FolderRoom>();
+            _folderStubsList = new List<FolderStub>();
+            _filesList = new List<File>();
+            _usedRoomIndexes = new List<int>(); // not used properly
+            _usedFolderNames = new List<string>();
+            _usedFileNames = new List<string>();
 
 
-        int maxIterations = 50;
+            int maxIterations = 50;
             int iterationCount = 0;
             do
             {
                 CreateFolderRoomMap(dungeonProfile, rooms, iterationCount);
                 iterationCount += 1;
             } while (iterationCount < maxIterations
-                        && folderRoomsList.Count - 1 < dungeonProfile.roomCount);
+                     && _folderRoomsList.Count - 1 < dungeonProfile.roomCount);
             //Debug.Log("Generation iterations = " + iterationCount);
 
-            return folderRoomsList[0];
+            _folderRoomsList[0].ClearFiles();
+            return _folderRoomsList[0];
         }
 
         private static void CreateFolderRoomMap(DungeonProfile dungeonProfile, Room[] rooms, int iterationCount)
         {
             // clear local list of rooms, folders, files
-            runningRoomCount = 0;
-            folderRoomsList.Clear();
-            folderStubsList.Clear();
-            filesList.Clear();
-            usedRoomIndexes.Clear();
-            usedFolderNames.Clear();
-            usedFileNames.Clear();
+            _runningRoomCount = 0;
+            _folderRoomsList.Clear();
+            _folderStubsList.Clear();
+            _filesList.Clear();
+            _usedRoomIndexes.Clear();
+            _usedFolderNames.Clear();
+            _usedFileNames.Clear();
 
 
             // create list to hold all rooms
@@ -130,38 +131,40 @@ namespace GGJ.Utilities.Extensions
 
             // create the root folder - and nested rooms recursively
             FolderStub rootFolder = new FolderStub(null, "ROOT");
-            folderStubsList.Add(rootFolder);
+            _folderStubsList.Add(rootFolder);
             //runningRoomCount += 1;
             CreateFolderRoom(rootFolder, dungeonProfile, rooms, iterationCount);
 
             // need to iterate back through the FolderRooms and use the FolderStub indexes to properly set the parentFolders
             int i = 0;
-            foreach (FolderRoom f in folderRoomsList)
+            foreach (FolderRoom f in _folderRoomsList)
             {
                 // find appropriate index
                 int index = f.FolderRoomListIndex;
-                FolderStub folderStub = folderStubsList[index];
-                int parentStubIndex = folderStubsList.IndexOf(folderStub.ParentFolder);
+                FolderStub folderStub = _folderStubsList[index];
+                int parentStubIndex = _folderStubsList.IndexOf(folderStub.ParentFolder);
 
                 // using the index, apply the parent FolderRoom to this folderRooom
                 if (parentStubIndex > -1)
                 {
-                    f.ParentFolder = folderRoomsList[parentStubIndex];
+                    f.ParentFolder = _folderRoomsList[parentStubIndex];
                 }
 
                 // populate list of subfolder stubs
                 List<int> childFolderStubIndexList = new List<int>();
-                foreach(FolderStub childStub in f.ChildStubs)
+                foreach (FolderStub childStub in f.ChildStubs)
                 {
                     // get index of child stub
-                    int indexOfChildStub = folderStubsList.IndexOf(childStub);
+                    int indexOfChildStub = _folderStubsList.IndexOf(childStub);
                     childFolderStubIndexList.Add(indexOfChildStub);
                 }
+
                 List<FolderRoom> childFolderRooms = new List<FolderRoom>();
                 foreach (int listIndex in childFolderStubIndexList)
                 {
-                    childFolderRooms.Add(folderRoomsList[listIndex]);
+                    childFolderRooms.Add(_folderRoomsList[listIndex]);
                 }
+
                 f.Subfolders = childFolderRooms.ToArray();
 
                 i += 1;
@@ -175,10 +178,10 @@ namespace GGJ.Utilities.Extensions
         private static void PrintFileSystem()
         {
             // create a debug for what was created
-            string debugString = "Dungeon created with [" + (folderRoomsList.Count - 1) + "] ROOMS, [" +
-                                 (folderStubsList.Count - 1) + "] SUBFOLDERS, [" + filesList.Count + "] FILES\n";
+            string debugString = "Dungeon created with [" + (_folderRoomsList.Count - 1) + "] ROOMS, [" +
+                                 (_folderStubsList.Count - 1) + "] SUBFOLDERS, [" + _filesList.Count + "] FILES\n";
 
-            foreach (FolderRoom r in folderRoomsList)
+            foreach (FolderRoom r in _folderRoomsList)
             {
                 foreach (File f in r.Files)
                 {
@@ -196,7 +199,8 @@ namespace GGJ.Utilities.Extensions
         }
 
         // create a room
-        private static void CreateFolderRoom(FolderStub folderStub, DungeonProfile dungeonProfile, Room[] rooms, int iterationCount)
+        private static void CreateFolderRoom(FolderStub folderStub, DungeonProfile dungeonProfile, Room[] rooms,
+            int iterationCount)
         {
             // select a room template for this room
             int roomTemplateIndex = Random.Range(0, rooms.Length);
@@ -231,15 +235,16 @@ namespace GGJ.Utilities.Extensions
             int numSubfoldersToCreate3 = 0;
             //int curRooms = folderRoomsList.Count;
             //int curRooms = folderStubsList.Count;
-            int curRooms = runningRoomCount;
+            int curRooms = _runningRoomCount;
             if (depth < dungeonProfile.maxDepth && curRooms < dungeonProfile.roomCount)
             {
                 //numSubfoldersToCreate = Random.Range(minFolders, maxFolders + 1);
                 numSubfoldersToCreate1 = Random.Range(Random.Range(0, iterationCount), roomTemplate.MaxFolderCount + 1);
 
 
-                int remainingRoomsNeeded = dungeonProfile.roomCount - (curRooms);// + numSubfoldersToCreate1);
-                numSubfoldersToCreate2 = Mathf.Clamp(numSubfoldersToCreate1, numSubfoldersToCreate1, remainingRoomsNeeded);
+                int remainingRoomsNeeded = dungeonProfile.roomCount - (curRooms); // + numSubfoldersToCreate1);
+                numSubfoldersToCreate2 =
+                    Mathf.Clamp(numSubfoldersToCreate1, numSubfoldersToCreate1, remainingRoomsNeeded);
             }
 
             // make sure the root folder has at least one subfolder
@@ -257,19 +262,21 @@ namespace GGJ.Utilities.Extensions
             for (int i = 0; i < numSubfoldersToCreate3; i += 1)
             {
                 // create folder
-                string newFolderName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
+                string newFolderName = AvailableFolderFileNames[Random.Range(0, AvailableFolderFileNames.Length)];
                 // check this name hasn't been used
                 int maxNameIterations = 10;
                 int nameInteration = 0;
-                while(usedFolderNames.Contains(newFolderName) && nameInteration < maxNameIterations)
+                while (_usedFolderNames.Contains(newFolderName) && nameInteration < maxNameIterations)
                 {
                     //Debug.Log(newFolderName + " already used");
-                    newFolderName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
+                    newFolderName = AvailableFolderFileNames[Random.Range(0, AvailableFolderFileNames.Length)];
                     nameInteration += 1;
-                };
-                usedFolderNames.Add(newFolderName);
+                }
+
+                ;
+                _usedFolderNames.Add(newFolderName);
                 FolderStub newSubfolder = new FolderStub(folderStub, newFolderName);
-                runningRoomCount += 1;
+                _runningRoomCount += 1;
                 //folderStubsList.Add(newSubfolder);
                 roomSubfolders[i] = newSubfolder;
             }
@@ -280,37 +287,39 @@ namespace GGJ.Utilities.Extensions
             for (int i = 0; i < numFilesToCreate; i += 1)
             {
                 // create file
-                string newFileName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
-                string newFileExtension = availableFileExtensions[Random.Range(0, availableFileExtensions.Length)];
+                string newFileName = AvailableFolderFileNames[Random.Range(0, AvailableFolderFileNames.Length)];
+                string newFileExtension = AvailableFileExtensions[Random.Range(0, AvailableFileExtensions.Length)];
 
                 string combinedName = newFileName + "." + newFileExtension;
                 // check this name hasn't been used
                 int maxNameIterations = 10;
                 int nameInteration = 0;
-                while (usedFileNames.Contains(combinedName) && nameInteration < maxNameIterations)
+                while (_usedFileNames.Contains(combinedName) && nameInteration < maxNameIterations)
                 {
                     //Debug.Log(combinedName + " already used");
-                    newFileName = availableFolderFileNames[Random.Range(0, availableFolderFileNames.Length)];
-                    newFileExtension = availableFileExtensions[Random.Range(0, availableFileExtensions.Length)];
+                    newFileName = AvailableFolderFileNames[Random.Range(0, AvailableFolderFileNames.Length)];
+                    newFileExtension = AvailableFileExtensions[Random.Range(0, AvailableFileExtensions.Length)];
                     combinedName = newFileName + "." + newFileExtension;
                     nameInteration += 1;
-                };
-                usedFileNames.Add(combinedName);
+                }
+
+                ;
+                _usedFileNames.Add(combinedName);
 
                 File newFile = new File(folderStub, newFileName, newFileExtension);
-                filesList.Add(newFile);
+                _filesList.Add(newFile);
                 roomFiles[i] = newFile;
             }
 
-            int folderRoomCount = folderRoomsList.Count;
+            int folderRoomCount = _folderRoomsList.Count;
             FolderRoom newRoom = new FolderRoom(folderRoomCount, roomTemplateIndex, folderName, folderStub,
                 roomSubfolders, roomFiles);
-            folderRoomsList.Add(newRoom);
+            _folderRoomsList.Add(newRoom);
 
             // now create a dungeon room for each subfolder
             foreach (FolderStub subfolder in roomSubfolders)
             {
-                folderStubsList.Add(subfolder);
+                _folderStubsList.Add(subfolder);
                 CreateFolderRoom(subfolder, dungeonProfile, rooms, iterationCount);
             }
 

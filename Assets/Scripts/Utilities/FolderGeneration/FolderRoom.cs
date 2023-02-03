@@ -9,7 +9,7 @@ namespace GGJ.Utilities.FolderGeneration
         private Room _roomTemplate;
         private readonly string _titleName;
         private readonly FolderStub[] _childStubs;
-        private readonly File[] _files;
+        private File[] _files;
         
         //Meta Data
         private readonly int _folderRoomListIndex; // randall
@@ -71,6 +71,11 @@ namespace GGJ.Utilities.FolderGeneration
             //s += "\\" + FolderName;
 
             return s;
+        }
+
+        public void ClearFiles()
+        {
+            _files = default;
         }
     }
 }

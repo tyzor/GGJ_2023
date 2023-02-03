@@ -17,6 +17,7 @@ namespace GGJ.Interactables
         
         public void Init(FolderRoom folderRoom/*Room room*/)
         {
+            gameObject.name = $"Door_To_[{folderRoom.FolderRoomListIndex}]{folderRoom.FolderName}";
             _targetRoom = folderRoom;
         }
 

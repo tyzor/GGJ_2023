@@ -13,7 +13,7 @@ namespace GGJ.Levels
 {
     public class RoomManager : MonoBehaviour
     {
-        public Room CurrentRoom { get; private set; }
+        public static Room CurrentRoom { get; private set; }
 
         [SerializeField,Header("Rooms")]
         private Room rootRoomPrefab;
@@ -30,11 +30,9 @@ namespace GGJ.Levels
 
         //------------------------------------------------//
 
+        private Dictionary<int, Room> _dungeonRooms;
         private Transform _playerTransform;
         
-        private Room _currentRoom;
-        
-
         //Unity Functions
         //============================================================================================================//
         private void OnEnable()
@@ -64,26 +62,49 @@ namespace GGJ.Levels
             return roomPrefabs[roomIndex];
         }
 
-        public void SetRoom(int index, FolderRoom folderRoom)
+        public void SetRoom(int roomLayoutIndex, FolderRoom folderRoom)
         {
-            if(_currentRoom != null)
-                Destroy(_currentRoom.gameObject);
+            //If we're already in a room, disable the old one before opening a new one
+            if (CurrentRoom != null)
+                CurrentRoom.SetActive(false);
 
-            _currentRoom = Instantiate(GetRoom(index));
+            //If the room was already loaded, just enable it
+            if (_dungeonRooms.TryGetValue(folderRoom.FolderRoomListIndex, out var room))
+            {
+                room.SetActive(true);
+
+                CurrentRoom = room;
+                _playerTransform.position = room.PlayerSpawnPosition;
+                return;
+            }
+
+            //If this is a new room, we'll instantiate it here
+            CurrentRoom = Instantiate(GetRoom(roomLayoutIndex));
             
             if (_playerTransform == null)
                 _playerTransform = FindObjectOfType<PlayerController>().transform;
             
-            _currentRoom.SetupRoom(_playerTransform,
+            CurrentRoom.SetupRoom(_playerTransform,
                 folderRoom, 
                 exitDoorInteractablePrefab, 
                 doorInteractablePrefab, 
                 fileInteractablePrefab);
             
+            _dungeonRooms.Add(folderRoom.FolderRoomListIndex, CurrentRoom);
         }
 
         public FolderRoom GenerateDungeon(in DungeonProfile dungeonProfile)
         {
+            if (_dungeonRooms != null)
+            {
+                var roomObjects = _dungeonRooms.Values;
+                foreach (var roomObject in roomObjects)
+                {
+                    Destroy(roomObject);
+                }
+                _dungeonRooms.Clear();
+            }
+            _dungeonRooms = new Dictionary<int, Room>(dungeonProfile.roomCount);
             return dungeonProfile.GenerateFolderStructure(roomPrefabs);
         }
 
