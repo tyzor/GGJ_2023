@@ -7,5 +7,7 @@ namespace GGJ.Levels
     {
         public int roomCount;
         public int maxDepth;
+
+        public int maxFiles;
     }
 }
