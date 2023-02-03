@@ -5,6 +5,7 @@ using GGJ.Utilities.Extensions;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using static ComputerFileSystemGenerator;
 
 namespace GGJ.Levels
 {
@@ -40,7 +41,7 @@ namespace GGJ.Levels
         [ContextMenu("TestDungeonGeneration")]
         public void TestDungeonGeneration()
         {
-            FindObjectOfType<ComputerFileSystemGenerator>().GenerateFolderStructure(dungeonProfile, roomPrefabs);
+            List<FolderRoom> list = FindObjectOfType<ComputerFileSystemGenerator>().GenerateFolderStructure(dungeonProfile, roomPrefabs);
             //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
             //Debug.Log(data);
         }

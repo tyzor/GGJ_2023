@@ -288,12 +288,12 @@ public class ComputerFileSystemGenerator : MonoBehaviour
     // FolderRoom is the main object with all room connection information in the file system
     public class FolderRoom
     {
-        private int _folderRoomListIndex;
+        private int _folderRoomListIndex; // randall
         private int _roomLayoutIndex;
         private Room _roomTemplate;
         private string _titleName;
         private FolderRoom _parentFolder;
-        private FolderStub _parentStub;
+        private FolderStub _parentStub; // randall
         private FolderStub[] _subfolders;
         private File[] _files;
 
