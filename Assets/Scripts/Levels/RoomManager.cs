@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GGJ.Prototype;
 using GGJ.Utilities.Extensions;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace GGJ.Levels
 {
     public class RoomManager : MonoBehaviour
     {
+        public Room CurrentRoom { get; private set; }
+
         [SerializeField]
         private Room rootRoom;
         [SerializeField]
@@ -26,7 +29,7 @@ namespace GGJ.Levels
 
         private void Start()
         {
-        
+            
         }
 
         //============================================================================================================//
