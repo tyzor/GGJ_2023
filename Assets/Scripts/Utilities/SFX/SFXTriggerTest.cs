@@ -1,7 +1,5 @@
-using GGJ.Utilities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using GGJ.Audio;
 using UnityEngine;
 
 public class SFXTriggerTest : MonoBehaviour
@@ -19,7 +17,7 @@ public class SFXTriggerTest : MonoBehaviour
     {
         try
         {
-            SFXManager.PlaySound(sfx, 1f);
+            SFXController.PlaySound(sfx, 1f);
         }
         catch (NullReferenceException e)
         {
