@@ -5,6 +5,7 @@ using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Unity.AI.Navigation;
 
 namespace GGJ.Levels
 {
@@ -41,6 +42,10 @@ namespace GGJ.Levels
             DoorInteractable doorInteractablePrefab, 
             FileInteractable fileInteractablePrefab)
         {
+            // Navmesh generation
+            NavMeshSurface navMesh = GetComponent<NavMeshSurface>();
+            navMesh.BuildNavMesh();
+
             gameObject.name = folderRoom.GetAbsolutePath();
 
             FolderRoomData = folderRoom;
@@ -88,6 +93,7 @@ namespace GGJ.Levels
             //------------------------------------------------//
 
             playerTransform.position = playerSpawnLocation.position;
+
         }
 
         public void SetActive(bool state)
