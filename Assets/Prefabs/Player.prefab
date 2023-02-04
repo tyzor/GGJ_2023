@@ -85,18 +85,23 @@ MonoBehaviour:
     attackRadius: 2
     attackTime: 0.5
     attackDamage: 1
+    enemyHitTimer: 0
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
     attackRadius: 3
     attackTime: 0.75
     attackDamage: 2
+    enemyHitTimer: 0
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
     attackRadius: 4
     attackTime: 1
     attackDamage: 3
+    enemyHitTimer: 0
+  _playerAnimator: {fileID: 0}
+  _spinAttackAnchor: {fileID: 6089293296148491094}
 --- !u!33 &3324230741922824177
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -262,6 +267,12 @@ PrefabInstance:
 --- !u!4 &5450310068446194363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5488161008801615184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6089293296148491094 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7446597935357483514, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
     type: 3}
   m_PrefabInstance: {fileID: 5488161008801615184}
   m_PrefabAsset: {fileID: 0}

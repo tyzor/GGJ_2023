@@ -11,6 +11,7 @@ namespace GGJ.Enemies
 
         private enum AttackType
         {
+            RandomPattern,
             SpreadPattern,
             CardinalPattern,
             AtPlayer
@@ -20,6 +21,8 @@ namespace GGJ.Enemies
 
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private float attackCooldown = 2.0f; // Attack cooldown in seconds
+        [SerializeField] private float leadingShotBreakpoint = 0.8f; // Shots below this value don't calculating leading
+        
         [SerializeField] private float bulletSpeed = 10.0f;
         private float attackTimer;
 
@@ -27,11 +30,15 @@ namespace GGJ.Enemies
         private Quaternion startRotation;
 
         // Start is called before the first frame update
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             attackTimer = attackCooldown;
-            attackType = (AttackType)Random.Range(0, 3);
+            // Pick a random type
+            if(attackType == AttackType.RandomPattern)
+            {
+                attackType = (AttackType)Random.Range(1, 4);
+            }
 
             startRotation = _turretHead.transform.rotation;
         }
@@ -41,9 +48,8 @@ namespace GGJ.Enemies
         {
             attackTimer -= Time.deltaTime;
 
-            Vector3 dirToPlayer = Vector3.ProjectOnPlane((_player.transform.position - _turretHead.transform.position).normalized, Vector3.up);
+            Vector3 dirToPlayer = Vector3.ProjectOnPlane((_player.position - _turretHead.transform.position).normalized, Vector3.up);
             _turretHead.transform.rotation = Quaternion.LookRotation(dirToPlayer, Vector3.up) * startRotation;
-
 
             if (attackTimer < 0)
             {
@@ -90,7 +96,7 @@ namespace GGJ.Enemies
             {
 
                 // NEW LEADING TARGET CODE
-                Vector2 _player2 = new Vector2(_player.transform.position.x, _player.transform.position.z);
+                Vector2 _player2 = new Vector2(_player.position.x, _player.position.z);
                 Vector2 _thisPos = new Vector2(transform.position.x, transform.position.z);
                 float distance = Vector2.Distance(
                     _thisPos,
@@ -104,7 +110,7 @@ namespace GGJ.Enemies
 
                 // Lets lead the target if the shot would be fast
                 Vector2 aimPoint;
-                if (travelTime < 2.0f)
+                if (travelTime < this.leadingShotBreakpoint)
                 {
                     aimPoint = _player2 + vel2 * travelTime;
                 }

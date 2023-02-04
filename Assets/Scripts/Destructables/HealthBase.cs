@@ -11,7 +11,7 @@ namespace GGJ.Destructibles
 
         //============================================================================================================//
         // Start is called before the first frame update
-        private void Start()
+        protected virtual void Start()
         {
             _currentHealth = startingHealth;
         }
