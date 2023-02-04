@@ -21,6 +21,9 @@ namespace GGJ.Collectables
         private bool canBePickedUp;
         private float pickupCountdown;
 
+        private bool movingToPlayer;
+        private float _moveSpeed;
+
         private bool launched;
 
         //Unity Functions
@@ -33,6 +36,7 @@ namespace GGJ.Collectables
                 _playerTransform = FindObjectOfType<PlayerController>().transform;
         }
 
+        //TODO Set this up as a state machine
         // Update is called once per frame
         private void Update()
         {
@@ -56,6 +60,21 @@ namespace GGJ.Collectables
             }
 
             var dirToPlayer = _playerTransform.position - transform.position;
+            
+            if (movingToPlayer)
+            {
+                _moveSpeed += Time.deltaTime * accel;
+                var currentPosition = transform.position;
+
+                currentPosition = Vector3.MoveTowards(
+                    currentPosition, 
+                    _playerTransform.position,
+                    _moveSpeed * Time.deltaTime);
+                
+                transform.position += currentPosition;
+
+                return;
+            }
 
             //Distance check
             if (dirToPlayer.magnitude > pickupDistance)
@@ -65,9 +84,7 @@ namespace GGJ.Collectables
                 return;
             }
 
-            velocity += dirToPlayer.normalized * (Time.deltaTime * accel);
-
-            transform.position += velocity * Time.deltaTime;
+            movingToPlayer = true;
         }
 
         //============================================================================================================//
