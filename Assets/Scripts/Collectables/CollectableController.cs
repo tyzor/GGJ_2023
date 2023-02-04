@@ -32,10 +32,14 @@ namespace GGJ.Collectables
         
         public static void CreateCollectable(Vector3 position, int count)
         {
-            _instance.CreateCollectables(position, count);
+            _instance.CreateCollectables(position, count, _instance.pickupDelay);
+        }
+        public static void CreateCollectable(Vector3 position, int count, float delay)
+        {
+            _instance.CreateCollectables(position, count, delay);
         }
 
-        private void CreateCollectables(Vector3 position, int count)
+        private void CreateCollectables(Vector3 position, int count, float delay)
         {
             for (int i = 0; i < count; i++)
             {
@@ -43,7 +47,7 @@ namespace GGJ.Collectables
 
                 var dir = Random.insideUnitCircle.normalized;
                 
-                newCollectable.Launch(collectableBehaviourData, new Vector3(dir.x, 0, dir.y), launchSpeed, pickupDelay);
+                newCollectable.Launch(collectableBehaviourData, new Vector3(dir.x, 0, dir.y), launchSpeed, delay);
             }
         }
         

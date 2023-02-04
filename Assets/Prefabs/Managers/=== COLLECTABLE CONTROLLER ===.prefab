@@ -46,11 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectablePrefab: {fileID: 2435216049856165279, guid: 0c0eb1c5146d4ed4d95bbe5d65594291,
     type: 3}
-  launchSpeed: 10
+  launchSpeed: 20
   pickupDelay: 1
   collectableBehaviourData:
     pickupDistance: 5
-    drag: 1.5
+    drag: 5
     accel: 20
   spawnCount: 4
   spawnPosition: {x: 0, y: 2, z: 0}
