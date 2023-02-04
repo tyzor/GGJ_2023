@@ -11,7 +11,7 @@ namespace GGJ.Enemies
 {
     public class EnemyManager : MonoBehaviour
     {
-        private enum EnemyType { Bomb, Turret };
+        private enum EnemyType { Bomb, Turret, Ranged };
 
         [SerializeField]
         private EnemyBase[] enemyPrefabs;

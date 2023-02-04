@@ -41,7 +41,7 @@ namespace GGJ.Enemies
         private float _radius;
 
         // Start is called before the first frame update
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             this.agent = GetComponent<NavMeshAgent>();

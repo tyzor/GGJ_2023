@@ -12,9 +12,12 @@ namespace GGJ.Enemies
         protected static Transform _player;
         private Collider _hitCollider;
 
+        private bool _HitCooldownActive;
+
         // Start is called before the first frame update
-        public virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             if (_player == null)
                 _player = FindObjectOfType<PlayerHealth>().transform;
             if(_hitCollider == null)
@@ -30,7 +33,11 @@ namespace GGJ.Enemies
 
         public void StartHitCooldown(float time) 
         {
-            StartCoroutine(EnemyHitTimer(time));
+            if(!_HitCooldownActive)
+            {
+                _HitCooldownActive = true;
+                StartCoroutine(EnemyHitTimer(time));
+            }
         }
 
         IEnumerator EnemyHitTimer(float time)
@@ -38,6 +45,7 @@ namespace GGJ.Enemies
             _hitCollider.enabled = false;
             yield return new WaitForSeconds(time);
             _hitCollider.enabled = true;
+            _HitCooldownActive = false;
 
         }
 

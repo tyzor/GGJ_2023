@@ -78,7 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f798e07e058a4b1e8a93d5923d5a0cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Maxintensity: 10
   attackInfo:
   - name: Level 1
     chargeTimeMin: 0.1
@@ -86,22 +85,21 @@ MonoBehaviour:
     attackRadius: 3
     attackTime: 0.5
     attackDamage: 1
-    enemyHitTimer: 0
+    enemyHitCooldown: 0.5
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
     attackRadius: 4
     attackTime: 0.6
     attackDamage: 3
-    enemyHitTimer: 0
+    enemyHitCooldown: 0.5
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
     attackRadius: 4.5
     attackTime: 0.7
     attackDamage: 6
-    enemyHitTimer: 0
-  _playerAnimator: {fileID: 4764881599305911972}
+    enemyHitCooldown: 0.5
   _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!114 &7269916803099458493
 MonoBehaviour:
