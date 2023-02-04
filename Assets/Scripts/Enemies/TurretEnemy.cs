@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GGJ.Utilities;
 
 public class TurretEnemy : EnemyBase
 {
@@ -97,6 +98,7 @@ public class TurretEnemy : EnemyBase
             //Debug.Log("playerpos:"+ _player2);
             Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint-_thisPos, this.bulletSpeed);
+
             
         }
 

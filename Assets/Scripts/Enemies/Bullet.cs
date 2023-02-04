@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Player;
+using GGJ.Utilities;
 
 public class Bullet : MonoBehaviour
 {
@@ -79,6 +80,8 @@ public class Bullet : MonoBehaviour
         this.speed = speed;
         this.damage = damage;
         transform.forward = this.direction;
+
+        VFXManager.CreateVFX(VFX.SPIN_CHARGE, transform.position, transform);
     }
 
 }

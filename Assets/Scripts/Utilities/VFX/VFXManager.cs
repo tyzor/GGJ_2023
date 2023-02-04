@@ -109,35 +109,38 @@ namespace GGJ.Utilities
         private IEnumerator SetVfxToDestroy(GameObject vfxObject, VFXData data)
         {
             yield return new WaitForSeconds(data.lifetime);
-
-            // check if the particle emitters should stop or be destroyed immediately
-            if (data.emitterEOL == EMITTER_ACTION.STOP)
+            if(vfxObject != null)
             {
-                // find all children that are emitters
-                List<ParticleSystem> emittersList = new List<ParticleSystem>();
-                foreach (Transform child in vfxObject.transform)
+
+                // check if the particle emitters should stop or be destroyed immediately
+                if (data.emitterEOL == EMITTER_ACTION.STOP)
                 {
-                    ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
-                    if (particleSystem != null)
+                    // find all children that are emitters
+                    List<ParticleSystem> emittersList = new List<ParticleSystem>();
+                    foreach (Transform child in vfxObject.transform)
                     {
-                        emittersList.Add(particleSystem);
+                        ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                        if (particleSystem != null)
+                        {
+                            emittersList.Add(particleSystem);
+                        }
                     }
-                }
 
-                // set each emitter to stop
-                foreach (ParticleSystem emitter in emittersList)
+                    // set each emitter to stop
+                    foreach (ParticleSystem emitter in emittersList)
+                    {
+                        emitter.Stop();
+                        // remove them from their parent then set timer to destroy
+                        emitter.transform.SetParent(transform);
+                        Destroy(emitter.gameObject, data.lifetime);
+                    }
+
+                    Destroy(vfxObject, data.lifetime);
+                }
+                else
                 {
-                    emitter.Stop();
-                    // remove them from their parent then set timer to destroy
-                    emitter.transform.SetParent(transform);
-                    Destroy(emitter.gameObject, data.lifetime);
+                    Destroy(vfxObject);
                 }
-
-                Destroy(vfxObject, data.lifetime);
-            }
-            else
-            {
-                Destroy(vfxObject);
             }
         }
         //============================================================================================================//
