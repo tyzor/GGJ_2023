@@ -13,7 +13,7 @@ namespace GGJ.Levels
     public class RoomManager : MonoBehaviour
     {
         //When a new room is instantiated
-        public static event Action OnNewRoomLoaded;
+        public static event Action<int> OnNewRoomLoaded;
         //When a room that was already created, is re-loaded
         public static event Action OnRoomLoaded;
         //When we turn off a room object
@@ -103,7 +103,7 @@ namespace GGJ.Levels
                 fileInteractablePrefab);
             
             _dungeonRooms.Add(folderRoom.FolderRoomListIndex, CurrentRoom);
-            OnNewRoomLoaded?.Invoke();
+            OnNewRoomLoaded?.Invoke(roomLayoutIndex);
         }
 
         public FolderRoom GenerateDungeon(in DungeonProfile dungeonProfile)
