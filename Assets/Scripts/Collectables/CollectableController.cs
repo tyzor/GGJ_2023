@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,19 +7,56 @@ namespace GGJ.Collectables
 {
     public class CollectableController : MonoBehaviour
     {
+        private static CollectableController _instance;
+        
         [SerializeField]
         private CollectableBase collectablePrefab;
-
-        [SerializeField, Min(1)]
-        private int spawnCount;
-        [SerializeField]
-        private Vector3 spawnPosition;
 
         [SerializeField, Min(0f)]
         private float launchSpeed;
         [SerializeField, Min(0f)]
         private float pickupDelay = 1f;
 
+        [SerializeField, Space(10f)] 
+        private CollectableBehaviourData collectableBehaviourData;
+
+        //Unity Functions
+        //============================================================================================================//
+
+        private void Awake()
+        {
+            _instance = this;
+        }
+
+        //============================================================================================================//
+        
+        public static void CreateCollectable(Vector3 position, int count)
+        {
+            _instance.CreateCollectables(position, count);
+        }
+
+        private void CreateCollectables(Vector3 position, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var newCollectable = Instantiate(collectablePrefab, position, quaternion.identity, transform);
+
+                var dir = Random.insideUnitCircle.normalized;
+                
+                newCollectable.Launch(collectableBehaviourData, new Vector3(dir.x, 0, dir.y), launchSpeed, pickupDelay);
+            }
+        }
+        
+        //Unity Editor
+        //============================================================================================================//
+        
+#if UNITY_EDITOR
+        
+        [SerializeField, Min(1), Header("DEBUGGING")]
+        private int spawnCount;
+        [SerializeField]
+        private Vector3 spawnPosition;
+        
         [ContextMenu("Spawn Test Collectables")]
         private void SpawnCollectables()
         {
@@ -31,8 +69,10 @@ namespace GGJ.Collectables
 
                 var dir = Random.insideUnitCircle.normalized;
                 
-                newCollectable.Launch(new Vector3(dir.x, 0, dir.y), launchSpeed, pickupDelay);
+                newCollectable.Launch(collectableBehaviourData, new Vector3(dir.x, 0, dir.y), launchSpeed, pickupDelay);
             }
         }
+#endif
+        //============================================================================================================//
     }
 }
