@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
 using GGJ.Destructibles;
+using GGJ.Player;
 
 public class EnemyBase : HealthBase
 {
-    public GameObject _player {get; private set; } // reference to the current player -- good for targetting
+    protected static Transform _player;
     // Start is called before the first frame update
     public virtual void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
+        if(_player == null)
+            _player = FindObjectOfType<PlayerHealth>().transform;
     }
 
 

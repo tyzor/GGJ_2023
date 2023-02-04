@@ -50,7 +50,7 @@ public class BombEnemy : EnemyBase
         if(this.enemyState == EnemyState.Idle )
         {
             // Idle should "patrol" and check if a player is in radius
-            float distance = Vector3.Distance(transform.position, _player.transform.position);
+            float distance = Vector3.Distance(transform.position, _player.position);
             if(distance < aggroRange)
             {
                 this.enemyState = EnemyState.Pursuit;
@@ -80,17 +80,19 @@ public class BombEnemy : EnemyBase
         {
             // Chase player -- if player escapes maybe go back to idle?
             agent.speed = this.moveSpeed; 
-            agent.destination = this._player.transform.position;
+            agent.destination = _player.position;
 
+            // ALEX -- FIX? non alloc version
             // Check if we are close enough to attack player
             Collider[] collisions = Physics.OverlapSphere(transform.position, _radius, Physics.AllLayers);
             foreach(Collider col in collisions)
-                OnCollision(col);
+                if(OnCollision(col))
+                    return;
 
         }
     }
 
-    void OnCollision(Collider collider)
+    bool OnCollision(Collider collider)
     {
 
         // TODO -- this is probably not the best way of checking
@@ -101,7 +103,9 @@ public class BombEnemy : EnemyBase
             PlayerHealth health = collider.gameObject.GetComponent<PlayerHealth>();
             health.DoDamage(this.attackDamage);
             Destroy(gameObject);
+            return true;
         }        
+        return false;
     }
 
 }

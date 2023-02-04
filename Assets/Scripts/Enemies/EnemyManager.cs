@@ -61,6 +61,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    // TODO -- parent to current room
     private void SpawnEnemy(EnemyType type)
     {    
         if(_currentPlayer == null)

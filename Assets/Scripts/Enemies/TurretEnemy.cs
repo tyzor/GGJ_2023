@@ -34,15 +34,14 @@ public class TurretEnemy : EnemyBase
     {
         attackTimer -= Time.deltaTime;
 
-        // TODO -- what in the hell is going on here
-        transform.LookAt(_player.transform);
-        //_turretHead.transform.LookAt(_player.transform, Vector3.right);
-        //_turretHead.transform.Rotate(Vector3.right,180.0f,Space.Self);
-        //Vector3 relativePos = _player.transform.position - _turretHead.transform.position;
+        // ALEX -- FIX ME -- TODO -- what in the hell is going on here
+        //transform.LookAt(_player.transform);
+        //_turretHead.transform.LookAt(_player.transform);
 
+        Vector3 dirToPlayer = _player.transform.position - _turretHead.transform.position;
         // the second argument, upwards, defaults to Vector3.up
-        //Quaternion rotation = Quaternion.LookRotation(relativePos, _turretHead.transform.up) * Quaternion.Euler(new Vector3(180, 0, 90));
-        //_turretHead.transform.rotation = rotation;
+        Quaternion rotation = Quaternion.LookRotation(dirToPlayer.normalized, -_turretHead.transform.forward) * Quaternion.Euler(180, 0, -90);
+        _turretHead.transform.rotation = rotation;
 
 
         if(attackTimer < 0)

@@ -52,6 +52,7 @@ namespace GGJ.Player
             InputDelegator.OnAttackPressed += OnAttackPressed;
         }
 
+        // ALEX -- FIX ME
         private void Update()
         {
             //TODO Add timer to diminish RAM
@@ -80,6 +81,7 @@ namespace GGJ.Player
         //PlayerAttackController Functions
         //============================================================================================================//
 
+        // ALEX -- FIX ME
         private void DoAttack(in AttackData attackData)
         {
             isAttacking = true;
