@@ -1,3 +1,4 @@
+using GGJ.Utilities;
 using UnityEngine;
 
 namespace GGJ.Destructibles
@@ -27,6 +28,8 @@ namespace GGJ.Destructibles
         
             if(_currentHealth <= 0)
                 Kill();
+
+            VFXManager.CreateVFX(VFX.HIT_EFFECT, transform.position);
         }
 
         public virtual void AddHealth(int toAdd)
