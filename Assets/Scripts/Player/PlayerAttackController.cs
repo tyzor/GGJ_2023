@@ -141,6 +141,14 @@ namespace GGJ.Player
 
         private void OnAttackPressed(bool isPressed)
         {
+            //If the player is attempting to interact with an object, we will ignore the attack
+            if (PlayerController.CanAttack == false && isPressed)
+                return;
+
+            //If the attack was never started, do not attempt to complete the attack
+            if (_isPressed == false && isPressed == false)
+                return;
+                
             _isPressed = isPressed;
             
             if (isPressed)
