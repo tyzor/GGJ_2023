@@ -11,7 +11,7 @@ namespace GGJ.Player
     {
         private static readonly int IDLE_ANIMATION = Animator.StringToHash("Idle");
         private static readonly int MOVE_ANIMATION = Animator.StringToHash("Move");
-        private static readonly int ATTACK_ANIMATION = Animator.StringToHash("Spin_Attack");
+        private static readonly int ATTACK_ANIMATION = Animator.StringToHash("Linear_Spin");
 
         [SerializeField]
         private Animator animator;
