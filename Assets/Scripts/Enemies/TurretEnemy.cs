@@ -18,18 +18,33 @@ public class TurretEnemy : EnemyBase
     private float bulletSpeed = 10.0f;
     private float attackTimer;
 
+    [SerializeField] private GameObject _turretHead;
+
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         attackTimer = attackCooldown;
+        attackType = (AttackType)Random.Range(0,3);
     }
 
     // Update is called once per frame
     void Update()
     {
         attackTimer -= Time.deltaTime;
+
+        // TODO -- what in the hell is going on here
+        transform.LookAt(_player.transform);
+        //_turretHead.transform.LookAt(_player.transform, Vector3.right);
+        //_turretHead.transform.Rotate(Vector3.right,180.0f,Space.Self);
+        //Vector3 relativePos = _player.transform.position - _turretHead.transform.position;
+
+        // the second argument, upwards, defaults to Vector3.up
+        //Quaternion rotation = Quaternion.LookRotation(relativePos, _turretHead.transform.up) * Quaternion.Euler(new Vector3(180, 0, 90));
+        //_turretHead.transform.rotation = rotation;
+
+
         if(attackTimer < 0)
         {
 

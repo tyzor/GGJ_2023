@@ -62,9 +62,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     private void SpawnEnemy(EnemyType type)
-    {
-        Debug.Log((int)type);
-    
+    {    
         if(_currentPlayer == null)
             _currentPlayer = FindObjectOfType<PlayerHealth>().gameObject;
         
@@ -89,6 +87,7 @@ public class EnemyManager : MonoBehaviour
         // Place enemy
         EnemyBase enemyPrefab = enemyPrefabs[(int)type];
         EnemyBase enemyObj = Instantiate(enemyPrefab, pt.position + Vector3.up*0.5f, Quaternion.identity);
+
     }
 
 }
