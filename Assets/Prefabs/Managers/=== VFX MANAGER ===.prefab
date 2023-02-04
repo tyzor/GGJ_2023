@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2816559187252279331}
   - component: {fileID: 7186846879523032126}
+  - component: {fileID: 986966736}
   m_Layer: 0
   m_Name: === VFX MANAGER ===
   m_TagString: Untagged
@@ -51,15 +52,35 @@ MonoBehaviour:
       type: 3}
     lifetime: 2
     emitterEOL: 1
-  - name: Hit Effect
+  - name: Spin Charge
     type: 2
     prefab: {fileID: 4881707231935654238, guid: a2e805a475ee4dd4c9cb520105bd7c1a,
       type: 3}
     lifetime: 1
-    emitterEOL: 0
-  - name: Spin Effect
+    emitterEOL: 1
+  - name: Spin Attack
     type: 3
     prefab: {fileID: 3630804843779927654, guid: 39f1255c02b927645be1fb321e953fad,
       type: 3}
     lifetime: 1
+    emitterEOL: 1
+  - name: Hit Effect
+    type: 4
+    prefab: {fileID: 3370743461253721464, guid: 561fd28b35704e247b40a1545afd4eb9,
+      type: 3}
+    lifetime: 1
     emitterEOL: 0
+--- !u!114 &986966736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5637120461958915556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e680cbd10c18704284dbee11559df2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetTransform: {fileID: 0}
+  _vfxType: 1

@@ -12,15 +12,35 @@ public class VFXTrigger : MonoBehaviour
     [ContextMenu("TriggerVFX")]
     void TriggerVFX()
     {
-        TriggerEffectTypeAtGameobject(_targetTransform, _vfxType);
+        TriggerEffectAtGameobject(_targetTransform, _vfxType);
     }
 
-    private void TriggerEffectTypeAtGameobject(GameObject gameObject, VFX vfxType)
+    [ContextMenu("TriggerParentedVFX")]
+    void TriggerParentedVFX()
+    {
+        TriggerEffectUnderParent(_targetTransform, _vfxType, _targetTransform.transform);
+    }
+
+    public void TriggerEffectAtGameobject(GameObject gameObject, VFX vfxType)
     {
         try
         {
             VFXManager.CreateVFX(vfxType, gameObject.transform.position);
-        } catch (NullReferenceException e) {
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("VFXManager not set\n" + e);
+        }
+    }
+
+    public void TriggerEffectUnderParent(GameObject gameObject, VFX vfxType, Transform parent)
+    {
+        try
+        {
+            VFXManager.CreateVFX(vfxType, gameObject.transform.position, parent);
+        }
+        catch (NullReferenceException e)
+        {
             Debug.Log("VFXManager not set\n" + e);
         }
     }

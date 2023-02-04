@@ -9,8 +9,9 @@ namespace GGJ.Utilities
     {
         NONE,
         TEMPLATE_EFFECT,
+        SPIN_CHARGE,
+        SPIN_ATTACK,
         HIT_EFFECT,
-        SPIN_EFFECT,   
     }
 
     public enum EMITTER_ACTION
@@ -41,8 +42,14 @@ namespace GGJ.Utilities
             return _instance.TryCreateVFX(vfx, worldPosition);
         }
 
+        // function to attach an effect to a specific parent - example: for spin attack rotation
+        public static GameObject CreateVFX(VFX vfx, Vector3 worldPosition, Transform parent)
+        {
+            return _instance.TryCreateVFX(vfx, worldPosition, parent);
+        }
+
         //============================================================================================================//
-        
+
         [SerializeField]
         private VFXData[] vfx;
 
@@ -67,15 +74,22 @@ namespace GGJ.Utilities
             }
         }
         //============================================================================================================//
-        
+
         private GameObject TryCreateVFX(VFX vfx, Vector3 worldPosition)
+        {
+            return TryCreateVFX(vfx, worldPosition, null);
+        }
+
+        private GameObject TryCreateVFX(VFX vfx, Vector3 worldPosition, Transform customParent)
         {
             // make sure the type is not NONE
             if (vfx == VFX.NONE) { return null; }
 
             VFXData data = _instance._vfxDatas[vfx];
             GameObject targetPrefab = data.prefab;
-            GameObject newVfxObject = Instantiate(targetPrefab, worldPosition, Quaternion.identity, transform);
+            Transform vfxParentTransform = transform;
+            if(customParent != null) { vfxParentTransform = customParent; }
+            GameObject newVfxObject = Instantiate(targetPrefab, worldPosition, Quaternion.identity, vfxParentTransform);
 
             // set vfx to destroy after lifetime
             coroutineDestroyAfterLifetime = SetVfxToDestroy(newVfxObject, data);
@@ -83,6 +97,12 @@ namespace GGJ.Utilities
 
             SetVfxToDestroy(newVfxObject, data);
             return newVfxObject;
+        }
+
+        // stop an effect before its lifetime - example: spin chargin ending early
+        public void StopVfx(GameObject gameObject)
+        {
+            // find a 
         }
 
         private IEnumerator SetVfxToDestroy(GameObject vfxObject, VFXData data)
@@ -100,7 +120,7 @@ namespace GGJ.Utilities
                     {
                         particleSystem.Stop();
                         // remove them from their parent then set timer to destroy
-                        particleSystem.transform.SetParent(transform);
+                        particleSystem.transform.SetParent(child.parent.parent);
                         Destroy(particleSystem.gameObject, data.lifetime);
                     }
                 }
