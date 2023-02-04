@@ -21,6 +21,8 @@ namespace GGJ.Enemies
 
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private float attackCooldown = 2.0f; // Attack cooldown in seconds
+        [SerializeField] private float leadingShotBreakpoint = 0.8f; // Shots below this value don't calculating leading
+        
         [SerializeField] private float bulletSpeed = 10.0f;
         private float attackTimer;
 
@@ -108,7 +110,7 @@ namespace GGJ.Enemies
 
                 // Lets lead the target if the shot would be fast
                 Vector2 aimPoint;
-                if (travelTime < 0.2f)
+                if (travelTime < this.leadingShotBreakpoint)
                 {
                     aimPoint = _player2 + vel2 * travelTime;
                 }
