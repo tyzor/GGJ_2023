@@ -44,7 +44,7 @@ namespace GGJ.Inputs
             if (context.performed == false)
                 return;
 
-            Debug.Log(context);
+            //Debug.Log(context);
             var isPressed = context.ReadValueAsButton();
             OnAttackPressed?.Invoke(isPressed);
         }

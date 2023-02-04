@@ -24,6 +24,7 @@ namespace GGJ.Player
         public float attackTime;
         [Min(0)]
         public int attackDamage;
+        public float enemyHitCooldown;
     }
     
     public class PlayerAttackController : MonoBehaviour
@@ -121,8 +122,9 @@ namespace GGJ.Player
             {
                 case EnemyBase enemyBase:
                     // TODO -- attack should only deal damage once?
-                    Debug.Log("Hit enemy");
+                    Debug.Log($"Hit enemy {enemyBase.gameObject.name} - Damage {attackData.attackDamage}", enemyBase);
                     enemyBase.DoDamage(attackData.attackDamage);
+                    enemyBase.StartHitCooldown(attackData.enemyHitCooldown);
                     break;
                 case Bullet bullet:
                     Debug.Log("Hit bullet");
@@ -139,6 +141,14 @@ namespace GGJ.Player
 
         private void OnAttackPressed(bool isPressed)
         {
+            //If the player is attempting to interact with an object, we will ignore the attack
+            if (PlayerController.CanAttack == false && isPressed)
+                return;
+
+            //If the attack was never started, do not attempt to complete the attack
+            if (_isPressed == false && isPressed == false)
+                return;
+                
             _isPressed = isPressed;
             
             if (isPressed)
@@ -150,7 +160,6 @@ namespace GGJ.Player
             {
                 PlayerMovementController.CanMove = true;
                 var endTime =  Time.time - _pressStartTime;
-                Debug.Log(endTime);
 
                 //If we haven't hit the min threshold, then no need to bother
                 if (endTime < attackInfo[0].chargeTimeMin)

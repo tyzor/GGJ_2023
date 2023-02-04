@@ -11,50 +11,40 @@ namespace GGJ.Enemies
 {
     public class EnemyManager : MonoBehaviour
     {
-        private enum EnemyType
-        {
-            Bomb,
-            Turret
-        }
+        private enum EnemyType { Bomb, Turret, Ranged };
 
-        [SerializeField] private EnemyBase[] enemyPrefabs;
+        [SerializeField]
+        private EnemyBase[] enemyPrefabs;
 
-        private GameObject _currentPlayer;
+        protected static Transform _currentPlayer;
 
+        [SerializeField] Vector2Int enemyCountRange = new Vector2Int(3, 8);
+        
         void OnEnable()
         {
-            DoorInteractable.LoadNewRoom += OnLoadNewRoom;
+            //DoorInteractable.LoadNewRoom += OnLoadNewRoom;
+            RoomManager.OnNewRoomLoaded += OnLoadNewRoom;
         }
 
         void OnDisable()
         {
-            DoorInteractable.LoadNewRoom -= OnLoadNewRoom;
+            RoomManager.OnNewRoomLoaded -= OnLoadNewRoom;
         }
 
-
-        void Start()
+        private void OnLoadNewRoom(int roomIndex)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        private void OnLoadNewRoom(FolderRoom folderRoom)
-        {
+            if(roomIndex < 0)
+                return;
+            
             Debug.Log("EnemyManager--OnLoadNewRoom");
-            DespawnEnemies();
-            SpawnEnemies(25);
+            SpawnEnemies(Random.Range(enemyCountRange.x,enemyCountRange.y+1));
         }
 
         public void SpawnEnemies(int number)
         {
-            for (int i = 0; i < number; i++)
+            for(int i=0;i < number; i++)
             {
-                SpawnEnemy((EnemyType)Random.Range(0, enemyPrefabs.Length));
+                SpawnEnemy( (EnemyType)Random.Range(0,enemyPrefabs.Length) );
             }
         }
 
@@ -62,18 +52,17 @@ namespace GGJ.Enemies
         public void DespawnEnemies()
         {
             EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
-            for (int i = 0; i < enemies.Length; i++)
+            for(int i=0;i<enemies.Length;i++)
             {
                 Destroy(enemies[i].gameObject);
             }
         }
 
-        // TODO -- parent to current room
         private void SpawnEnemy(EnemyType type)
-        {
-            if (_currentPlayer == null)
-                _currentPlayer = FindObjectOfType<PlayerHealth>().gameObject;
-
+        {    
+            if(_currentPlayer == null)
+                _currentPlayer = FindObjectOfType<PlayerHealth>().transform;
+            
             // Get a random distance from player
             Vector2 randomDir;
             Vector3 newPos;
@@ -83,18 +72,18 @@ namespace GGJ.Enemies
             int tries = 0;
             do
             {
-                if (tries > 10)
+                if(tries > 10)
                     return;
                 randomDir = Random.insideUnitCircle.normalized;
-                newPos = new Vector3(randomDir.x, 0, randomDir.y);
-                distance = Random.Range(10.0f, 20.0f);
-                newPos = newPos * distance + _currentPlayer.transform.position;
+                newPos = new Vector3(randomDir.x,0,randomDir.y);
+                distance = Random.Range(10.0f,20.0f);
+                newPos = newPos * distance + _currentPlayer.position;
                 tries++;
-            } while (!NavMesh.SamplePosition(newPos, out pt, 2.0f, 1));
-
+            }while(!NavMesh.SamplePosition(newPos, out pt, 2.0f, 1));
+            
             // Place enemy
             EnemyBase enemyPrefab = enemyPrefabs[(int)type];
-            EnemyBase enemyObj = Instantiate(enemyPrefab, pt.position + Vector3.up * 0.5f, Quaternion.identity);
+            EnemyBase enemyObj = Instantiate(enemyPrefab, pt.position + Vector3.up*0.5f, Quaternion.identity, RoomManager.CurrentRoom.transform);
 
         }
 

@@ -47,3 +47,5 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 2050648624696165234, guid: 6bf4ba2df31aa5e4da0348010fc811ec, type: 3}
   - {fileID: 5640968352729985193, guid: 8b2f08051dfc7b44a923f0093f13c0c1, type: 3}
+  - {fileID: 2664169869642489954, guid: e3ef4f79512548c4ab57bfaaf2ec0323, type: 3}
+  enemyCountRange: {x: 3, y: 8}
