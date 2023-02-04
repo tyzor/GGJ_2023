@@ -36,6 +36,8 @@ namespace GGJ.Player
 
         // the time our player has left in the attack
         private float attackTimeLeft;
+        // TODO -- use player state to track what they are doing (for bull rush)
+        private bool isAttacking;
         private AttackData currentAttack;
 
         [SerializeField] private Animator _playerAnimator;
@@ -57,12 +59,21 @@ namespace GGJ.Player
             // We are currently attacking
             if(attackTimeLeft > 0 )
             {
+                PlayerMovementController.CanMove = false;
                 Collider[] collisions = Physics.OverlapSphere(transform.position, currentAttack.attackRadius);
                 foreach(Collider collider in collisions)
                     OnAttackCollision(collider, currentAttack);
 
                 attackTimeLeft -= Time.deltaTime;
+            } else {
+                if(isAttacking)
+                {
+                    PlayerMovementController.CanMove = true;
+                    isAttacking = false;
+                }
             }
+
+            
 
         }
 
@@ -71,13 +82,23 @@ namespace GGJ.Player
 
         private void DoAttack(in AttackData attackData)
         {
+            isAttacking = true;
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
             Debug.Log($"Did Attack {attackData.name}");   
 
             //animator.SetBool("Do Attack", true);
             _playerAnimator.Play("Spin_Attack");
-            VFXManager.CreateVFX(VFX.SPIN_ATTACK, transform.position, _spinAttackAnchor);
+            if(attackData.name == "Level 1")
+            {
+                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK, transform.position, _spinAttackAnchor);
+            } else if(attackData.name == "Level 2")
+            {
+                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK2, transform.position, _spinAttackAnchor);
+            } else if(attackData.name == "Level 3")
+            {
+                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK3, transform.position, _spinAttackAnchor);
+            }
         }
         
         

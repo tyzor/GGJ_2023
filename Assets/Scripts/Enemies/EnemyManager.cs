@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     {
         Debug.Log("EnemyManager--OnLoadNewRoom");
         DespawnEnemies();
-        SpawnEnemies(5);
+        SpawnEnemies(25);
     }
 
     public void SpawnEnemies(int number)

@@ -13,6 +13,8 @@ namespace GGJ.Utilities
         SPIN_CHARGE,
         SPIN_ATTACK,
         HIT_EFFECT,
+        SPIN_ATTACK2,
+        SPIN_ATTACK3
     }
 
     public enum EMITTER_ACTION

@@ -82,19 +82,19 @@ MonoBehaviour:
   - name: Level 1
     chargeTimeMin: 0.1
     chargeTimeMax: 0.5
-    attackRadius: 0.5
+    attackRadius: 3
     attackTime: 0.5
     attackDamage: 1
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
-    attackRadius: 0.7
+    attackRadius: 4
     attackTime: 0.6
     attackDamage: 3
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
-    attackRadius: 1.2
+    attackRadius: 4.5
     attackTime: 0.7
     attackDamage: 6
   _playerAnimator: {fileID: 4764881599305911972}

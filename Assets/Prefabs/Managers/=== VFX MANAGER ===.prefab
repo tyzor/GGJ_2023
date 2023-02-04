@@ -76,6 +76,18 @@ MonoBehaviour:
       type: 3}
     lifetime: 1
     emitterEOL: 0
+  - name: Spin Attack 2
+    type: 6
+    prefab: {fileID: 6744995232597599897, guid: 786a174b15a58f646b814f707e0f39f1,
+      type: 3}
+    lifetime: 0.875
+    emitterEOL: 1
+  - name: Spin Attack 3
+    type: 7
+    prefab: {fileID: 6744995232597599897, guid: 9c7f00513abfdfc4896dbce84bad3284,
+      type: 3}
+    lifetime: 0.875
+    emitterEOL: 1
 --- !u!114 &986966736
 MonoBehaviour:
   m_ObjectHideFlags: 0
