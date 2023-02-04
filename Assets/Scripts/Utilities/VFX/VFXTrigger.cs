@@ -47,7 +47,9 @@ public class VFXTrigger : MonoBehaviour
     public void TriggerEffectAtGameobject(Transform transform, VFX vfxType)
     {
         Vector3 targetPosition = Vector3.zero;
+
         if(transform != null) { targetPosition = transform.position; }
+
         try
         {
             VFXManager.CreateVFX(vfxType, targetPosition);
