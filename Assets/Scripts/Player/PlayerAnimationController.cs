@@ -1,15 +1,10 @@
 ﻿using System;
+using GGJ.Animations;
 using UnityEngine;
 
 namespace GGJ.Player
 {
-    public enum ANIMATION
-    {
-        NONE,
-        IDLE,
-        MOVE,
-        ATTACK
-    }
+    
     
     [RequireComponent(typeof(PlayerMovementController), typeof(PlayerAttackController))]
     public class PlayerAnimationController : MonoBehaviour
