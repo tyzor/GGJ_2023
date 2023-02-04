@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class VFXTrigger : MonoBehaviour
 {
-    [SerializeField] private GameObject _targetTransform;
+    [SerializeField] private Transform _targetTransform;
     [SerializeField] private VFX _vfxType;
+
+    [Header("Spin Attack")]
+    [SerializeField] private Transform _playerAnimatorContainer;
+    [SerializeField] private Transform _spinAttackAnchor;
+    private VFX _spinAttackType = VFX.SPIN_ATTACK;
+
 
     [ContextMenu("TriggerVFX")]
     void TriggerVFX()
@@ -18,14 +24,33 @@ public class VFXTrigger : MonoBehaviour
     [ContextMenu("TriggerParentedVFX")]
     void TriggerParentedVFX()
     {
-        TriggerEffectUnderParent(_targetTransform, _vfxType, _targetTransform.transform);
-    }
-
-    public void TriggerEffectAtGameobject(GameObject gameObject, VFX vfxType)
-    {
         try
         {
-            VFXManager.CreateVFX(vfxType, gameObject.transform.position);
+            TriggerEffectUnderParent(_targetTransform, _vfxType, _targetTransform);
+        }
+        catch (UnassignedReferenceException e)
+        {
+            TriggerEffectUnderParent(transform, _vfxType, null);
+        }
+    }
+
+    [ContextMenu("TriggerSpinAttack")]
+    void TriggerSpinAttack()
+    {
+        Animator animator = _playerAnimatorContainer.GetComponent<Animator>();
+        //animator.SetBool("Do Attack", true);
+        animator.Play("Spin_Attack");
+
+        TriggerEffectUnderParent(_playerAnimatorContainer, _spinAttackType, _spinAttackAnchor);
+    }
+
+    public void TriggerEffectAtGameobject(Transform transform, VFX vfxType)
+    {
+        Vector3 targetPosition = Vector3.zero;
+        if(transform != null) { targetPosition = transform.position; }
+        try
+        {
+            VFXManager.CreateVFX(vfxType, targetPosition);
         }
         catch (NullReferenceException e)
         {
@@ -33,11 +58,11 @@ public class VFXTrigger : MonoBehaviour
         }
     }
 
-    public void TriggerEffectUnderParent(GameObject gameObject, VFX vfxType, Transform parent)
+    public void TriggerEffectUnderParent(Transform transform, VFX vfxType, Transform parent)
     {
         try
         {
-            VFXManager.CreateVFX(vfxType, gameObject.transform.position, parent);
+            VFXManager.CreateVFX(vfxType, transform.position, parent);
         }
         catch (NullReferenceException e)
         {
@@ -45,4 +70,11 @@ public class VFXTrigger : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            TriggerSpinAttack();
+        }
+    }
 }
