@@ -1,4 +1,6 @@
 ﻿using System;
+using GGJ.Levels;
+using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
 
 namespace GGJ.Interactables
@@ -14,7 +16,8 @@ namespace GGJ.Interactables
         
 
         //TODO Add File Data
-        
+        public File FileData { get; private set; }
+
         private float _startingHeight;
         private bool _isInteracting;
 
@@ -22,9 +25,10 @@ namespace GGJ.Interactables
 
         //============================================================================================================//
         
-        public void Init(string fileName)
+        public void Init(File file)
         {
-            throw new NotImplementedException();
+            FileData = file;
+            gameObject.name = $"{file.GetFileNameExtension()}_{nameof(FileInteractable)}";
         }
         
         //Unity Functions
@@ -34,14 +38,6 @@ namespace GGJ.Interactables
         {
             transform = gameObject.transform;
             _startingHeight = transform.position.y;
-        }
-
-        private void Update()
-        {
-            if (_isInteracting == false)
-                return;
-            
-            transform.position = PlayerTransform.position + Vector3.up * 1.5f;
         }
 
         private void OnDestroy()
@@ -60,6 +56,7 @@ namespace GGJ.Interactables
                 IgnoreExits = true;
                 //Move it above the players head
                 transform.position = PlayerTransform.position + Vector3.up * 1.5f;
+                transform.SetParent(PlayerTransform, true);
                 
                 //Announce that a file was picked up for interested parties
                 OnPickedUpFile?.Invoke(this);
@@ -71,6 +68,8 @@ namespace GGJ.Interactables
                 currentPos.y = _startingHeight;
 
                 transform.position = currentPos;
+                transform.SetParent(RoomManager.CurrentRoom.transform, true);
+                
                 OnDroppedFile?.Invoke(this);
             }
         }

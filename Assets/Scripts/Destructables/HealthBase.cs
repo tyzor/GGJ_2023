@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using GGJ.Utilities;
 using UnityEngine;
 
-public class HealthBase : MonoBehaviour
+namespace GGJ.Destructibles
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class HealthBase : MonoBehaviour
     {
-        
-    }
+        [SerializeField, Min(1)]
+        private int startingHealth;
+        private int _currentHealth;
 
-    // Update is called once per frame
-    void Update()
-    {
+        //============================================================================================================//
+        // Start is called before the first frame update
+        private void Start()
+        {
+            _currentHealth = startingHealth;
+        }
+        //============================================================================================================//
+
+        public void ResetHealth()
+        {
+            _currentHealth = startingHealth;
+        }
+
+        public virtual void DoDamage(int damageAmount)
+        {
+            _currentHealth -= Mathf.Abs(damageAmount);
         
+            if(_currentHealth <= 0)
+                Kill();
+
+            VFXManager.CreateVFX(VFX.HIT_EFFECT, transform.position);
+        }
+
+        public virtual void AddHealth(int toAdd)
+        {
+            _currentHealth = Mathf.Clamp(_currentHealth + toAdd, 0, startingHealth);
+        }
+
+        protected abstract void Kill();
+        
+        //============================================================================================================//
     }
 }

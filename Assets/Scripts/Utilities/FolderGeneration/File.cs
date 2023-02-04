@@ -5,18 +5,15 @@ namespace GGJ.Utilities.FolderGeneration
     // file contains its name and containing folder
     public class File
     {
-        private readonly FolderStub _parentFolder;
+        public readonly FolderStub ParentFolder;
         private readonly string _fileName;
         private readonly string _fileExtension;
 
-        public string GetFileNameExtension()
-        {
-            return _fileName + "." + _fileExtension;
-        }
+
 
         public File(FolderStub parentFolder, string fileName, string fileExtension)
         {
-            _parentFolder = parentFolder;
+            ParentFolder = parentFolder;
             _fileName = fileName;
             _fileExtension = fileExtension;
         }
@@ -26,7 +23,7 @@ namespace GGJ.Utilities.FolderGeneration
         {
             string s = "<File> - ";
 
-            FolderStub p = _parentFolder;
+            FolderStub p = ParentFolder;
 
             List<FolderStub> path = new List<FolderStub>();
 
@@ -47,5 +44,7 @@ namespace GGJ.Utilities.FolderGeneration
 
             return s;
         }
+
+        public string GetFileNameExtension() => $"{_fileName}.{_fileExtension}";
     }
 }

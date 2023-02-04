@@ -8,8 +8,8 @@ namespace GGJ.Utilities.FolderGeneration
         private readonly int _roomLayoutIndex;
         private Room _roomTemplate;
         private readonly string _titleName;
-        private readonly FolderStub[] _subfolders;
-        private readonly File[] _files;
+        private readonly FolderStub[] _childStubs;
+        private File[] _files;
         
         //Meta Data
         private readonly int _folderRoomListIndex; // randall
@@ -21,18 +21,29 @@ namespace GGJ.Utilities.FolderGeneration
         public string FolderName => _titleName;
         public FolderStub ParentStub => _parentStub;
         public FolderRoom ParentFolder { get; set; }
+        public FolderRoom[] Subfolders { get; set; }
 
         public File[] Files => _files;
-        public FolderStub[] Subfolders => _subfolders;
+        public FolderStub[] ChildStubs => _childStubs;
 
-        public FolderRoom(int folderRoomCount, int roomLayoutIndex, string folderName, FolderStub parentFolder, FolderStub[] subfolders, File[] files)
+        public FolderRoom(int folderRoomCount, int roomLayoutIndex, string folderName, FolderStub parentFolder, FolderStub[] childStubs, File[] files)
         {
             _folderRoomListIndex = folderRoomCount;
             _roomLayoutIndex = roomLayoutIndex;
             _titleName = folderName;
             _parentStub = parentFolder;
-            _subfolders = subfolders;
+            _childStubs = childStubs;
             _files = files;
+        }
+
+        public int Depth()
+        {
+            int i = 0;
+            while(ParentFolder != null)
+            {
+                i += 1;
+            }
+            return i;
         }
 
         // return string with folder's path from root
@@ -57,9 +68,14 @@ namespace GGJ.Utilities.FolderGeneration
                 s += "\\" + f.FolderName;
             }
 
-            s += "\\" + FolderName;
+            //s += "\\" + FolderName;
 
             return s;
+        }
+
+        public void ClearFiles()
+        {
+            _files = default;
         }
     }
 }
