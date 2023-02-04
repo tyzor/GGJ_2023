@@ -24,7 +24,7 @@ namespace GGJ.Player
     public class PlayerAttackController : MonoBehaviour
     {
         public float Maxintensity = 10;
-
+        
         [SerializeField]
         private AttackData[] attackInfo;
 
@@ -32,9 +32,10 @@ namespace GGJ.Player
 
         private bool _isPressed;
 
+        public ParticleSystem particles;
         //Unity Functions
         //============================================================================================================//
-        
+
         private void Start()
         {
             InputDelegator.OnAttackPressed += OnAttackPressed;
@@ -60,7 +61,7 @@ namespace GGJ.Player
         private void OnAttackPressed(bool isPressed)
         {
             _isPressed = isPressed;
-            
+
             if (isPressed)
             {
                 PlayerMovementController.CanMove = false;
