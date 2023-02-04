@@ -25,6 +25,7 @@ namespace GGJ.Player
         [Min(0)]
         public int attackDamage;
         public float enemyHitCooldown;
+        public bool canReflect;
     }
     
     public class PlayerAttackController : MonoBehaviour
@@ -73,6 +74,8 @@ namespace GGJ.Player
                 Collider[] collisions = Physics.OverlapSphere(transform.position, currentAttack.attackRadius);
                 foreach (Collider collider in collisions)
                     OnAttackCollision(collider, currentAttack);
+
+                ProjectileManager.ReflectAllProjectiles(transform.position, currentAttack.attackRadius, this.gameObject);
 
                 attackTimeLeft -= Time.deltaTime;
             }
