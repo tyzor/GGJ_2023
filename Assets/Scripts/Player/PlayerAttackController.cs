@@ -110,21 +110,24 @@ namespace GGJ.Player
         
         private void OnAttackCollision(Collider collider, AttackData attackData)
         {
+            var canBeHit = collider.GetComponent<ICanBeHit>();
+            if (canBeHit == null)
+                return;
             
-            EnemyBase enemy = collider.gameObject.GetComponent<EnemyBase>();
-            if(enemy)
+            switch(canBeHit)
             {
-                // TODO -- attack should only deal damage once?
-                Debug.Log("Hit enemy");
-                enemy.DoDamage((int)attackData.attackDamage);
-                enemy.StartHitCooldown(.2f);
-            }
+                case EnemyBase enemyBase:
+                    Debug.Log("Hit enemy");
+                    enemy.DoDamage((int)attackData.attackDamage);
+                    enemy.StartHitCooldown(.2f);
+                    break;
+                case Bullet bullet:
+                    Debug.Log("Hit bullet");
+                    // TODO -- handle bullet deflection here
+                    break;
+                default:
+                    return;
 
-            Bullet bullet = collider.gameObject.GetComponent<Bullet>();
-            if(bullet)
-            {
-                Debug.Log("Hit bullet");
-                // TODO -- handle bullet deflection here
             }
 
         }
@@ -167,25 +170,7 @@ namespace GGJ.Player
 
                 //If we've gone through the list, it means we're beyond the max
                 DoAttack(attackInfo[attackInfo.Length - 1]);
-
-                /*switch (endTime)
-                {
-                    case float i when i > 0 && i< 0.5f:
-                        Debug.Log(0);
-                        break;
-                    case float i when i > 0.5 && i< 1.0f:
-                        Debug.Log(1);
-                        break;
-                    case float i when i > 1.0 && i< 1.5f:
-                        Debug.Log(2);
-                        break;
-                    case float i when i > 1.5 && i< 2.0f:
-                        Debug.Log(3);
-                        break;
-                }*/
-                //intensity =0;
-                //Determine how long we were pressing 
-                //Do appropriate attack
+                
             }
 
             

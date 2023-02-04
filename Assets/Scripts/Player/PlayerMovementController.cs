@@ -18,6 +18,8 @@ namespace GGJ.Player
         private float _currentXInput, _currentYInput;
         private Vector3 _inputDir;
 
+        private PlayerAnimationController _playerAnimationController;
+        
         private Transform _cameraTransform;
         private new Transform transform;
         private new Rigidbody rigidbody;
@@ -32,6 +34,8 @@ namespace GGJ.Player
         // Start is called before the first frame update
         private void Start()
         {
+            _playerAnimationController = GetComponent<PlayerAnimationController>();
+            
             transform = gameObject.transform;
             rigidbody = GetComponent<Rigidbody>();
             
@@ -59,6 +63,7 @@ namespace GGJ.Player
         // Update is called once per frame
         private void Update()
         {
+            
             if (hasInput == false)
                 return;
             
