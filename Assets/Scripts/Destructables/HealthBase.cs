@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GGJ.Destructibles
 {
-    public abstract class HealthBase : MonoBehaviour
+    public abstract class HealthBase : MonoBehaviour, ICanBeHit
     {
         [SerializeField, Min(1)]
         private int startingHealth;
