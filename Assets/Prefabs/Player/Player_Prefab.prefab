@@ -86,18 +86,22 @@ MonoBehaviour:
     attackRadius: 3
     attackTime: 0.5
     attackDamage: 1
+    enemyHitTimer: 0
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
     attackRadius: 4
     attackTime: 0.6
     attackDamage: 3
+    enemyHitTimer: 0
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
     attackRadius: 4.5
     attackTime: 0.7
     attackDamage: 6
+    enemyHitTimer: 0
+  _playerAnimator: {fileID: 4764881599305911972}
   _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!114 &7269916803099458493
 MonoBehaviour:

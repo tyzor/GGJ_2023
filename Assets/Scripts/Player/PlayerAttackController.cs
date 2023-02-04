@@ -1,5 +1,9 @@
-﻿using System;
+﻿
+using System;
+using GGJ.Destructibles;
+using GGJ.Enemies;
 using GGJ.Inputs;
+using GGJ.Projectiles;
 using UnityEngine;
 using GGJ.Utilities;
 
@@ -118,8 +122,8 @@ namespace GGJ.Player
             {
                 case EnemyBase enemyBase:
                     Debug.Log("Hit enemy");
-                    enemy.DoDamage((int)attackData.attackDamage);
-                    enemy.StartHitCooldown(.2f);
+                    enemyBase.DoDamage((int)attackData.attackDamage);
+                    enemyBase.StartHitCooldown(.2f);
                     break;
                 case Bullet bullet:
                     Debug.Log("Hit bullet");
@@ -170,7 +174,7 @@ namespace GGJ.Player
 
                 //If we've gone through the list, it means we're beyond the max
                 DoAttack(attackInfo[attackInfo.Length - 1]);
-                
+
             }
 
             

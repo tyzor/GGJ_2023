@@ -25,7 +25,21 @@ namespace GGJ.Enemies
         {
             // TODO - Spawn RAM?
             Destroy(gameObject);
+            OnEnemyDied?.Invoke();
+        }
 
-        OnEnemyDied?.Invoke();
+        public void StartHitCooldown(float time) 
+        {
+            StartCoroutine(EnemyHitTimer(time));
+        }
+
+        IEnumerator EnemyHitTimer(float time)
+        {
+            _hitCollider.enabled = false;
+            yield return new WaitForSeconds(time);
+            _hitCollider.enabled = true;
+
+        }
+
     }
 }
