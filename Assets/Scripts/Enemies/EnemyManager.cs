@@ -14,33 +14,28 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private EnemyBase[] enemyPrefabs;
 
-    private GameObject _currentPlayer;
+    protected static Transform _currentPlayer;
+
+    [SerializeField] Vector2Int enemyCountRange = new Vector2Int(3, 8);
     
     void OnEnable()
     {
-        DoorInteractable.LoadNewRoom += OnLoadNewRoom;
+        //DoorInteractable.LoadNewRoom += OnLoadNewRoom;
+        RoomManager.OnNewRoomLoaded += OnLoadNewRoom;
     }
 
     void OnDisable()
     {
-        DoorInteractable.LoadNewRoom -= OnLoadNewRoom;
+        RoomManager.OnNewRoomLoaded -= OnLoadNewRoom;
     }
 
-
-    void Start() {
+    private void OnLoadNewRoom(int roomIndex)
+    {
+        if(roomIndex < 0)
+            return;
         
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void OnLoadNewRoom(FolderRoom folderRoom)
-    {
         Debug.Log("EnemyManager--OnLoadNewRoom");
-        DespawnEnemies();
-        SpawnEnemies(25);
+        SpawnEnemies(Random.Range(enemyCountRange.x,enemyCountRange.y+1));
     }
 
     public void SpawnEnemies(int number)
@@ -61,11 +56,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    // TODO -- parent to current room
     private void SpawnEnemy(EnemyType type)
     {    
         if(_currentPlayer == null)
-            _currentPlayer = FindObjectOfType<PlayerHealth>().gameObject;
+            _currentPlayer = FindObjectOfType<PlayerHealth>().transform;
         
         // Get a random distance from player
         Vector2 randomDir;
@@ -81,13 +75,13 @@ public class EnemyManager : MonoBehaviour
             randomDir = Random.insideUnitCircle.normalized;
             newPos = new Vector3(randomDir.x,0,randomDir.y);
             distance = Random.Range(10.0f,20.0f);
-            newPos = newPos * distance + _currentPlayer.transform.position;
+            newPos = newPos * distance + _currentPlayer.position;
             tries++;
         }while(!NavMesh.SamplePosition(newPos, out pt, 2.0f, 1));
         
         // Place enemy
         EnemyBase enemyPrefab = enemyPrefabs[(int)type];
-        EnemyBase enemyObj = Instantiate(enemyPrefab, pt.position + Vector3.up*0.5f, Quaternion.identity);
+        EnemyBase enemyObj = Instantiate(enemyPrefab, pt.position + Vector3.up*0.5f, Quaternion.identity, RoomManager.CurrentRoom.transform);
 
     }
 
