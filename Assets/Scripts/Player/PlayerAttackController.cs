@@ -21,6 +21,7 @@ namespace GGJ.Player
         public float attackTime;
         [Min(0)]
         public int attackDamage;
+        public float enemyHitTimer;
     }
     
     public class PlayerAttackController : MonoBehaviour
@@ -116,6 +117,7 @@ namespace GGJ.Player
                 // TODO -- attack should only deal damage once?
                 Debug.Log("Hit enemy");
                 enemy.DoDamage((int)attackData.attackDamage);
+                enemy.StartHitCooldown(.2f);
             }
 
             Bullet bullet = collider.gameObject.GetComponent<Bullet>();
