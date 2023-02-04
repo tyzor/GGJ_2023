@@ -32,6 +32,10 @@ namespace GGJ.Player
 
         private bool _isPressed;
 
+        // the time our player has left in the attack
+        private float attackTimeLeft;
+        private AttackData currentAttack;
+
         //Unity Functions
         //============================================================================================================//
         
@@ -43,6 +47,17 @@ namespace GGJ.Player
         private void Update()
         {
             //TODO Add timer to diminish RAM
+
+            // We are currently attacking
+            if(attackTimeLeft > 0 )
+            {
+                Collider[] collisions = Physics.OverlapSphere(transform.position, currentAttack.attackRadius);
+                foreach(Collider collider in collisions)
+                    OnAttackCollision(collider, currentAttack);
+
+                attackTimeLeft -= Time.deltaTime;
+            }
+
         }
 
         //PlayerAttackController Functions
@@ -50,13 +65,35 @@ namespace GGJ.Player
 
         private void DoAttack(in AttackData attackData)
         {
-            Debug.Log($"Did Attack {attackData.name}");
+            attackTimeLeft = attackData.attackTime;
+            currentAttack = attackData;
+            Debug.Log($"Did Attack {attackData.name}");   
         }
         
         
         //Callbacks
         //============================================================================================================//
         
+        private void OnAttackCollision(Collider collider, AttackData attackData)
+        {
+            
+            EnemyBase enemy = collider.gameObject.GetComponent<EnemyBase>();
+            if(enemy)
+            {
+                // TODO -- attack should only deal damage once?
+                Debug.Log("Hit enemy");
+                enemy.DoDamage((int)attackData.attackDamage);
+            }
+
+            Bullet bullet = collider.gameObject.GetComponent<Bullet>();
+            if(bullet)
+            {
+                Debug.Log("Hit bullet");
+                // TODO -- handle bullet deflection here
+            }
+
+        }
+
         private void OnAttackPressed(bool isPressed)
         {
             _isPressed = isPressed;
@@ -118,5 +155,22 @@ namespace GGJ.Player
 
             
         }
+
+#if UNITY_EDITOR
+        
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying == false)
+                return;
+
+            if(attackTimeLeft > 0)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, currentAttack.attackRadius);
+            }
+        }
+#endif
+
     }
+
 }

@@ -11,16 +11,13 @@ public class EnemyBase : HealthBase
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public static event Action OnEnemyDied;
-    
     protected override void Kill()
     {
+        // TODO - Spawn RAM?
+        Destroy(gameObject);
+
         OnEnemyDied?.Invoke();
     }
 }

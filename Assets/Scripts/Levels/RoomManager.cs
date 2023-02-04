@@ -145,7 +145,7 @@ namespace GGJ.Levels
 
             // Load in new room
             _loadedRoom = Instantiate(GetRoom(0), new Vector3(0, 0, 0), Quaternion.identity);
-            //_loadedRoom.SetupRoom(default,default,default,default,default);
+            _loadedRoom.SetupRoom(default,default,default,default,default);
             
             //var data = dungeonProfile.GenerateDungeon(rootRoom, roomPrefabs);
             //Debug.Log(data);
