@@ -11,19 +11,48 @@ namespace GGJ.Player
         ATTACK
     }
     
+    [RequireComponent(typeof(PlayerMovementController), typeof(PlayerAttackController))]
     public class PlayerAnimationController : MonoBehaviour
     {
         private static readonly int IDLE_ANIMATION = Animator.StringToHash("Idle");
-        private static readonly int MOVE_ANIMATION = Animator.StringToHash("Idle");
-        private static readonly int ATTACK_ANIMATION = Animator.StringToHash("Idle");
+        private static readonly int MOVE_ANIMATION = Animator.StringToHash("Move");
+        private static readonly int ATTACK_ANIMATION = Animator.StringToHash("Spin_Attack");
 
         [SerializeField]
         private Animator animator;
 
+        private PlayerMovementController _playerMovementController;
+        private PlayerAttackController _playerAttackController;
+
+        private ANIMATION _currentAnimation;
+
+        //Unity Functions
+        //============================================================================================================//
+
+        private void Start()
+        {
+            _playerMovementController = GetComponent<PlayerMovementController>();
+            _playerAttackController = GetComponent<PlayerAttackController>();
+        }
+
+        private void Update()
+        {
+            if (_playerAttackController.IsCharging || _playerAttackController.IsAttacking)
+                Play(ANIMATION.ATTACK);
+            else if(_playerMovementController.IsMoving)
+                Play(ANIMATION.MOVE);
+            else
+                Play(ANIMATION.IDLE);
+        }
+
         //============================================================================================================//
         
-        public void Play(ANIMATION animation)
+        private void Play(ANIMATION animation)
         {
+            if (animation == _currentAnimation)
+                return;
+            
+            _currentAnimation = animation;
             int targetAnimation;
             switch (animation)
             {

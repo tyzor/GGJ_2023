@@ -9,6 +9,7 @@ namespace GGJ.Player
     public class PlayerMovementController : MonoBehaviour
     {
         public static bool CanMove { get; set; } = true;
+        public bool IsMoving => CanMove && hasInput;
 
         [SerializeField, Min(0f)]
         private float moveSpeed;
@@ -18,8 +19,6 @@ namespace GGJ.Player
         private float _currentXInput, _currentYInput;
         private Vector3 _inputDir;
 
-        private PlayerAnimationController _playerAnimationController;
-        
         private Transform _cameraTransform;
         private new Transform transform;
         private new Rigidbody rigidbody;
@@ -34,8 +33,6 @@ namespace GGJ.Player
         // Start is called before the first frame update
         private void Start()
         {
-            _playerAnimationController = GetComponent<PlayerAnimationController>();
-            
             transform = gameObject.transform;
             rigidbody = GetComponent<Rigidbody>();
             

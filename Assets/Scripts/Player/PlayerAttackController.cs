@@ -26,10 +26,10 @@ namespace GGJ.Player
         public int attackDamage;
     }
     
-    [RequireComponent(typeof(PlayerAnimationController))]
     public class PlayerAttackController : MonoBehaviour
     {
-        public float Maxintensity = 10;
+        public bool IsAttacking => isAttacking;
+        public bool IsCharging => _isPressed;
 
         [SerializeField]
         private AttackData[] attackInfo;
@@ -44,8 +44,7 @@ namespace GGJ.Player
         private bool isAttacking;
         private AttackData currentAttack;
 
-        private PlayerAnimationController _playerAnimationController;
-        
+        //FIXME This will need to separate to reduce follow issues
         [SerializeField] private Transform _spinAttackAnchor;
 
         //Unity Functions
@@ -53,7 +52,6 @@ namespace GGJ.Player
         
         private void Start()
         {
-            _playerAnimationController = GetComponent<PlayerAnimationController>();
             InputDelegator.OnAttackPressed += OnAttackPressed;
         }
 
@@ -92,9 +90,6 @@ namespace GGJ.Player
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
             Debug.Log($"Did Attack {attackData.name}");   
-
-            //animator.SetBool("Do Attack", true);
-            _playerAnimationController.Play(ANIMATION.ATTACK);
 
             VFX vfxToPlay;
             switch (index)
