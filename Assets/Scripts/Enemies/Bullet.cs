@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GGJ.Player;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField]
     public float speed = 2.0f;
     public Vector3 direction;
+    private int damage = 1;
 
     public string searchTag;
     private GameObject _owner; // the object that created this
@@ -58,6 +59,8 @@ public class Bullet : MonoBehaviour
         if(collider.gameObject.tag == "Player")
         {
             Debug.Log("PLAYER HIT");
+            PlayerHealth health = collider.gameObject.GetComponent<PlayerHealth>();
+            health.DoDamage(this.damage);
             Destroy(gameObject);
 
         } else {
@@ -68,12 +71,13 @@ public class Bullet : MonoBehaviour
 
     }
 
-    public void SpawnBullet(GameObject owner, Vector2 dir, float speed = 2.0f)
+    public void SpawnBullet(GameObject owner, Vector2 dir, float speed = 2.0f, int damage = 1)
     {
         _owner = owner;
         _ownerCollider = owner.GetComponent<Collider>();
         this.direction = new Vector3(dir.x,0,dir.y);
         this.speed = speed;
+        this.damage = damage;
         transform.forward = this.direction;
     }
 

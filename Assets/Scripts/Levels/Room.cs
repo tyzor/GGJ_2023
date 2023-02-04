@@ -93,6 +93,7 @@ namespace GGJ.Levels
             //------------------------------------------------//
 
             playerTransform.position = playerSpawnLocation.position;
+
         }
 
         public void SetActive(bool state)

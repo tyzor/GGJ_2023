@@ -18,7 +18,7 @@ namespace GGJ.Player
         [Min(0)]
         public float attackTime;
         [Min(0)]
-        public float attackDamage;
+        public int attackDamage;
     }
     
     public class PlayerAttackController : MonoBehaviour
