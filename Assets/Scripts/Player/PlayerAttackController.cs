@@ -1,5 +1,8 @@
 ﻿using System;
+using GGJ.Destructibles;
+using GGJ.Enemies;
 using GGJ.Inputs;
+using GGJ.Projectiles;
 using UnityEngine;
 using GGJ.Utilities;
 
@@ -25,7 +28,8 @@ namespace GGJ.Player
     
     public class PlayerAttackController : MonoBehaviour
     {
-        public float Maxintensity = 10;
+        public bool IsAttacking => isAttacking;
+        public bool IsCharging => _isPressed;
 
         [SerializeField]
         private AttackData[] attackInfo;
@@ -40,8 +44,7 @@ namespace GGJ.Player
         private bool isAttacking;
         private AttackData currentAttack;
 
-        [SerializeField] private Animator _playerAnimator;
-        
+        //FIXME This will need to separate to reduce follow issues
         [SerializeField] private Transform _spinAttackAnchor;
 
         //Unity Functions
@@ -56,74 +59,83 @@ namespace GGJ.Player
         {
             //TODO Add timer to diminish RAM
 
+            if (isAttacking == false && PlayerMovementController.CanMove == false)
+                PlayerMovementController.CanMove = true;
+
+            if (isAttacking == false)
+                return;
+
             // We are currently attacking
-            if(attackTimeLeft > 0 )
+            if (attackTimeLeft > 0)
             {
                 PlayerMovementController.CanMove = false;
                 Collider[] collisions = Physics.OverlapSphere(transform.position, currentAttack.attackRadius);
-                foreach(Collider collider in collisions)
+                foreach (Collider collider in collisions)
                     OnAttackCollision(collider, currentAttack);
 
                 attackTimeLeft -= Time.deltaTime;
-            } else {
-                if(isAttacking)
-                {
-                    PlayerMovementController.CanMove = true;
-                    isAttacking = false;
-                }
             }
-
-            
-
+            else
+            {
+                isAttacking = false;
+            }
         }
 
         //PlayerAttackController Functions
         //============================================================================================================//
 
-        private void DoAttack(in AttackData attackData)
+        private void DoAttack(int index, in AttackData attackData)
         {
             isAttacking = true;
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
             Debug.Log($"Did Attack {attackData.name}");   
 
-            //animator.SetBool("Do Attack", true);
-            _playerAnimator.Play("Spin_Attack");
-            if(attackData.name == "Level 1")
+            VFX vfxToPlay;
+            switch (index)
             {
-                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK, transform.position, _spinAttackAnchor);
-            } else if(attackData.name == "Level 2")
-            {
-                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK2, transform.position, _spinAttackAnchor);
-            } else if(attackData.name == "Level 3")
-            {
-                GameObject fx = VFXManager.CreateVFX(VFX.SPIN_ATTACK3, transform.position, _spinAttackAnchor);
+                case 0:
+                    vfxToPlay = VFX.SPIN_ATTACK;
+                    break;
+                case 1:
+                    vfxToPlay = VFX.SPIN_ATTACK;
+                    break;
+                case 2:
+                    vfxToPlay = VFX.SPIN_ATTACK;
+                    break;
+                default:
+                    throw new NotImplementedException();
+
             }
+            var fxGameObject = VFXManager.CreateVFX(vfxToPlay, transform.position, _spinAttackAnchor);
         }
-        
-        
-        //Callbacks
-        //============================================================================================================//
         
         private void OnAttackCollision(Collider collider, AttackData attackData)
         {
-            
-            EnemyBase enemy = collider.gameObject.GetComponent<EnemyBase>();
-            if(enemy)
-            {
-                // TODO -- attack should only deal damage once?
-                Debug.Log("Hit enemy");
-                enemy.DoDamage((int)attackData.attackDamage);
-            }
+            var canBetHit = collider.GetComponent<ICanBeHit>();
 
-            Bullet bullet = collider.gameObject.GetComponent<Bullet>();
-            if(bullet)
-            {
-                Debug.Log("Hit bullet");
-                // TODO -- handle bullet deflection here
-            }
+            if (canBetHit == null)
+                return;
 
+            switch (canBetHit)
+            {
+                case EnemyBase enemyBase:
+                    // TODO -- attack should only deal damage once?
+                    Debug.Log("Hit enemy");
+                    enemyBase.DoDamage(attackData.attackDamage);
+                    break;
+                case Bullet bullet:
+                    Debug.Log("Hit bullet");
+                    // TODO -- handle bullet deflection here
+                    break;
+                default:
+                    return;
+                
+            }
         }
+        
+        //Callbacks
+        //============================================================================================================//
 
         private void OnAttackPressed(bool isPressed)
         {
@@ -133,12 +145,6 @@ namespace GGJ.Player
             {
                 PlayerMovementController.CanMove = false;
                 _pressStartTime = Time.time;
-                // intensity +=0.1f;
-                // if (intensity >Maxintensity)
-                // {
-                //     intensity = Maxintensity;
-                // }
-                //Debug.Log(intensity);
             }
             else
             {
@@ -157,36 +163,21 @@ namespace GGJ.Player
                     if (endTime < attackData.chargeTimeMin || endTime > attackData.chargeTimeMax)
                         continue;
                     
-                    DoAttack(attackData);
+                    DoAttack(i, attackData);
                     return;
                 }
 
                 //If we've gone through the list, it means we're beyond the max
-                DoAttack(attackInfo[attackInfo.Length - 1]);
-
-                /*switch (endTime)
-                {
-                    case float i when i > 0 && i< 0.5f:
-                        Debug.Log(0);
-                        break;
-                    case float i when i > 0.5 && i< 1.0f:
-                        Debug.Log(1);
-                        break;
-                    case float i when i > 1.0 && i< 1.5f:
-                        Debug.Log(2);
-                        break;
-                    case float i when i > 1.5 && i< 2.0f:
-                        Debug.Log(3);
-                        break;
-                }*/
-                //intensity =0;
-                //Determine how long we were pressing 
-                //Do appropriate attack
+                var index = attackInfo.Length - 1;
+                DoAttack(index, attackInfo[index]);
             }
 
             
         }
 
+        //Unity Editor Functions
+        //============================================================================================================//
+        
 #if UNITY_EDITOR
         
         private void OnDrawGizmos()

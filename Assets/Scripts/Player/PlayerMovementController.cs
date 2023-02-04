@@ -9,6 +9,7 @@ namespace GGJ.Player
     public class PlayerMovementController : MonoBehaviour
     {
         public static bool CanMove { get; set; } = true;
+        public bool IsMoving => CanMove && hasInput;
 
         [SerializeField, Min(0f)]
         private float moveSpeed;
@@ -59,6 +60,7 @@ namespace GGJ.Player
         // Update is called once per frame
         private void Update()
         {
+            
             if (hasInput == false)
                 return;
             

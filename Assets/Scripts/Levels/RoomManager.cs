@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GGJ.Interactables;
 using GGJ.Player;
-using GGJ.Prototype;
 using GGJ.Utilities.Extensions;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
@@ -13,6 +12,15 @@ namespace GGJ.Levels
 {
     public class RoomManager : MonoBehaviour
     {
+        //When a new room is instantiated
+        public static event Action<int> OnNewRoomLoaded;
+        //When a room that was already created, is re-loaded
+        public static event Action OnRoomLoaded;
+        //When we turn off a room object
+        public static event Action OnRoomDisabled;
+
+        //============================================================================================================//
+        
         public static Room CurrentRoom { get; private set; }
 
         [SerializeField,Header("Rooms")]
@@ -66,7 +74,10 @@ namespace GGJ.Levels
         {
             //If we're already in a room, disable the old one before opening a new one
             if (CurrentRoom != null)
+            {
                 CurrentRoom.SetActive(false);
+                OnRoomDisabled?.Invoke();
+            }
 
             //If the room was already loaded, just enable it
             if (_dungeonRooms.TryGetValue(folderRoom.FolderRoomListIndex, out var room))
@@ -75,6 +86,7 @@ namespace GGJ.Levels
 
                 CurrentRoom = room;
                 _playerTransform.position = room.PlayerSpawnPosition;
+                OnRoomLoaded?.Invoke();
                 return;
             }
 
@@ -91,6 +103,7 @@ namespace GGJ.Levels
                 fileInteractablePrefab);
             
             _dungeonRooms.Add(folderRoom.FolderRoomListIndex, CurrentRoom);
+            OnNewRoomLoaded?.Invoke(roomLayoutIndex);
         }
 
         public FolderRoom GenerateDungeon(in DungeonProfile dungeonProfile)
