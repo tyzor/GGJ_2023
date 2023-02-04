@@ -1,6 +1,8 @@
 ﻿using System;
 using GGJ.Inputs;
 using UnityEngine;
+using GGJ.Utilities;
+
 
 namespace GGJ.Player
 {
@@ -36,6 +38,10 @@ namespace GGJ.Player
         private float attackTimeLeft;
         private AttackData currentAttack;
 
+        [SerializeField] private Animator _playerAnimator;
+        
+        [SerializeField] private Transform _spinAttackAnchor;
+
         //Unity Functions
         //============================================================================================================//
         
@@ -68,6 +74,10 @@ namespace GGJ.Player
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
             Debug.Log($"Did Attack {attackData.name}");   
+
+            //animator.SetBool("Do Attack", true);
+            _playerAnimator.Play("Spin_Attack");
+            VFXManager.CreateVFX(VFX.SPIN_ATTACK, transform.position, _spinAttackAnchor);
         }
         
         

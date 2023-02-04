@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4764881600053044571}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.905, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -97,6 +97,8 @@ MonoBehaviour:
     attackRadius: 1.2
     attackTime: 0.7
     attackDamage: 6
+  _playerAnimator: {fileID: 4764881599305911972}
+  _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!33 &4764881600053044575
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -205,12 +207,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.016
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.955
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
         type: 3}
@@ -316,3 +318,9 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!4 &6523495052786472327 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7446597935357483514, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4764881599223772033}
+  m_PrefabAsset: {fileID: 0}
