@@ -46,27 +46,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfx:
-  - name: TemplateEffect
+  - name: TemplateEmitterStop
     type: 1
     prefab: {fileID: 3370743461253721464, guid: 561fd28b35704e247b40a1545afd4eb9,
       type: 3}
     lifetime: 2
     emitterEOL: 1
-  - name: Spin Charge
+  - name: TemplateEmmiterDestroy
     type: 2
+    prefab: {fileID: 3370743461253721464, guid: 561fd28b35704e247b40a1545afd4eb9,
+      type: 3}
+    lifetime: 1
+    emitterEOL: 0
+  - name: Spin Charge
+    type: 3
     prefab: {fileID: 4881707231935654238, guid: a2e805a475ee4dd4c9cb520105bd7c1a,
       type: 3}
     lifetime: 1
     emitterEOL: 1
   - name: Spin Attack
-    type: 3
-    prefab: {fileID: 3630804843779927654, guid: 39f1255c02b927645be1fb321e953fad,
+    type: 4
+    prefab: {fileID: 6744995232597599897, guid: b5302cda6d9384d459fa22f56c754be0,
       type: 3}
-    lifetime: 1
+    lifetime: 0.875
     emitterEOL: 1
   - name: Hit Effect
-    type: 4
-    prefab: {fileID: 3370743461253721464, guid: 561fd28b35704e247b40a1545afd4eb9,
+    type: 5
+    prefab: {fileID: 3630804843779927654, guid: 39f1255c02b927645be1fb321e953fad,
       type: 3}
     lifetime: 1
     emitterEOL: 0
@@ -84,3 +90,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetTransform: {fileID: 0}
   _vfxType: 1
+  _playerAnimatorContainer: {fileID: 0}
+  _spinAttackAnchor: {fileID: 0}

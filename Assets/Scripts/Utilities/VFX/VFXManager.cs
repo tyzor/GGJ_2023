@@ -8,7 +8,8 @@ namespace GGJ.Utilities
     public enum VFX
     {
         NONE,
-        TEMPLATE_EFFECT,
+        TEMPLATE_EMITTER_STOP,
+        TEMPLATE_EMITTER_DESTROY,
         SPIN_CHARGE,
         SPIN_ATTACK,
         HIT_EFFECT,
@@ -112,21 +113,32 @@ namespace GGJ.Utilities
             // check if the particle emitters should stop or be destroyed immediately
             if (data.emitterEOL == EMITTER_ACTION.STOP)
             {
-                // find all children that are emmiters and set them to stop
-                foreach(Transform child in vfxObject.transform)
+                // find all children that are emitters
+                List<ParticleSystem> emittersList = new List<ParticleSystem>();
+                foreach (Transform child in vfxObject.transform)
                 {
                     ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
-                    if(particleSystem != null)
+                    if (particleSystem != null)
                     {
-                        particleSystem.Stop();
-                        // remove them from their parent then set timer to destroy
-                        particleSystem.transform.SetParent(child.parent.parent);
-                        Destroy(particleSystem.gameObject, data.lifetime);
+                        emittersList.Add(particleSystem);
                     }
                 }
-            }
 
-            Destroy(vfxObject);
+                // set each emitter to stop
+                foreach (ParticleSystem emitter in emittersList)
+                {
+                    emitter.Stop();
+                    // remove them from their parent then set timer to destroy
+                    emitter.transform.SetParent(transform);
+                    Destroy(emitter.gameObject, data.lifetime);
+                }
+
+                Destroy(vfxObject, data.lifetime);
+            }
+            else
+            {
+                Destroy(vfxObject);
+            }
         }
         //============================================================================================================//
     }
