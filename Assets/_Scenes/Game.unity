@@ -6897,6 +6897,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1948236098412561107, guid: 5dba7c0eee37e2347b97f92c89a64a3a,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: aeade34f0cb70514d8dad3eaab6f2eb4, type: 3}
     - target: {fileID: 3771017689535883504, guid: 5dba7c0eee37e2347b97f92c89a64a3a,
         type: 3}
       propertyPath: sfx.Array.size
