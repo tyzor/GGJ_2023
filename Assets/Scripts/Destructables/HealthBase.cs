@@ -6,8 +6,8 @@ namespace GGJ.Destructibles
     public abstract class HealthBase : MonoBehaviour, ICanBeHit
     {
         [SerializeField, Min(1)]
-        private int startingHealth;
-        private int _currentHealth;
+        protected int startingHealth;
+        protected int _currentHealth;
 
         //============================================================================================================//
         // Start is called before the first frame update
