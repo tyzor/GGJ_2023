@@ -1,5 +1,6 @@
 using Cinemachine;
 using GGJ.Inputs;
+using GGJ.Utilities;
 using UnityEngine;
 
 namespace GGJ.Player
@@ -51,7 +52,7 @@ namespace GGJ.Player
                 return;
             }
             
-            var newVelocity = _inputDir * moveSpeed;
+            var newVelocity = _inputDir * (moveSpeed * Globals.MoveMultiplier);
             newVelocity.y = currentVelocity.y;
             
             rigidbody.velocity = newVelocity;
