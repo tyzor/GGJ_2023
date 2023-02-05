@@ -66,16 +66,19 @@ namespace GGJ.Audio
                 Destroy(gameObject);
                 return;
             }
+            
             _instance = this;
-        }
-
-        private void Start()
-        {
+            
             _sfxDatas = new Dictionary<SFX, SFXData>();
             foreach (var sfxData in sfx)
             {
                 _sfxDatas.Add(sfxData.type, sfxData);
             }
+        }
+
+        private void Start()
+        {
+
         }
 
         //============================================================================================================//
