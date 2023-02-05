@@ -6,6 +6,7 @@ using GGJ.Levels;
 using GGJ.Interactables;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine.AI;
+using GGJ.Utilities.Extensions;
 
 namespace GGJ.Enemies
 {
@@ -19,6 +20,8 @@ namespace GGJ.Enemies
         protected static Transform _currentPlayer;
 
         [SerializeField] Vector2Int enemyCountRange = new Vector2Int(3, 8);
+        [SerializeField] int enemyCountPerFolderDepth = 5;
+
         
         void OnEnable()
         {
@@ -44,13 +47,16 @@ namespace GGJ.Enemies
         {       
             // Query room for a list of spawns
             EnemySpawner[] spawners = RoomManager.CurrentRoom.GetEnemySpawners();
-            foreach(var spawner in spawners)
+            
+            // Calc count of enemies in room
+            int numEnemies = Random.Range(enemyCountRange.x, enemyCountRange.y+1);
+            // Add enemies for room depth
+            numEnemies += this.enemyCountPerFolderDepth * (RoomManager.CurrentRoom.FolderRoomData.Depth - 1);
+
+            for(int i=0;i<numEnemies;i++)
             {
-                int count = Random.Range(enemyCountRange.x,enemyCountRange.y+1);
-                for(int i=0;i < count; i++)
-                {
-                    SpawnEnemy( spawner );
-                }
+                EnemySpawner spawner = spawners.GetRandomItem();
+                SpawnEnemy(spawner);
             }
         }
 

@@ -12,6 +12,63 @@ namespace GGJ.Levels
         public int MaxEnemies = 5;
         public int MinEnemies = 1;
 
+        // List of valid spawn locations -- used to get good distribution
+        private List<Vector3> spawnPoints;
+        private int spawnPointIndex = 0; // tracker to indicate which spawn point to use next
+
+        private void Awake() {
+            // initialize our spawn point array
+            if(spawnPoints == null)
+            {
+                spawnPoints = new List<Vector3>();
+                
+                // Divide area into grid, choose random point in each grid
+                float size = MaxSpawnRadius * 2;
+                if(size < 1.0f) 
+                    size = 1.0f; // Need at least 1x1 box to put into
+
+                int sideSize = (int)Mathf.Ceil(size);
+                int squareNum = sideSize * sideSize;
+                Vector2 center = new Vector2(transform.position.x,transform.position.z);
+                for(int i=0;i<squareNum;i++)
+                {
+                    int x = i%sideSize - sideSize/2;
+                    int y = i/sideSize - sideSize/2;
+                    Vector2 newPoint = new Vector2(Random.Range(.2f,.8f)+x, Random.Range(.2f,.8f)+y);
+
+                    //Vector3 debugPt = transform.position + new Vector3(newPoint.x, transform.position.y, newPoint.y);
+                    //Debug.DrawLine(debugPt, debugPt + Vector3.up*50f, Color.yellow, 10.0f);
+
+                    // See if there is a valid point on the NavMesh
+                    Vector3 samplePos = new Vector3(transform.position.x + newPoint.x, transform.position.y, transform.position.z + newPoint.y);
+                    NavMeshHit pt;
+                    if(NavMesh.SamplePosition(samplePos, out pt, 2.0f, 1))
+                    {
+                        // check if inside our spawn area
+                        if(Vector3.Distance(pt.position, transform.position) < MaxSpawnRadius)
+                        {
+                            // TODO -- maybe check if it is too close to another spawnpoint
+                            spawnPoints.Add(pt.position);
+                            //Debug.DrawLine(pt.position, pt.position + Vector3.up*50f, Color.yellow, 5.0f);
+                        }
+                    }
+                }
+
+                // Add the center of the spawn point as a backup
+                if(spawnPoints.Count <= 0)
+                    spawnPoints.Add(transform.position);
+
+                // Order the points by distance from center
+                OrderSpawnPoints();
+                spawnPointIndex = 0;
+            }
+        }
+
+        private void OrderSpawnPoints()
+        {
+            spawnPoints.Sort((a,b)=>(int)(Vector3.Distance(a,transform.position) - Vector3.Distance(b,transform.position)));
+        }
+
         public int GetRandomEnemyAmount()
         {
             return Random.Range(MinEnemies,MaxEnemies+1);
@@ -21,6 +78,10 @@ namespace GGJ.Levels
         // TODO -- is the "out" syntax usage valid here?
         public bool GetValidSpawnLocation(out Vector3 spawnPoint)
         {
+            spawnPoint = spawnPoints[spawnPointIndex];
+            spawnPointIndex = (spawnPointIndex + 1) % spawnPoints.Count;
+            return true;
+/*
             Vector2 randomDir = Random.insideUnitCircle.normalized;
             float distance = Random.Range(0f,MaxSpawnRadius);
             Vector3 spawnPos = new Vector3(randomDir.x,0,randomDir.y) * distance + transform.position;
@@ -35,6 +96,7 @@ namespace GGJ.Levels
             Debug.Log($"EnemySpawner failed to place enemy at {spawnPos}");
             spawnPoint = Vector3.zero;
             return false;
+        */
         }
 
     }
