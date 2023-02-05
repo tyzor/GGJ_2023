@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4287954908755241962, guid: fe9e6a1875c47f34c93f48a904aae678,
     type: 3}
+  directReflectAngle: 60
