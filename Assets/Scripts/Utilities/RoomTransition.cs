@@ -18,6 +18,13 @@ namespace GGJ.Utilities
         //============================================================================================================//
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
+            DontDestroyOnLoad(gameObject);
             _instance = this;
         }
 
@@ -41,6 +48,7 @@ namespace GGJ.Utilities
             
             float halfTime = fadeTime / 2f;
             fadeImage.color = _transparent;
+            fadeImage.enabled = true;
 
             for (float t = 0; t < halfTime; t+=Time.deltaTime)
             {
@@ -57,7 +65,7 @@ namespace GGJ.Utilities
             }
             
             fadeImage.color = _transparent;
-
+            fadeImage.enabled = false;
             _fading = false;
         }
     }

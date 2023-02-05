@@ -1,8 +1,7 @@
 ﻿using System;
-using GGJ.Levels;
 using GGJ.Utilities.FolderGeneration;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace GGJ.Interactables
 {
@@ -13,33 +12,38 @@ namespace GGJ.Interactables
         //TODO Determine if this is the right data to be storing
         private FolderRoom _targetRoom;
 
+        [SerializeField]
+        private TMP_Text folderText;
+        [SerializeField]
+        private Transform textContainer;
+
         //============================================================================================================//
         
         public void Init(FolderRoom folderRoom/*Room room*/)
         {
             gameObject.name = $"Door_To_[{folderRoom.FolderRoomListIndex}]{folderRoom.FolderName}";
             _targetRoom = folderRoom;
+
+            SetFolderName(folderRoom.FolderName);
         }
 
         // InteractableBase Overrides
         //============================================================================================================//
-        protected override void OnStart()
-        {
+        protected override void OnStart() { }
 
-        }
-
-        public override void Interact()
-        {
-            /*Debug.LogError("THIS IS A WARNING\nDoors are not fully implemented. Needs to be setup with Dungeon Systems.");
-            
-            Assert.IsNotNull(_targetRoom, $"Trying to interact with {gameObject.name}, but no room was assigned");*/
-            
-            //TODO Let RoomManager set _targetRoom as active room
-
-            //PlayerTransform.position = _targetRoom.PlayerSpawnPosition;
-            LoadNewRoom?.Invoke(_targetRoom);
-        }
+        public override void Interact() => LoadNewRoom?.Invoke(_targetRoom);
         
         //============================================================================================================//
+
+        private void SetFolderName(in string name)
+        {
+            folderText.text = name;
+            folderText.ForceMeshUpdate();
+            
+            var xSize = (folderText.textBounds.size.x / 10f) * 1.25f;
+            var scale = textContainer.localScale;
+            scale.x = xSize;
+            textContainer.localScale = scale;
+        }
     }
 }

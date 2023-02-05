@@ -2,6 +2,7 @@
 using GGJ.Levels;
 using GGJ.Utilities;
 using GGJ.Utilities.FolderGeneration;
+using TMPro;
 using UnityEngine;
 
 namespace GGJ.Interactables
@@ -18,6 +19,11 @@ namespace GGJ.Interactables
 
         //TODO Add File Data
         public File FileData { get; private set; }
+        
+        [SerializeField]
+        private TMP_Text folderText;
+        [SerializeField]
+        private Transform textContainer;
 
         private float _startingHeight;
         private bool _isInteracting;
@@ -31,7 +37,10 @@ namespace GGJ.Interactables
             transform = gameObject.transform;
             
             FileData = file;
-            gameObject.name = $"{file.GetFileNameExtension()}_{nameof(FileInteractable)}";
+            var fileName = file.GetFileNameExtension();
+            gameObject.name = $"{fileName}_{nameof(FileInteractable)}";
+
+            SetFileName(fileName);
 
             var fileTransform = FileModelLibrary.GetModel().transform;
             fileTransform.SetParent(transform, true);
@@ -45,6 +54,14 @@ namespace GGJ.Interactables
         {
             transform = gameObject.transform;
             _startingHeight = transform.position.y;
+        }
+
+        private void Update()
+        {
+            if (_isInteracting == false)
+                return;
+            
+            transform.forward = Vector3.forward;
         }
 
         private void OnDestroy()
@@ -81,5 +98,16 @@ namespace GGJ.Interactables
             }
         }
         //============================================================================================================//
+        
+        private void SetFileName(in string name)
+        {
+            folderText.text = name;
+            folderText.ForceMeshUpdate();
+            
+            var xSize = (folderText.textBounds.size.x / 5f) * 1.25f;
+            var scale = textContainer.localScale;
+            scale.x = xSize;
+            textContainer.localScale = scale;
+        }
     }
 }
