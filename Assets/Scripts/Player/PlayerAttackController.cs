@@ -69,10 +69,14 @@ namespace GGJ.Player
 
         private void Update()
         {
+            Debug.DrawRay(transform.position, transform.forward, Color.blue);
             //TODO Add timer to diminish RAM
 
-            if (isAttacking == false && PlayerMovementController.CanMove == false)
+            if (isAttacking == false) // && PlayerMovementController.CanMove == false)
+            {
+                //Debug.Break();
                 PlayerMovementController.CanMove = true;
+            }
 
             if (isAttacking == false)
                 return;
@@ -125,7 +129,7 @@ namespace GGJ.Player
             if(IsRushing)
             {
                 transform.forward = new Vector3(inputData.x, 0, inputData.y).normalized;
-                rushPoint = transform.forward * attackData.rushDistance;
+                rushPoint = transform.position + transform.forward.normalized * attackData.rushDistance;
                 rushSpeed = attackData.rushDistance / attackData.attackTime;
                 RaycastHit hit;
                 if(Physics.Raycast(transform.position, transform.forward, out hit, attackData.rushDistance))

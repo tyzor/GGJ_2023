@@ -70,7 +70,7 @@ namespace GGJ.Player
             }
 
             
-            if (hasInput == false)
+            if (hasInput == false || CanMove == false)
                 return;
             
             var dir = new Vector3(_currentXInput, 0, _currentYInput).normalized;

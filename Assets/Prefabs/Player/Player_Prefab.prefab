@@ -103,13 +103,13 @@ MonoBehaviour:
     chargeTimeMin: 1
     chargeTimeMax: 1.5
     attackRadius: 4.5
-    attackTime: 0.7
+    attackTime: 1
     attackDamage: 6
     enemyHitCooldown: 0.5
     canReflect: 1
     hasImmunity: 1
     isRushAttack: 1
-    rushDistance: 20
+    rushDistance: 10
   _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!114 &7269916803099458493
 MonoBehaviour:
