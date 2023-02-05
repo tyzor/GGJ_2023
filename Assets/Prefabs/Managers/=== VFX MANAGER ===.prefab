@@ -60,11 +60,11 @@ MonoBehaviour:
     emitterEOL: 2
   - name: Hit Effect
     type: 5
-    prefab: {fileID: 3630804843779927654, guid: 39f1255c02b927645be1fb321e953fad,
+    prefab: {fileID: 4696708333295720552, guid: aa2b4f398e90c9e45b7ab18d8b77fb75,
       type: 3}
     lifetime: 1
     emitterEOL: 0
-  - name: Hit Effect
+  - name: Shoot Charge
     type: 6
     prefab: {fileID: 2272745208528375763, guid: 7f50f1e4d17e2de40a7327aed2e6af84,
       type: 3}
