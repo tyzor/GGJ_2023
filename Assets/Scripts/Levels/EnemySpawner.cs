@@ -52,8 +52,9 @@ namespace GGJ.Levels
                     NavMeshHit pt;
                     if(NavMesh.SamplePosition(samplePos, out pt, 2.0f, 1))
                     {
-                        // check if inside our spawn area
-                        if(Vector3.Distance(pt.position, transform.position) < MaxSpawnRadius)
+                        // check if inside our spawn area and on floor
+                        if(Vector3.Distance(pt.position, transform.position) < MaxSpawnRadius
+                         && pt.position.y <= transform.position.y)
                         {
                             // TODO -- maybe check if it is too close to another spawnpoint
                             spawnPoints.Add(pt.position);
