@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 6696169688845463436}
   - component: {fileID: 7453970204987390467}
   m_Layer: 0
-  m_Name: Room Design 1
+  m_Name: Room - Hallway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3abe0cd0754c75989e43150b1140aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: Room Design 1
+  roomName: Room - Hallway
   cannotRepeat: 0
   playerSpawnLocation: {fileID: 7786843514468521927}
   exitLocation: {fileID: 8172932046215923250}

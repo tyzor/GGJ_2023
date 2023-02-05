@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 7202407574164538224}
   - component: {fileID: 6370437559812118271}
   m_Layer: 0
-  m_Name: Room Design 4
+  m_Name: Room - U Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3abe0cd0754c75989e43150b1140aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: Room Design 4
+  roomName: Room - U Shape
   cannotRepeat: 0
   playerSpawnLocation: {fileID: 5983570549769861947}
   exitLocation: {fileID: 5653586781043256014}
