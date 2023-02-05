@@ -1,5 +1,6 @@
 using Cinemachine;
 using GGJ.Inputs;
+using GGJ.Utilities;
 using UnityEngine;
 
 namespace GGJ.Player
@@ -54,8 +55,8 @@ namespace GGJ.Player
                 return;
             }
             
-            float speedAfterMods = moveSpeed + ((speedBoostDuration > 0) ? speedBoost : 0);
-            var newVelocity = _inputDir * speedAfterMods;
+
+            var newVelocity = _inputDir * (moveSpeed * Globals.MoveMultiplier);
             newVelocity.y = currentVelocity.y;
             
             rigidbody.velocity = newVelocity;
