@@ -22,14 +22,15 @@ namespace GGJ.Destructibles
             _currentHealth = startingHealth;
         }
 
-        public virtual void DoDamage(int damageAmount)
+        public virtual void DoDamage(int damageAmount, bool playVFX = true)
         {
             _currentHealth -= Mathf.Abs(damageAmount);
         
             if(_currentHealth <= 0)
                 Kill();
 
-            VFXManager.CreateVFX(VFX.HIT_EFFECT, transform.position);
+            if(playVFX)
+                VFXManager.CreateVFX(VFX.HIT_EFFECT, transform.position);
         }
 
         public virtual void AddHealth(int toAdd)
