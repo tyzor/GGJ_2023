@@ -51,6 +51,11 @@ namespace GGJ.Audio
 
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             _instance = this;
         }
 
@@ -74,6 +79,11 @@ namespace GGJ.Audio
 
             // play sound
             audioSource?.PlayOneShot(data.clip, volume);
+        }
+        
+        public static void SetVolume(float volume)
+        {
+            _instance.audioMixer.SetFloat("Volume", volume);
         }
     }
 }

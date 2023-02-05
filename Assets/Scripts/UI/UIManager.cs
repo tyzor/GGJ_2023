@@ -89,7 +89,7 @@ namespace GGJ.UI
 
         private void OnRestartPressed()
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
         
         //Callbacks
