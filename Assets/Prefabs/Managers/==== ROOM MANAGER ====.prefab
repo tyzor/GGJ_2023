@@ -44,18 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3a57a96c854459b85ea69d94d9d7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootRoomPrefab: {fileID: 2396975934879949740, guid: d1e1903f13829474a8e2f76391274cbd,
+  rootRoomPrefab: {fileID: 8354918254784509809, guid: b8955c8f7138fc74e8a4097cb7c55ba9,
     type: 3}
   roomPrefabs:
-  - {fileID: 693596143461265318, guid: 7faa197387ddd9f41abc296f6cdfdfe5, type: 3}
+  - {fileID: 1320303002497133304, guid: 7885e7884e3e1c64a8e344372e10b08e, type: 3}
   - {fileID: 579799196138526256, guid: 226cbda92a97c5b45a8d025bf3e189e2, type: 3}
-  - {fileID: 7720747809510566023, guid: d006dc7ff0601884389526ee8d9bf20c, type: 3}
+  - {fileID: 8916620017569389836, guid: db1301059ef03924db83c2cc03c28e49, type: 3}
   - {fileID: 4497379903886932574, guid: bcd40178300ba7a4db29863e78a989ab, type: 3}
   - {fileID: 185574883420191290, guid: 1dbef9caab3b9d44f80c8029f49d275d, type: 3}
   - {fileID: 1417405515517038584, guid: 96eb63809d834084fad9967846eb0f4f, type: 3}
-  - {fileID: 2910872443150042720, guid: 4079f08ddf6bcf54c9b087d44ce7b657, type: 3}
   - {fileID: 7202407574164538224, guid: ba7c8252b366e0242a030cfa4b31b662, type: 3}
-  - {fileID: 8916620017569389836, guid: db1301059ef03924db83c2cc03c28e49, type: 3}
   doorInteractablePrefab: {fileID: 0}
   exitDoorInteractablePrefab: {fileID: 0}
   fileInteractablePrefab: {fileID: 0}
