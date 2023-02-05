@@ -34,6 +34,7 @@ namespace GGJ.UI
 
             InitButtons();
             settingsWindow.SetActive(false);
+            SFXController.PlaySound(SFX.START_UP);
         }
         //============================================================================================================//
 

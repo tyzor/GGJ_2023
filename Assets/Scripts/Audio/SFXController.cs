@@ -19,6 +19,7 @@ namespace GGJ.Audio
         BACKGROUND_CLIP1 = 8,
         BACKGROUND_CLIP2 = 9,
         BACKGROUND_CLIP3 = 10,
+        START_UP = 11
 
     }
 
