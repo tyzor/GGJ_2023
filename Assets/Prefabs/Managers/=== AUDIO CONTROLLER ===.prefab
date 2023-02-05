@@ -341,6 +341,9 @@ MonoBehaviour:
   - name: BG_CLIP3
     type: 10
     clip: {fileID: 8300000, guid: 2814e1f6a439b2e49ab1e23ab76646fa, type: 3}
+  - name: Startup Sounds
+    type: 11
+    clip: {fileID: 8300000, guid: 20ca649d9842bf449918a6c4be1441b1, type: 3}
 --- !u!114 &6954679162480124935
 MonoBehaviour:
   m_ObjectHideFlags: 0
