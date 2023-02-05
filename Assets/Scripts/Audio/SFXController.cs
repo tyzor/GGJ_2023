@@ -9,8 +9,17 @@ namespace GGJ.Audio
     public enum SFX
     {
         NONE = 0,
-        TEMPLATE_SOUND_1 = 1,
-        TEMPLATE_SOUND_2 = 2,
+        TAKE_DAMAGE = 1,
+        PLAYER_CHARGING = 2,
+        PLAYER_ATTACK = 3,
+        PLAYER_ATTACK_CHARGED = 4,
+        GAME_OVER = 5,
+        ENEMY_SHOOT = 6,
+        ENEMY_DEATH = 7,
+        BACKGROUND_CLIP1 = 8,
+        BACKGROUND_CLIP2 = 9,
+        BACKGROUND_CLIP3 = 10,
+
     }
 
     public class SFXController : MonoBehaviour

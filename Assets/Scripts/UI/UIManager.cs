@@ -7,6 +7,7 @@ using GGJ.Player;
 using GGJ.Utilities.FolderGeneration;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GGJ.Audio;
 
 namespace GGJ.UI
 {
@@ -89,6 +90,7 @@ namespace GGJ.UI
 
         private void OnRestartPressed()
         {
+            OnResumePressed();
             SceneManager.LoadScene(1);
         }
         
@@ -113,9 +115,9 @@ namespace GGJ.UI
             if (obj.objective == OBJECTIVE_TYPE.MOVE)
             {
                 objectiveText.text =
-                    $"Objective is \n{obj.objective.ToString()}</b>" +
+                    $"Objective is <b>{obj.objective.ToString()}</b>" +
                     $"\n<b>{obj.targetFile.GetFileNameExtension()}</b>" +
-                    $"\nto\n<b>{obj.targetRoom.GetAbsolutePath()}</b>";
+                    $"\nto <b>{obj.targetRoom.GetAbsolutePath()}</b>";
             }
             else
                 objectiveText.text = $"Objective is" +
@@ -125,7 +127,9 @@ namespace GGJ.UI
         
         private void OnPlayerDied()
         {
+            SFXController.PlaySound(SFX.GAME_OVER);
             lostWindow.SetActive(true);
+            Time.timeScale = 0f;
         }
 
         //============================================================================================================//

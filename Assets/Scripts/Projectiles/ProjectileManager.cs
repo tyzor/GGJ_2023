@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Player;
+using GGJ.Audio;
 
 namespace GGJ.Projectiles
 {
@@ -14,15 +15,26 @@ namespace GGJ.Projectiles
 
         [SerializeField]
         private Bullet bulletPrefab;
+
+        private static Transform _playerTransform;
+
         
         void Awake()
         {
             _instance = this;
             bulletList = new List<Bullet>();
+
+        }
+
+        private void Start() {
+            _playerTransform = FindObjectOfType<PlayerHealth>().transform;
         }
 
         public static Bullet CreateProjectile(GameObject owner, Vector2 dir, float speed = 2.0f, int damage = 1)
         {
+            float distance = Vector3.Distance(_playerTransform.position, owner.transform.position);
+            float volume = Mathf.Clamp(1f/distance, 0f, 1f);
+            SFXController.PlaySound(SFX.ENEMY_SHOOT, volume);
             return _instance.InstantiateProjectile(owner,dir,speed,damage);
         }
 
