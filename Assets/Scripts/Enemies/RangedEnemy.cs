@@ -69,7 +69,6 @@ namespace GGJ.Enemies
         // Update is called once per frame
         void Update()
         {
-            return;
             if (this.enemyState == EnemyState.Idle)
             {
                 // Idle should "patrol" and check if a player is in radius
