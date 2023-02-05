@@ -678,7 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Base
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 4385266067285750828}
   exitLocation: {fileID: 2425156300218050009}
   folderSpawnLocations:

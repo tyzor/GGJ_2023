@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Hallway
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 7786843514468521927}
   exitLocation: {fileID: 8172932046215923250}
   folderSpawnLocations:
@@ -422,6 +422,7 @@ MonoBehaviour:
   fileSpawnLocations:
   - {fileID: 887176914061807643}
   - {fileID: 8281428329518463084}
+  enemySpawners: []
 --- !u!114 &7453970204987390467
 MonoBehaviour:
   m_ObjectHideFlags: 0

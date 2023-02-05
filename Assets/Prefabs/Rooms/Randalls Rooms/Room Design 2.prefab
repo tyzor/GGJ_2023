@@ -865,7 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room Design 2
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 5372439767964508836}
   exitLocation: {fileID: 6337346490618147665}
   folderSpawnLocations:
@@ -875,6 +875,7 @@ MonoBehaviour:
   - {fileID: 3085304227972736376}
   - {fileID: 6085306868363316495}
   - {fileID: 6721585116248519418}
+  enemySpawners: []
 --- !u!114 &4751019439851949920
 MonoBehaviour:
   m_ObjectHideFlags: 0

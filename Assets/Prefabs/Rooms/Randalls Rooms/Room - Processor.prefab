@@ -962,7 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Processor
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 2546324891041200051}
   exitLocation: {fileID: 4479435041991484998}
   folderSpawnLocations:

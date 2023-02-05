@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room Design - Maze
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 5423403332753433927}
   exitLocation: {fileID: 6214886223364240562}
   folderSpawnLocations:

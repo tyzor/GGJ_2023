@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - PCI
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 3634041436192817777}
   exitLocation: {fileID: 3392002038836155268}
   folderSpawnLocations:

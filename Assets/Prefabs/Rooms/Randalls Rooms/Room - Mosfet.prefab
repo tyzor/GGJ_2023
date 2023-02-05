@@ -1307,7 +1307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Mosfet
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 1050492104851407381}
   exitLocation: {fileID: 1434505950108931040}
   folderSpawnLocations:

@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Conley
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 4104506031412391547}
   exitLocation: {fileID: 2705072324501094286}
   folderSpawnLocations:

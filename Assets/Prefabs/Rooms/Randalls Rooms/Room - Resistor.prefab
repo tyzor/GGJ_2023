@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: Room - Resistor
-  cannotRepeat: 0
+  cannotRepeat: 1
   playerSpawnLocation: {fileID: 1772308434826493483}
   exitLocation: {fileID: 424740993903554526}
   folderSpawnLocations:
