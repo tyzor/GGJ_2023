@@ -60,6 +60,7 @@ namespace GGJ.Player
         [SerializeField] private float RAMDrainInterval = 1.0f;
         private float RAMDrainTimer;
         [SerializeField] private int RAMDrainTickDamage = 1;
+        [SerializeField] private float chargeMoveMultiplier = 0.5f;
 
         //Unity Functions
         //============================================================================================================//
@@ -74,15 +75,21 @@ namespace GGJ.Player
         {
             Debug.DrawRay(transform.position, transform.forward, Color.blue);
             
-            // RAM Drain
+            
             if(IsCharging)
             {
+                // Move speed change
+                Globals.MoveMultiplier = this.chargeMoveMultiplier;
+
+                // RAM Drain
                 RAMDrainTimer -= Time.deltaTime;
                 if(RAMDrainTimer < 0)
                 {
                     GetComponent<PlayerHealth>().DoDamage(RAMDrainTickDamage);
                     RAMDrainTimer = RAMDrainInterval;
                 }
+            } else {
+                Globals.MoveMultiplier = 1f;
             }
 
             if (isAttacking == false) // && PlayerMovementController.CanMove == false)

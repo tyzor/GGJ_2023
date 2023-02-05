@@ -104,15 +104,17 @@ MonoBehaviour:
     chargeTimeMin: 1
     chargeTimeMax: 1.5
     attackRadius: 4.5
-    attackTime: 1
+    attackTime: 0.8
     attackDamage: 6
     enemyHitCooldown: 0.5
     canReflect: 1
     hasImmunity: 1
     isRushAttack: 1
-    rushDistance: 10
+    rushDistance: 15
   _spinAttackAnchor: {fileID: 6523495052786472327}
   RAMDrainInterval: 1
+  RAMDrainTickDamage: 1
+  chargeMoveMultiplier: 0.5
 --- !u!114 &7269916803099458493
 MonoBehaviour:
   m_ObjectHideFlags: 0

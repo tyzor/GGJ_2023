@@ -1,2 +1,0 @@
- - When spinning and getting game over, character gets locked in spin state
- - Sometimes folder navigation doesn't work and you have to move outside the rnage and re-enter
