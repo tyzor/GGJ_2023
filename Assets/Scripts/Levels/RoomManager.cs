@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GGJ.Interactables;
 using GGJ.Player;
+using GGJ.Utilities;
 using GGJ.Utilities.Extensions;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
@@ -126,7 +127,10 @@ namespace GGJ.Levels
         
         private void OnLoadNewRoom(FolderRoom folderRoom)
         {
-            SetRoom(folderRoom.RoomLayoutIndex, folderRoom);
+            RoomTransition.FadeScreen(0.75f, () =>
+            {
+                SetRoom(folderRoom.RoomLayoutIndex, folderRoom);
+            });
         }
 
         //Unity Editor Functions
