@@ -7,11 +7,15 @@ namespace GGJ.Player
 {
     public class PlayerHealth : HealthBase
     {
-        public static event Action<float> OnPlayerHealthChanged;
+		public static event Action<float> OnPlayerHealthChanged;
         public static event Action OnPlayerDied;
+		
+        public static bool canTakeDamage {get; set;} = true;
 
         public override void DoDamage(int damageAmount)
         {
+            if(!canTakeDamage)
+                return;
             base.DoDamage(damageAmount);
             CollectableController.CreateCollectable(transform.position, damageAmount);
             

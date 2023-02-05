@@ -4,6 +4,7 @@ using UnityEngine;
 using GGJ.Player;
 using GGJ.Levels;
 using GGJ.Interactables;
+using GGJ.Utilities.Extensions;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine.AI;
 
@@ -37,23 +38,22 @@ namespace GGJ.Enemies
                 return;
             
             Debug.Log("EnemyManager--OnLoadNewRoom");
-            SpawnEnemies(Random.Range(enemyCountRange.x,enemyCountRange.y+1));
+            SpawnEnemies();
         }
 
-        public void SpawnEnemies(int number)
+        public void SpawnEnemies(/*int number*/)
         {       
             // Query room for a list of spawns
             EnemySpawner[] spawners = RoomManager.CurrentRoom.GetEnemySpawners();
+            spawners.GetRandomItem();
             foreach(var spawner in spawners)
             {
-                int count = spawner.GetRandomEnemyAmount();
-                for(int i=0;i < number; i++)
+                int count = Random.Range(enemyCountRange.x,enemyCountRange.y+1);
+                for(int i=0;i < count; i++)
                 {
                     SpawnEnemy( spawner );
                 }
             }
-
-
         }
 
         // Used when switching rooms

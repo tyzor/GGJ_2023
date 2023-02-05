@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f34e7eff7244ac5bd03188441b74618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectablePrefab: {fileID: 2435216049856165279, guid: 0c0eb1c5146d4ed4d95bbe5d65594291,
+  collectablePrefab: {fileID: -3972038626429450635, guid: 7ec041c4264b44b4f8d8ec81b8a7fbb2,
     type: 3}
   launchSpeed: 20
   pickupDelay: 1

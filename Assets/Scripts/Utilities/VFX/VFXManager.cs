@@ -7,20 +7,22 @@ namespace GGJ.Utilities
 {
     public enum VFX
     {
-        NONE,
-        TEMPLATE_EMITTER_STOP,
-        TEMPLATE_EMITTER_DESTROY,
-        SPIN_CHARGE,
-        SPIN_ATTACK,
-        HIT_EFFECT,
-        SPIN_ATTACK2,
-        SPIN_ATTACK3
+        NONE = 0,
+        //TEMPLATE_EMITTER_STOP = 1,
+        //TEMPLATE_EMITTER_DESTROY = 2,
+        SPIN_CHARGE = 3,
+        SPIN_ATTACK = 4,
+        HIT_EFFECT = 5,
+        SHOOT_CHARGE = 6
+        //SPIN_ATTACK2 = 6,
+        //SPIN_ATTACK3 = 7
     }
 
     public enum EMITTER_ACTION
     {
         DESTROY,
         STOP,
+        NOTHING
     }
     
     public class VFXManager : MonoBehaviour
@@ -94,56 +96,36 @@ namespace GGJ.Utilities
             if(customParent != null) { vfxParentTransform = customParent; }
             GameObject newVfxObject = Instantiate(targetPrefab, worldPosition, Quaternion.identity, vfxParentTransform);
 
-            // set vfx to destroy after lifetime
-            coroutineDestroyAfterLifetime = SetVfxToDestroy(newVfxObject, data);
-            StartCoroutine(coroutineDestroyAfterLifetime);
-
-            SetVfxToDestroy(newVfxObject, data);
+            switch (data.emitterEOL)
+            {
+                case EMITTER_ACTION.DESTROY:
+                    Destroy(newVfxObject, data.lifetime);
+                    break;
+                case EMITTER_ACTION.STOP:
+                    StartCoroutine(StopAfterCoroutine(newVfxObject, data));
+                    break;
+                case EMITTER_ACTION.NOTHING:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             return newVfxObject;
         }
 
-        // stop an effect before its lifetime - example: spin chargin ending early
-        public void StopVfx(GameObject gameObject)
+        private IEnumerator StopAfterCoroutine(GameObject vfxObject, VFXData data)
         {
-            // find a 
-        }
-
-        private IEnumerator SetVfxToDestroy(GameObject vfxObject, VFXData data)
-        {
+            var particles = vfxObject.GetComponent<ParticleSystem>();
+            
+            if(particles == null)
+                yield break;
+            
             yield return new WaitForSeconds(data.lifetime);
-            if(vfxObject != null)
-            {
+            
+            particles.Stop(true);
 
-                // check if the particle emitters should stop or be destroyed immediately
-                if (data.emitterEOL == EMITTER_ACTION.STOP)
-                {
-                    // find all children that are emitters
-                    List<ParticleSystem> emittersList = new List<ParticleSystem>();
-                    foreach (Transform child in vfxObject.transform)
-                    {
-                        ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
-                        if (particleSystem != null)
-                        {
-                            emittersList.Add(particleSystem);
-                        }
-                    }
-
-                    // set each emitter to stop
-                    foreach (ParticleSystem emitter in emittersList)
-                    {
-                        emitter.Stop();
-                        // remove them from their parent then set timer to destroy
-                        emitter.transform.SetParent(transform);
-                        Destroy(emitter.gameObject, data.lifetime);
-                    }
-
-                    Destroy(vfxObject, data.lifetime);
-                }
-                else
-                {
-                    Destroy(vfxObject);
-                }
-            }
+            yield return new WaitUntil(() => particles.particleCount == 0);
+            
+            Destroy(vfxObject);
         }
         //============================================================================================================//
     }
