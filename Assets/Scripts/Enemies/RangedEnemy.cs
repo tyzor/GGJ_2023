@@ -61,7 +61,7 @@ namespace GGJ.Enemies
             base.Start();
             this.agent = GetComponent<NavMeshAgent>();
             this.guardPosition = transform.position;
-            _bounds = GetComponent<MeshRenderer>().bounds;
+            _bounds = GetComponent<Collider>().bounds;
             _radius = _bounds.extents.x;
             startRotation = _turretHead.transform.rotation;
         }
@@ -69,6 +69,7 @@ namespace GGJ.Enemies
         // Update is called once per frame
         void Update()
         {
+            return;
             if (this.enemyState == EnemyState.Idle)
             {
                 // Idle should "patrol" and check if a player is in radius
