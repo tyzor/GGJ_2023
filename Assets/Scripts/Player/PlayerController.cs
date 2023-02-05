@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GGJ.Inputs;
 using GGJ.Interactables;
 using UnityEngine;
+using Input = GGJ.Inputs.Input;
 
 namespace GGJ.Player
 {
@@ -17,12 +19,14 @@ namespace GGJ.Player
         private void OnEnable()
         {
             InputDelegator.OnAttackPressed += OnInteractPressed;
+            InteractableBase.PlayerInteractableListener = this;
         }
 
 
         private void OnDisable()
         {
             InputDelegator.OnAttackPressed -= OnInteractPressed;
+            InteractableBase.PlayerInteractableListener = null;
         }
 
         //IInteractableListener Implementation

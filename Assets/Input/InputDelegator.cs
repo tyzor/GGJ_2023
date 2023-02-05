@@ -19,6 +19,15 @@ namespace GGJ.Inputs
             Input.GameInputs.Gameplay.Enable();
         }
 
+        private void OnDisable()
+        {
+            OnAttackPressed = null;
+            OnMoveChanged = null;
+            
+            Input.GameInputs.Gameplay.SetCallbacks(null);
+            Input.GameInputs.Gameplay.Disable();
+        }
+
         public void OnHorizontalMovement(InputAction.CallbackContext context)
         {
             if (context.performed == false)

@@ -11,6 +11,12 @@ namespace GGJ.Player
         public static event Action OnPlayerDied;
 		
         public static bool canTakeDamage {get; set;} = true;
+        
+        [ContextMenu("Test")]
+        private void Test()
+        {
+            OnPlayerDied?.Invoke();
+        }
 
         public override void DoDamage(int damageAmount, bool playVFX = true)
         {

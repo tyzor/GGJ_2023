@@ -10,7 +10,7 @@ namespace GGJ.Interactables
     {
         private const string PLAYER_TAG = "Player";
 
-        private static IInteractableListener _playerInteractableListener;
+        public static IInteractableListener PlayerInteractableListener;
         protected static Transform PlayerTransform;
 
         public Bounds ColliderBounds => _collider.bounds;
@@ -22,10 +22,9 @@ namespace GGJ.Interactables
         
         private void Start()
         {
-            if (_playerInteractableListener == null)
+            if (PlayerTransform == null)
             {
                 var playerController = FindObjectOfType<PlayerController>();
-                _playerInteractableListener = playerController;
                 PlayerTransform = playerController.transform;
             }
             
@@ -34,6 +33,7 @@ namespace GGJ.Interactables
             
             OnStart();
         }
+        
 
         private void OnTriggerEnter(Collider other)
         {
@@ -45,7 +45,7 @@ namespace GGJ.Interactables
                 return;
 
             _playerInInteractRange = true;
-            _playerInteractableListener.OnEnterInteractRange(this);
+            PlayerInteractableListener.OnEnterInteractRange(this);
         }
 
         private void OnTriggerExit(Collider other)
@@ -56,7 +56,7 @@ namespace GGJ.Interactables
                 return;
 
             _playerInInteractRange = false;
-            _playerInteractableListener.OnExitInteractRange(this);
+            PlayerInteractableListener.OnExitInteractRange(this);
         }
 
         private void OnDisable()
@@ -64,7 +64,7 @@ namespace GGJ.Interactables
             if (_playerInInteractRange == false)
                 return;
             
-            _playerInteractableListener.OnExitInteractRange(this);
+            PlayerInteractableListener.OnExitInteractRange(this);
         }
         
         //============================================================================================================//

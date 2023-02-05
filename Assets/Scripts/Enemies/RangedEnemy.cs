@@ -72,6 +72,8 @@ namespace GGJ.Enemies
             _bounds = GetComponent<Collider>().bounds;
             _radius = _bounds.extents.x;
             startRotation = _turretHead.transform.rotation;
+            
+            attackTimer = Random.Range(0f, attackCooldown);
         }
 
         // Update is called once per frame
