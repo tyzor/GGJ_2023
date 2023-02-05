@@ -871,7 +871,7 @@ PrefabInstance:
         type: 3}
       propertyPath: rootRoomPrefab
       value: 
-      objectReference: {fileID: 2396975934879949740, guid: d1e1903f13829474a8e2f76391274cbd,
+      objectReference: {fileID: 2396975934879949740, guid: b1b7be19e8c97df42a7a4e4077e1da27,
         type: 3}
     - target: {fileID: 974107130115226678, guid: 4d34f859d6173f84e9716497e24baaee,
         type: 3}
