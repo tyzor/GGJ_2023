@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Player;
+using GGJ.Audio;
 
 namespace GGJ.Projectiles
 {
@@ -23,6 +24,7 @@ namespace GGJ.Projectiles
 
         public static Bullet CreateProjectile(GameObject owner, Vector2 dir, float speed = 2.0f, int damage = 1)
         {
+            SFXController.PlaySound(SFX.ENEMY_SHOOT);
             return _instance.InstantiateProjectile(owner,dir,speed,damage);
         }
 
