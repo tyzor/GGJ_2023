@@ -7,6 +7,7 @@ using GGJ.Player;
 using GGJ.Utilities.FolderGeneration;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GGJ.Audio;
 
 namespace GGJ.UI
 {
@@ -89,6 +90,7 @@ namespace GGJ.UI
 
         private void OnRestartPressed()
         {
+            OnResumePressed();
             SceneManager.LoadScene(0);
         }
         
@@ -125,7 +127,9 @@ namespace GGJ.UI
         
         private void OnPlayerDied()
         {
+            SFXController.PlaySound(SFX.GAME_OVER);
             lostWindow.SetActive(true);
+            Time.timeScale = 0f;
         }
 
         //============================================================================================================//
