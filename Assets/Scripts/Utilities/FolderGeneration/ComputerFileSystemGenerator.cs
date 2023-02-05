@@ -77,7 +77,6 @@ namespace GGJ.Utilities.Extensions
 "Runtime",
 "Saves",
 "Schemas",
-"Scoreboard",
 "Script",
 "Security",
 "Server",
