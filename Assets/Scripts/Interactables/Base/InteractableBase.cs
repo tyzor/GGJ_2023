@@ -64,7 +64,7 @@ namespace GGJ.Interactables
             if (_playerInInteractRange == false)
                 return;
             
-            PlayerInteractableListener.OnExitInteractRange(this);
+            PlayerInteractableListener?.OnExitInteractRange(this);
         }
         
         //============================================================================================================//
