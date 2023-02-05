@@ -7,9 +7,10 @@ namespace GGJ.Player
 {
     public class PlayerHealth : HealthBase
     {
-        public static bool canTakeDamage {get; set;} = true;
-
+		public static event Action<float> OnPlayerHealthChanged;
         public static event Action OnPlayerDied;
+		
+        public static bool canTakeDamage {get; set;} = true;
 
         public override void DoDamage(int damageAmount)
         {
@@ -17,6 +18,8 @@ namespace GGJ.Player
                 return;
             base.DoDamage(damageAmount);
             CollectableController.CreateCollectable(transform.position, damageAmount);
+            
+            OnPlayerHealthChanged?.Invoke((float)_currentHealth/startingHealth);
         }
 
         protected override void Kill()
@@ -24,8 +27,5 @@ namespace GGJ.Player
             Debug.Log("PLAYER IS DEAD!!!!!");
             OnPlayerDied?.Invoke();
         }
-
-        public float currentHealthValue => (float)_currentHealth/startingHealth;
-
     }
 }
