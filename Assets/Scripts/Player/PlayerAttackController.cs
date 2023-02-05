@@ -90,7 +90,7 @@ namespace GGJ.Player
                 RAMDrainTimer -= Time.deltaTime;
                 if(RAMDrainTimer < 0)
                 {
-                    GetComponent<PlayerHealth>().DoDamage(RAMDrainTickDamage);
+                    GetComponent<PlayerHealth>().DoDamage(RAMDrainTickDamage,false);
                     RAMDrainTimer = RAMDrainInterval;
                 }
             } else {

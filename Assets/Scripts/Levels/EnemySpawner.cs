@@ -8,6 +8,8 @@ namespace GGJ.Levels
 {
     public class EnemySpawner : MonoBehaviour
     {
+        public enum EnemySpawnerType { Cluster, Spread };
+
         public float MaxSpawnRadius = 20.0f;
         public int MaxEnemies = 5;
         public int MinEnemies = 1;
@@ -15,6 +17,8 @@ namespace GGJ.Levels
         // List of valid spawn locations -- used to get good distribution
         private List<Vector3> spawnPoints;
         private int spawnPointIndex = 0; // tracker to indicate which spawn point to use next
+
+        private EnemySpawnerType spawnerType = EnemySpawnerType.Cluster;
 
         private void Awake() {
             // initialize our spawn point array
@@ -64,9 +68,30 @@ namespace GGJ.Levels
             }
         }
 
+        public void SetSpawnerType(EnemySpawnerType type)
+        {
+            this.spawnerType = type;
+            OrderSpawnPoints(); // reorganize the points array
+        }
+
         private void OrderSpawnPoints()
         {
-            spawnPoints.Sort((a,b)=>(int)(Vector3.Distance(a,transform.position) - Vector3.Distance(b,transform.position)));
+            if(this.spawnerType == EnemySpawnerType.Cluster)
+                spawnPoints.Sort((a,b)=>(int)(Vector3.Distance(a,transform.position) - Vector3.Distance(b,transform.position)));
+            else if(this.spawnerType == EnemySpawnerType.Spread)
+            {
+                // TODO -- use a fisher-yates shuffle? or something more random
+                var count = spawnPoints.Count;
+                var last = count - 1;
+                for (var i = 0; i < last; ++i) {
+                    var r = UnityEngine.Random.Range(i, count);
+                    var tmp = spawnPoints[i];
+                    spawnPoints[i] = spawnPoints[r];
+                    spawnPoints[r] = tmp;
+                }
+                
+            }
+
         }
 
         public int GetRandomEnemyAmount()

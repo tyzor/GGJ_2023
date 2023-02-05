@@ -12,11 +12,11 @@ namespace GGJ.Player
 		
         public static bool canTakeDamage {get; set;} = true;
 
-        public override void DoDamage(int damageAmount)
+        public override void DoDamage(int damageAmount, bool playVFX = true)
         {
             if(!canTakeDamage)
                 return;
-            base.DoDamage(damageAmount);
+            base.DoDamage(damageAmount, playVFX);
             CollectableController.CreateCollectable(transform.position, damageAmount);
             
             OnPlayerHealthChanged?.Invoke((float)_currentHealth/startingHealth);
