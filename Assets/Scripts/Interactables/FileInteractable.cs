@@ -1,5 +1,6 @@
 ﻿using System;
 using GGJ.Levels;
+using GGJ.Utilities;
 using GGJ.Utilities.FolderGeneration;
 using UnityEngine;
 
@@ -27,8 +28,14 @@ namespace GGJ.Interactables
         
         public void Init(File file)
         {
+            transform = gameObject.transform;
+            
             FileData = file;
             gameObject.name = $"{file.GetFileNameExtension()}_{nameof(FileInteractable)}";
+
+            var fileTransform = FileModelLibrary.GetModel().transform;
+            fileTransform.SetParent(transform, true);
+            fileTransform.localPosition = Vector3.zero;
         }
         
         //Unity Functions

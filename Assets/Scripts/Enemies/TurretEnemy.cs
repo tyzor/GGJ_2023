@@ -35,7 +35,7 @@ namespace GGJ.Enemies
         protected override void Start()
         {
             base.Start();
-            attackTimer = attackCooldown + Random.Range(0,attackCooldown*3.0f);
+            attackTimer = attackCooldown;
             // Pick a random type
             if(attackType == AttackType.RandomPattern)
             {

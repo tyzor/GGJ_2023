@@ -85,8 +85,6 @@ namespace GGJ.Player
                 foreach (Collider collider in collisions)
                     OnAttackCollision(collider, currentAttack);
 
-                ProjectileManager.ReflectAllProjectiles(transform.position, currentAttack.attackRadius, this.gameObject);
-
                 attackTimeLeft -= Time.deltaTime;
 
                 // Handling rush code

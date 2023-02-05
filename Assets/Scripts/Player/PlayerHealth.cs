@@ -24,5 +24,8 @@ namespace GGJ.Player
             Debug.Log("PLAYER IS DEAD!!!!!");
             OnPlayerDied?.Invoke();
         }
+
+        public float currentHealthValue => (float)_currentHealth/startingHealth;
+
     }
 }
