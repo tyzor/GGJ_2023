@@ -86,6 +86,10 @@ MonoBehaviour:
     attackTime: 0.5
     attackDamage: 1
     enemyHitCooldown: 0.5
+    canReflect: 0
+    hasImmunity: 0
+    isRushAttack: 0
+    rushDistance: 0
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
@@ -93,6 +97,10 @@ MonoBehaviour:
     attackTime: 0.6
     attackDamage: 3
     enemyHitCooldown: 0.5
+    canReflect: 1
+    hasImmunity: 0
+    isRushAttack: 0
+    rushDistance: 0
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
@@ -100,6 +108,10 @@ MonoBehaviour:
     attackTime: 0.7
     attackDamage: 6
     enemyHitCooldown: 0.5
+    canReflect: 1
+    hasImmunity: 1
+    isRushAttack: 1
+    rushDistance: 30
   _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!114 &7269916803099458493
 MonoBehaviour:

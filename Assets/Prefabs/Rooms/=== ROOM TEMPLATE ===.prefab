@@ -1445,7 +1445,7 @@ PrefabInstance:
     - target: {fileID: 1194516603825533230, guid: 553698601288c694e8c7751775fb4b89,
         type: 3}
       propertyPath: MaxSpawnRadius
-      value: 3
+      value: 3.32
       objectReference: {fileID: 0}
     - target: {fileID: 3271783285854493642, guid: 553698601288c694e8c7751775fb4b89,
         type: 3}

@@ -14,6 +14,9 @@ namespace GGJ.Player
         [SerializeField, Min(0f)]
         private float moveSpeed;
 
+        private float speedBoost;
+        private float speedBoostDuration;
+
         private bool hasInput => _currentXInput != 0 || _currentYInput != 0;
         
         private float _currentXInput, _currentYInput;
@@ -51,7 +54,8 @@ namespace GGJ.Player
                 return;
             }
             
-            var newVelocity = _inputDir * moveSpeed;
+            float speedAfterMods = moveSpeed + ((speedBoostDuration > 0) ? speedBoost : 0);
+            var newVelocity = _inputDir * speedAfterMods;
             newVelocity.y = currentVelocity.y;
             
             rigidbody.velocity = newVelocity;
@@ -60,6 +64,11 @@ namespace GGJ.Player
         // Update is called once per frame
         private void Update()
         {
+            if(speedBoostDuration > 0)
+            {
+                speedBoostDuration -= Time.deltaTime;
+            }
+
             
             if (hasInput == false)
                 return;
@@ -68,6 +77,12 @@ namespace GGJ.Player
             _inputDir = Vector3.ProjectOnPlane(_cameraTransform.TransformDirection(dir), Vector3.up).normalized;
             
             transform.forward = _inputDir;
+        }
+
+        public void ApplySpeedBoost(float amount, float duration)
+        {
+            speedBoost = amount;
+            speedBoostDuration = duration;
         }
 
         //============================================================================================================//
