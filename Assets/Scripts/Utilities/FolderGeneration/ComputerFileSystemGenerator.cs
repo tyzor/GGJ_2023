@@ -313,7 +313,7 @@ namespace GGJ.Utilities.Extensions
 
             int folderRoomCount = _folderRoomsList.Count;
             FolderRoom newRoom = new FolderRoom(folderRoomCount, roomTemplateIndex, folderName, folderStub,
-                roomSubfolders, roomFiles);
+                roomSubfolders, roomFiles, depth);
             _folderRoomsList.Add(newRoom);
 
             // now create a dungeon room for each subfolder
