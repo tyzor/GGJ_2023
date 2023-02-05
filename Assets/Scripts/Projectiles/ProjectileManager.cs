@@ -33,7 +33,7 @@ namespace GGJ.Projectiles
         public static Bullet CreateProjectile(GameObject owner, Vector2 dir, float speed = 2.0f, int damage = 1)
         {
             float distance = Vector3.Distance(_playerTransform.position, owner.transform.position);
-            float volume = Mathf.Clamp(distance/10f + .5f, 0f, 1f);
+            float volume = Mathf.Clamp(1f/distance, 0f, 1f);
             SFXController.PlaySound(SFX.ENEMY_SHOOT, volume);
             return _instance.InstantiateProjectile(owner,dir,speed,damage);
         }
