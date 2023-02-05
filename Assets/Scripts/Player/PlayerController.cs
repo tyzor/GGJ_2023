@@ -47,8 +47,11 @@ namespace GGJ.Player
         //Callbacks
         //============================================================================================================//
 
-        private void OnInteractPressed(bool _)
+        private void OnInteractPressed(bool isPressed)
         {
+            if (isPressed == false)
+                return;
+                
             if (_currentInteractablesInRange == null || _currentInteractablesInRange.Count == 0)
                 return;
 

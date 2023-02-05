@@ -40,8 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5940343844267927648}
-  - component: {fileID: 3784663065914553367}
-  - component: {fileID: 8537203992610053323}
   - component: {fileID: 42301799221531978}
   - component: {fileID: 5640968352729985193}
   m_Layer: 0
@@ -68,56 +66,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3784663065914553367
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877128133560473232}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8537203992610053323
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877128133560473232}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: ca9791e16f9efc64780a9d266add2b36, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &42301799221531978
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151,7 +99,7 @@ MonoBehaviour:
   leadingShotBreakpoint: 0.8
   bulletSpeed: 10
   bulletDamage: 1
-  _turretHead: {fileID: 0}
+  _turretHead: {fileID: 3983540346005961595}
 --- !u!1001 &776383964134363198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -244,6 +192,12 @@ PrefabInstance:
 --- !u!4 &958418341799966677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b841602fb5aa71499e20af1f4f8ef0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 776383964134363198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3983540346005961595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4435524244861283141, guid: 6b841602fb5aa71499e20af1f4f8ef0c,
     type: 3}
   m_PrefabInstance: {fileID: 776383964134363198}
   m_PrefabAsset: {fileID: 0}

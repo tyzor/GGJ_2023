@@ -24,6 +24,8 @@ namespace GGJ.Enemies
         [SerializeField] private float leadingShotBreakpoint = 0.8f; // Shots below this value don't calculating leading
         
         [SerializeField] private float bulletSpeed = 10.0f;
+        [SerializeField] private int bulletDamage = 1;
+
         private float attackTimer;
 
         [SerializeField] private GameObject _turretHead;
@@ -33,7 +35,7 @@ namespace GGJ.Enemies
         protected override void Start()
         {
             base.Start();
-            attackTimer = attackCooldown + Random.Range(0,attackCooldown*3.0f);
+            attackTimer = attackCooldown;
             // Pick a random type
             if(attackType == AttackType.RandomPattern)
             {
@@ -73,8 +75,7 @@ namespace GGJ.Enemies
                     // Get direction
                     float angle = (2.0f * Mathf.PI / 6.0f) * i + (Mathf.PI / 6.0f);
                     Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                    Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                    bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
+                    ProjectileManager.CreateProjectile(gameObject, direction, this.bulletSpeed, this.bulletDamage);                    
                 }
 
             }
@@ -87,8 +88,7 @@ namespace GGJ.Enemies
                     // Get direction
                     float angle = i * (Mathf.PI / 2.0f);
                     Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                    Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                    bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
+                    ProjectileManager.CreateProjectile(gameObject, direction, this.bulletSpeed, this.bulletDamage);
                 }
             }
             // Shooting directly at player
@@ -121,9 +121,7 @@ namespace GGJ.Enemies
 
                 //Debug.Log("aimpoint:" + aimPoint);
                 //Debug.Log("playerpos:"+ _player2);
-                Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint - _thisPos, this.bulletSpeed);
-
+                ProjectileManager.CreateProjectile(gameObject, aimPoint - _thisPos, this.bulletSpeed, this.bulletDamage);
 
             }
 
