@@ -46,8 +46,8 @@ namespace GGJ.Enemies
             base.Start();
             this.agent = GetComponent<NavMeshAgent>();
             this.guardPosition = transform.position;
-            _bounds = GetComponent<MeshRenderer>().bounds;
-            _radius = _bounds.extents.x;
+            _bounds = GetComponent<Collider>().bounds;
+            _radius = _bounds.size.x;
         }
 
         // Update is called once per frame
@@ -108,7 +108,7 @@ namespace GGJ.Enemies
 
             // TODO -- this is probably not the best way of checking
             //   maybe should be looking for a HealthBase type of component on the object
-            if (collider.gameObject.tag == "Player")
+            if (collider.gameObject.CompareTag("Player"))
             {
                 Debug.Log("PLAYER HIT BY BOMB");
                 PlayerHealth health = collider.gameObject.GetComponent<PlayerHealth>();
