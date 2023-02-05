@@ -19,7 +19,7 @@ namespace GGJ.Enemies
         {
             base.Start();
             if (_player == null)
-                _player = FindObjectOfType<PlayerHealth>().transform;
+                _player = FindObjectOfType<PlayerHealth>()?.transform;
             if(_hitCollider == null)
             _hitCollider = GetComponent<Collider>();
         }
