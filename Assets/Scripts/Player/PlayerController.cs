@@ -8,7 +8,7 @@ namespace GGJ.Player
 {
     public class PlayerController : MonoBehaviour, IInteractableListener
     {
-        public static bool CanAttack { get; private set; }
+        public static bool CanAttack { get; private set; } = true;
         private List<IInteractable> _currentInteractablesInRange;
 
         //Unity Functions
@@ -34,14 +34,14 @@ namespace GGJ.Player
 
 
             _currentInteractablesInRange.Add(interactable);
-            CanAttack = true;
+            CanAttack = false;
         }
 
         public void OnExitInteractRange(IInteractable interactable)
         {
             _currentInteractablesInRange.Remove(interactable);
 
-            CanAttack = _currentInteractablesInRange.Count > 0;
+            CanAttack = _currentInteractablesInRange.Count == 0;
         }
 
         //Callbacks
