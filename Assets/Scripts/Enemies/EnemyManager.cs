@@ -56,6 +56,7 @@ namespace GGJ.Enemies
             for(int i=0;i<numEnemies;i++)
             {
                 EnemySpawner spawner = spawners.GetRandomItem();
+                spawner.InitSpawnPoints();
                 spawner.SetSpawnerType(enemySpawnType);
                 SpawnEnemy(spawner);
             }
