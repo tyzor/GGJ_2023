@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GGJ.Player;
+using TMPro;
 public class UI : MonoBehaviour
 {
 
     private PlayerHealth playerHealth;
     public Image UIFill;
+    public TMP_Text text; 
     private float health;
     // Start is called before the first frame update
     void Start()
@@ -24,5 +26,5 @@ public class UI : MonoBehaviour
             return;
         }
         UIFill.fillAmount = 1f-playerHealth.currentHealthValue;
-    }
+        text.SetText((100*(1f - playerHealth.currentHealthValue)).ToString() + '%');    }
 }

@@ -151,7 +151,7 @@ MonoBehaviour:
   leadingShotBreakpoint: 0.8
   bulletSpeed: 10
   bulletDamage: 1
-  _turretHead: {fileID: 0}
+  _turretHead: {fileID: 3983540346005961595}
 --- !u!1001 &776383964134363198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -244,6 +244,12 @@ PrefabInstance:
 --- !u!4 &958418341799966677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b841602fb5aa71499e20af1f4f8ef0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 776383964134363198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3983540346005961595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4435524244861283141, guid: 6b841602fb5aa71499e20af1f4f8ef0c,
     type: 3}
   m_PrefabInstance: {fileID: 776383964134363198}
   m_PrefabAsset: {fileID: 0}
