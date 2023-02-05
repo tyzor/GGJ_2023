@@ -1388,12 +1388,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1897887763762530578, guid: 044cb64cc222da8498ca67124d7424d3,
         type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 4764881600053044571, guid: c30e17799bf6d8849b65e69d2e93c3fe,
-        type: 3}
-    - target: {fileID: -1897887763762530578, guid: 044cb64cc222da8498ca67124d7424d3,
-        type: 3}
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 1506845488}

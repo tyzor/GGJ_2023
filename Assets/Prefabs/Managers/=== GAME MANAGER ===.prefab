@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 0}
-  playerPrefab: {fileID: 3324230741922824181, guid: 5bc7268087af4c543b5cefb2bd5bfcea,
+  playerPrefab: {fileID: 4764881600053044571, guid: c30e17799bf6d8849b65e69d2e93c3fe,
     type: 3}
   dungeonProfiles:
   - roomCount: 10
@@ -67,3 +67,5 @@ MonoBehaviour:
   prefabList:
   - {fileID: 7517631259374502619, guid: 487b78905bc2d954f998ad2d75af5090, type: 3}
   - {fileID: 1984161133491434539, guid: 7318eb4f18fc3d24e91a30c20cbdd76f, type: 3}
+  - {fileID: 2311227350048972143, guid: d11d4d76e0a8b2343a642235341824a7, type: 3}
+  - {fileID: 5471912043206915121, guid: 92879515af139964a9224b3e788b9d6f, type: 3}
