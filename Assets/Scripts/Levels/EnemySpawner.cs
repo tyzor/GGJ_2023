@@ -10,7 +10,7 @@ namespace GGJ.Levels
     {
         public enum EnemySpawnerType { Cluster, Spread };
 
-        public float MaxSpawnRadius = 20.0f;
+        public float MaxSpawnRadius = 10.0f;
         public int MaxEnemies = 5;
         public int MinEnemies = 1;
 
