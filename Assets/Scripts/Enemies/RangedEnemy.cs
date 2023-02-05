@@ -41,7 +41,6 @@ namespace GGJ.Enemies
         [SerializeField] private float attackCooldown = 2.0f; // Attack cooldown in seconds
         [SerializeField] private float leadingShotBreakpoint = 0.8f; // Shots below this value don't calculating leading
         [SerializeField] private float bulletSpeed = 10.0f;
-        [SerializeField] private int bulletDamage = 1;
         private float attackTimer;
 
         [SerializeField] private GameObject _turretHead;
@@ -63,7 +62,6 @@ namespace GGJ.Enemies
             this.guardPosition = transform.position;
             _bounds = GetComponent<MeshRenderer>().bounds;
             _radius = _bounds.extents.x;
-            startRotation = _turretHead.transform.rotation;
         }
 
         // Update is called once per frame
@@ -124,6 +122,32 @@ namespace GGJ.Enemies
                 // Chase player -- if player escapes maybe go back to idle?
                 agent.speed = this.moveSpeed; // TODO -- move this into chased speed variable?
 
+            } else if(this.enemyState == EnemyState.Retreat)
+            {
+                Debug.Log("Ranged enemy is retreating");
+                Vector3 direction = transform.position - _player.position;
+                float distance = direction.magnitude;
+                if(distance > retreatRange)
+                {
+                    this.enemyState = EnemyState.Pursuit;
+                } else {
+
+                    direction.y = 0;
+                    direction.Normalize();
+                    agent.speed = this.moveSpeed; // TODO -- this should be a retreat speed
+                    
+                    // Try to find a good spot to retreat
+                    NavMeshHit pt;
+                    if(NavMesh.SamplePosition(transform.position + -direction*distance, out pt, 2.0f, 1))
+                    {
+                        agent.destination = pt.position;
+                    } else {
+                        agent.destination = transform.position;
+                    }
+                }
+                
+                
+
             }
 
             // Check if enemy should attack
@@ -161,7 +185,11 @@ namespace GGJ.Enemies
                         aimPoint = _player2;
                     }
 
-                    ProjectileManager.CreateProjectile(gameObject, aimPoint - _thisPos, this.bulletSpeed, this.bulletDamage);
+                    //Debug.Log("aimpoint:" + aimPoint);
+                    //Debug.Log("playerpos:"+ _player2);
+                    Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                    bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint - _thisPos, this.bulletSpeed);
+
                     attackTimer = attackCooldown;
                 }
 

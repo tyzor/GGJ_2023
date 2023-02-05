@@ -119,9 +119,6 @@ MonoBehaviour:
   attackDamage: 2
   patrolRadius: 2
   patrolChangeSeconds: 2
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!195 &5861009432355545915
 NavMeshAgent:
   m_ObjectHideFlags: 0

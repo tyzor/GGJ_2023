@@ -24,8 +24,6 @@ namespace GGJ.Enemies
         [SerializeField] private float leadingShotBreakpoint = 0.8f; // Shots below this value don't calculating leading
         
         [SerializeField] private float bulletSpeed = 10.0f;
-        [SerializeField] private int bulletDamage = 1;
-
         private float attackTimer;
 
         [SerializeField] private GameObject _turretHead;
@@ -75,7 +73,8 @@ namespace GGJ.Enemies
                     // Get direction
                     float angle = (2.0f * Mathf.PI / 6.0f) * i + (Mathf.PI / 6.0f);
                     Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                    ProjectileManager.CreateProjectile(gameObject, direction, this.bulletSpeed, this.bulletDamage);                    
+                    Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                    bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
                 }
 
             }
@@ -88,7 +87,8 @@ namespace GGJ.Enemies
                     // Get direction
                     float angle = i * (Mathf.PI / 2.0f);
                     Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                    ProjectileManager.CreateProjectile(gameObject, direction, this.bulletSpeed, this.bulletDamage);
+                    Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                    bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, direction, this.bulletSpeed);
                 }
             }
             // Shooting directly at player
@@ -121,7 +121,9 @@ namespace GGJ.Enemies
 
                 //Debug.Log("aimpoint:" + aimPoint);
                 //Debug.Log("playerpos:"+ _player2);
-                ProjectileManager.CreateProjectile(gameObject, aimPoint - _thisPos, this.bulletSpeed, this.bulletDamage);
+                Bullet bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                bulletObj.GetComponent<Bullet>().SpawnBullet(gameObject, aimPoint - _thisPos, this.bulletSpeed);
+
 
             }
 
