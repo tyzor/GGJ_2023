@@ -87,8 +87,8 @@ MonoBehaviour:
     enemyHitCooldown: 0.5
     canReflect: 0
     hasImmunity: 0
-    isRushAttack: 0
-    rushDistance: 0
+    isRushAttack: 1
+    rushDistance: 3
   - name: Level 2
     chargeTimeMin: 0.5
     chargeTimeMax: 1
@@ -98,8 +98,8 @@ MonoBehaviour:
     enemyHitCooldown: 0.5
     canReflect: 1
     hasImmunity: 0
-    isRushAttack: 0
-    rushDistance: 0
+    isRushAttack: 1
+    rushDistance: 7
   - name: Level 3
     chargeTimeMin: 1
     chargeTimeMax: 1.5
