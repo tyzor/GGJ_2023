@@ -67,7 +67,9 @@ namespace GGJ.Player
         //Unity Functions
         //============================================================================================================//
         
-        private void Start()
+        
+
+        private void OnEnable()
         {
             InputDelegator.OnAttackPressed += OnAttackPressed;
             InputDelegator.OnMoveChanged += OnMoveChanged;
@@ -141,6 +143,12 @@ namespace GGJ.Player
                 _activeParticleSystem?.Stop();
             }
             
+        }
+
+        private void OnDisable()
+        {
+            InputDelegator.OnAttackPressed -= OnAttackPressed;
+            InputDelegator.OnMoveChanged -= OnMoveChanged;
         }
 
         //PlayerAttackController Functions
