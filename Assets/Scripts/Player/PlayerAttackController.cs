@@ -57,6 +57,9 @@ namespace GGJ.Player
 
         //FIXME This will need to separate to reduce follow issues
         [SerializeField] private Transform _spinAttackAnchor;
+        [SerializeField] private float RAMDrainInterval = 1.0f;
+        private float RAMDrainTimer;
+        private int RAMDrainTickDamage = 1;
 
         //Unity Functions
         //============================================================================================================//
@@ -70,7 +73,17 @@ namespace GGJ.Player
         private void Update()
         {
             Debug.DrawRay(transform.position, transform.forward, Color.blue);
-            //TODO Add timer to diminish RAM
+            
+            // RAM Drain
+            if(IsCharging)
+            {
+                RAMDrainTimer -= Time.deltaTime;
+                if(RAMDrainTimer < 0)
+                {
+                    GetComponent<PlayerHealth>().DoDamage(RAMDrainTickDamage);
+                    RAMDrainTimer = RAMDrainInterval;
+                }
+            }
 
             if (isAttacking == false) // && PlayerMovementController.CanMove == false)
             {
@@ -205,6 +218,7 @@ namespace GGJ.Player
             {
                 PlayerMovementController.CanMove = false;
                 _pressStartTime = Time.time;
+                RAMDrainTimer = RAMDrainInterval;
             }
             else
             {
