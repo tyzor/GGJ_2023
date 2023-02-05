@@ -34,7 +34,7 @@ namespace GGJ.Projectiles
         {
             float distance = Vector3.Distance(_playerTransform.position, owner.transform.position);
             float volume = Mathf.Clamp(1f/distance, 0f, 1f);
-            SFXController.PlaySound(SFX.ENEMY_SHOOT, volume);
+            SFXController.PlaySound(SFX.ENEMY_SHOOT, volume * .3f);
             return _instance.InstantiateProjectile(owner,dir,speed,damage);
         }
 

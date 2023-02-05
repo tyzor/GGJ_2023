@@ -38,6 +38,7 @@ namespace GGJ.Levels
                 int sideSize = (int)Mathf.Ceil(size);
                 int squareNum = sideSize * sideSize;
                 Vector2 center = new Vector2(transform.position.x,transform.position.z);
+                NavMeshPath navPath = new NavMeshPath();
                 for(int i=0;i<squareNum;i++)
                 {
                     int x = i%sideSize - sideSize/2;
@@ -54,7 +55,9 @@ namespace GGJ.Levels
                     {
                         // check if inside our spawn area and on floor
                         if(Vector3.Distance(pt.position, transform.position) < MaxSpawnRadius
-                         && pt.position.y <= transform.position.y)
+                         && pt.position.y <= transform.position.y
+                         && NavMesh.CalculatePath(pt.position, transform.position, NavMesh.AllAreas, navPath)   // Fix for bad nav mesh generation
+                         )
                         {
                             // TODO -- maybe check if it is too close to another spawnpoint
                             spawnPoints.Add(pt.position);
