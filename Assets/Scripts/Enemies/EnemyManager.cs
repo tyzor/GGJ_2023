@@ -21,7 +21,7 @@ namespace GGJ.Enemies
 
         [SerializeField] Vector2Int enemyCountRange = new Vector2Int(3, 8);
         [SerializeField] int enemyCountPerFolderDepth = 5;
-
+        [SerializeField] private EnemySpawner.EnemySpawnerType enemySpawnType;
         
         void OnEnable()
         {
@@ -56,6 +56,7 @@ namespace GGJ.Enemies
             for(int i=0;i<numEnemies;i++)
             {
                 EnemySpawner spawner = spawners.GetRandomItem();
+                spawner.SetSpawnerType(enemySpawnType);
                 SpawnEnemy(spawner);
             }
         }
