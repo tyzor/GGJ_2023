@@ -49,7 +49,7 @@ namespace GGJ.Utilities.FolderGeneration
         // return string with folder's path from root
         public string GetAbsolutePath()
         {
-            string s = "Folder - ";
+            string s = string.Empty;
 
             FolderStub p = _parentStub;
 

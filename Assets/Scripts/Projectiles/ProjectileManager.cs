@@ -15,8 +15,6 @@ namespace GGJ.Projectiles
         [SerializeField]
         private Bullet bulletPrefab;
         
-        [SerializeField] private float directReflectAngle = 15.0f;
-
         void Awake()
         {
             _instance = this;
@@ -64,14 +62,8 @@ namespace GGJ.Projectiles
                 if( Vector3.Distance(bullet.transform.position, position) <= range
                     && bullet.GetOwner() != newOwner  )
                 {
-
                     // Reflect! New direction is away from player
                     Vector3 newDirection = bullet.transform.position - position;
-                    float angle = Vector3.Angle(-bullet.transform.forward, newDirection.normalized);
-                    if(angle < _instance.directReflectAngle)
-                    {
-                        newDirection = -bullet.transform.forward;
-                    } 
                     newDirection.y = 0;
                     bullet.transform.forward = newDirection.normalized;
                     bullet.ChangeOwner(newOwner);

@@ -8,8 +8,7 @@ namespace GGJ.Player
 {
     public class PlayerController : MonoBehaviour, IInteractableListener
     {
-        public static bool CanAttack { get; private set; } = true;
-        
+        public static bool CanAttack { get; private set; }
         private List<IInteractable> _currentInteractablesInRange;
 
         //Unity Functions
@@ -19,6 +18,7 @@ namespace GGJ.Player
         {
             InputDelegator.OnAttackPressed += OnInteractPressed;
         }
+
 
         private void OnDisable()
         {
@@ -34,14 +34,14 @@ namespace GGJ.Player
 
 
             _currentInteractablesInRange.Add(interactable);
-            CanAttack = false;
+            CanAttack = true;
         }
 
         public void OnExitInteractRange(IInteractable interactable)
         {
             _currentInteractablesInRange.Remove(interactable);
 
-            CanAttack = _currentInteractablesInRange.Count == 0;
+            CanAttack = _currentInteractablesInRange.Count > 0;
         }
 
         //Callbacks
@@ -49,9 +49,9 @@ namespace GGJ.Player
 
         private void OnInteractPressed(bool isPressed)
         {
-            //Since these only work toggled, don't worry about when is de-pressed
             if (isPressed == false)
                 return;
+                
             if (_currentInteractablesInRange == null || _currentInteractablesInRange.Count == 0)
                 return;
 

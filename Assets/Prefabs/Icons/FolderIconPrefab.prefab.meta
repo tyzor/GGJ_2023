@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Rooms/Randalls Rooms/Decorations/Fan.prefab.meta
+guid: f547c290e583f7142ba8c30a7df6d1b5
+========
 guid: 8934f150568b049488bfb95fdec9db49
+>>>>>>>> main:Assets/Prefabs/Icons/FolderIconPrefab.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

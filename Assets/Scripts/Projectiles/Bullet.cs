@@ -81,16 +81,6 @@ namespace GGJ.Projectiles
             else if (canBeHit is EnemyBase)
             {
                 // DO NOTHING -- bullets pass through enemies
-            } else if(canBeHit is Bullet otherBullet)
-            {
-                // Bullet hitting another bullet
-                // For now we have opposite allegiance bullets cancel out
-                if(otherBullet.isFriendly != this.isFriendly)
-                {
-                    ProjectileManager.DestroyBullet(this);
-                    ProjectileManager.DestroyBullet(otherBullet);
-                }
-
             } else 
             {
                 // We'll assume wall or something unimportant for now

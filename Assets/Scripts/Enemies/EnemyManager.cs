@@ -41,11 +41,19 @@ namespace GGJ.Enemies
         }
 
         public void SpawnEnemies(int number)
-        {
-            for(int i=0;i < number; i++)
+        {       
+            // Query room for a list of spawns
+            EnemySpawner[] spawners = RoomManager.CurrentRoom.GetEnemySpawners();
+            foreach(var spawner in spawners)
             {
-                SpawnEnemy( (EnemyType)Random.Range(0,enemyPrefabs.Length) );
+                int count = spawner.GetRandomEnemyAmount();
+                for(int i=0;i < number; i++)
+                {
+                    SpawnEnemy( spawner );
+                }
             }
+
+
         }
 
         // Used when switching rooms
@@ -58,6 +66,29 @@ namespace GGJ.Enemies
             }
         }
 
+        // New enemy spawn code
+        private void SpawnEnemy(EnemySpawner spawner)
+        {
+            Vector3 point;
+            if(spawner.GetValidSpawnLocation(out point))
+            {
+                EnemyType type = GetRandomEnemyType();
+                // Place enemy
+                EnemyBase enemyPrefab = enemyPrefabs[(int)type];
+                EnemyBase enemyObj = Instantiate(enemyPrefab, point + Vector3.up*0.5f, Quaternion.identity, RoomManager.CurrentRoom.transform);
+
+            }            
+        }
+
+        // TODO -- Is this a safe way of getting enum count?
+        private EnemyType GetRandomEnemyType()
+        {
+            int enumCount = System.Enum.GetValues(typeof(EnemyType)).Length;
+            return (EnemyType)Random.Range(0,enumCount);
+        }
+
+        // OLD enemy spawn code -- spawns enemies around a player
+        // Keeping this in case we fall back to this behaviour
         private void SpawnEnemy(EnemyType type)
         {    
             if(_currentPlayer == null)

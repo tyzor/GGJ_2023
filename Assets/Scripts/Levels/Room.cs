@@ -34,6 +34,8 @@ namespace GGJ.Levels
         [SerializeField]
         private Transform[] fileSpawnLocations;
 
+        [SerializeField] private EnemySpawner[] enemySpawners;
+
         //============================================================================================================//
         public void SetupRoom(
             in Transform playerTransform,
@@ -100,6 +102,11 @@ namespace GGJ.Levels
         {
             gameObject.SetActive(state);
         }
+
+        public EnemySpawner[] GetEnemySpawners()
+        {
+            return enemySpawners;
+        }
         
         //Unity Editor Functions
         //============================================================================================================//
@@ -138,6 +145,16 @@ namespace GGJ.Levels
             {
                 Gizmos.DrawWireSphere(spawnLocation.position, 0.5f);
             }
+
+            if(enemySpawners == null)
+                return;
+            Gizmos.color = Color.red;
+            foreach (EnemySpawner spawner in enemySpawners)
+            {
+                Gizmos.DrawWireSphere(spawner.transform.position, spawner.MaxSpawnRadius);
+            }
+
+
         }
 #endif
 
