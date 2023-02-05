@@ -59,7 +59,7 @@ namespace GGJ.Player
         [SerializeField] private Transform _spinAttackAnchor;
         [SerializeField] private float RAMDrainInterval = 1.0f;
         private float RAMDrainTimer;
-        private int RAMDrainTickDamage = 1;
+        [SerializeField] private int RAMDrainTickDamage = 1;
 
         //Unity Functions
         //============================================================================================================//
@@ -101,6 +101,8 @@ namespace GGJ.Player
                 Collider[] collisions = Physics.OverlapSphere(transform.position, currentAttack.attackRadius);
                 foreach (Collider collider in collisions)
                     OnAttackCollision(collider, currentAttack);
+
+                ProjectileManager.ReflectAllProjectiles(transform.position, currentAttack.attackRadius, gameObject);
 
                 attackTimeLeft -= Time.deltaTime;
 
