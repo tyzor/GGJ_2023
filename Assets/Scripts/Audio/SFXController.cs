@@ -8,9 +8,9 @@ namespace GGJ.Audio
 {
     public enum SFX
     {
-        NONE,
-        TEMPLATE_SOUND_1,
-        TEMPLATE_SOUND_2
+        NONE = 0,
+        TEMPLATE_SOUND_1 = 1,
+        TEMPLATE_SOUND_2 = 2,
     }
 
     public class SFXController : MonoBehaviour
