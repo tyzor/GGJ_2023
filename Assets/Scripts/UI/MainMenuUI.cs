@@ -48,8 +48,8 @@ namespace GGJ.UI
             sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
             musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
             
-            sfxVolumeSlider.value = 0f;
-            musicVolumeSlider.value = 0f;
+            sfxVolumeSlider.value = -20f;
+            musicVolumeSlider.value = -20f;
         }
 
         //============================================================================================================//
