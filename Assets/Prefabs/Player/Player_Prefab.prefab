@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackInfo:
   - name: Level 1
-    chargeTimeMin: 0.1
+    chargeTimeMin: 0
     chargeTimeMax: 0.5
     attackRadius: 3
     attackTime: 0.5
@@ -109,7 +109,7 @@ MonoBehaviour:
     canReflect: 1
     hasImmunity: 1
     isRushAttack: 1
-    rushDistance: 30
+    rushDistance: 20
   _spinAttackAnchor: {fileID: 6523495052786472327}
 --- !u!114 &7269916803099458493
 MonoBehaviour:

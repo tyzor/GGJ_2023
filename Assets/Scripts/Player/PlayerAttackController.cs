@@ -93,8 +93,11 @@ namespace GGJ.Player
                     // Move until we hit our rush point
                     Vector3 distance = rushPoint - transform.position;
                     Vector3 newPos = transform.position + transform.forward * rushSpeed * Time.deltaTime;
-                    if((rushPoint-newPos).sqrMagnitude < distance.sqrMagnitude)
+                
+                    float remainingDistanceSqr = (rushPoint-newPos).sqrMagnitude;
+                    if(remainingDistanceSqr < distance.sqrMagnitude)
                         transform.position = newPos;
+
                 }
 
             }
@@ -102,7 +105,10 @@ namespace GGJ.Player
             {
                 // Attack is over restore player control
                 isAttacking = false;
+                IsRushing = false;
+                PlayerHealth.canTakeDamage = true;
                 PlayerMovementController.CanMove = true;
+                GetComponent<Rigidbody>().isKinematic = false;
             }
         }
 
@@ -114,6 +120,7 @@ namespace GGJ.Player
             isAttacking = true;
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
+            PlayerHealth.canTakeDamage = attackData.hasImmunity;
             IsRushing = attackData.isRushAttack && (inputData.sqrMagnitude > .001f);
             if(IsRushing)
             {
@@ -125,6 +132,8 @@ namespace GGJ.Player
                 {
                     rushPoint = hit.point;
                 }
+                GetComponent<Rigidbody>().isKinematic = true;
+                Debug.DrawLine(rushPoint + Vector3.up*100.0f,rushPoint, Color.yellow, 5.0f);
                 
             }
 
