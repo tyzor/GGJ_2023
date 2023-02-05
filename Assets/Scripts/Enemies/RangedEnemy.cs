@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using GGJ.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using GGJ.Player;
 using GGJ.Projectiles;
+using GGJ.Utilities;
 
 namespace GGJ.Enemies
 {
+    [RequireComponent(typeof(RangedEnemyAnimationController))]
     public class RangedEnemy : EnemyBase
     {
 
-        private enum EnemyState
+        public enum EnemyState
         {
             Idle,
             Pursuit,
-            Retreat
+            Retreat,
+            cooldown
         };
 
-        private EnemyState enemyState;
+        public EnemyState enemyState { get; private set; }
+
+        private RangedEnemyAnimationController _rangedEnemyAnimationController;
 
         private NavMeshAgent agent;
 
@@ -54,12 +60,14 @@ namespace GGJ.Enemies
         // Caching size data for collision detection
         private Bounds _bounds;
         private float _radius;
+        private float cooldownTimer;
 
         // Start is called before the first frame update
         protected override void Start()
         {
             base.Start();
             this.agent = GetComponent<NavMeshAgent>();
+            _rangedEnemyAnimationController = GetComponent<RangedEnemyAnimationController>();
             this.guardPosition = transform.position;
             _bounds = GetComponent<Collider>().bounds;
             _radius = _bounds.extents.x;
@@ -69,6 +77,21 @@ namespace GGJ.Enemies
         // Update is called once per frame
         void Update()
         {
+            //Force enemy to stop when firing
+            //------------------------------------------------//
+            if (enemyState == EnemyState.cooldown)
+            {
+                if (cooldownTimer > 0f)
+                {
+                    cooldownTimer -= Time.deltaTime;
+                    return;
+                }
+
+                enemyState = EnemyState.Pursuit;
+            }
+
+            //------------------------------------------------//
+            
             if (this.enemyState == EnemyState.Idle)
             {
                 // Idle should "patrol" and check if a player is in radius
@@ -131,47 +154,83 @@ namespace GGJ.Enemies
             {
                 attackTimer -= Time.deltaTime;
 
-                // ALEX -- how to have this compensate for the rotation of the mesh?
-                Vector3 dirToPlayer = Vector3.ProjectOnPlane((_player.position - _turretHead.transform.position).normalized, Vector3.up);
-                _turretHead.transform.rotation = Quaternion.LookRotation(dirToPlayer, Vector3.up) * startRotation;
+                LookInDirection(GetShootDirection());
 
                 if(attackTimer < 0)
                 {
-                    // NEW LEADING TARGET CODE
-                    Vector2 _player2 = new Vector2(_player.position.x, _player.position.z);
-                    Vector2 _thisPos = new Vector2(transform.position.x, transform.position.z);
-                    float distance = Vector2.Distance(
-                        _thisPos,
-                        _player2
-                    ); //distance in between in meters
-                    // TODO -- move bullet velocity to variable
-                    float travelTime = distance / bulletSpeed; //time in seconds the shot would need to arrive at the target
-                    //Debug.Log(_player.GetComponent<Rigidbody>().velocity);
-                    Vector3 vel = _player.GetComponent<Rigidbody>().velocity;
-                    Vector2 vel2 = new Vector2(vel.x, vel.z);
-
-                    // Lets lead the target if the shot would be fast
-                    Vector2 aimPoint;
-                    if (travelTime < 0.8f)
-                    {
-                        aimPoint = _player2 + vel2 * travelTime;
-                    }
-                    else
-                    {
-                        aimPoint = _player2;
-                    }
-
-                    ProjectileManager.CreateProjectile(gameObject, aimPoint - _thisPos, this.bulletSpeed, this.bulletDamage);
-                    attackTimer = attackCooldown;
+                    StartCoroutine(ShootCoroutine(attackCooldown));
                 }
-
 
             }
 
-            
-    
-
         }
+        //============================================================================================================//
+
+        private IEnumerator ShootCoroutine(float cooldownTime)
+        {
+            cooldownTimer = attackTimer = cooldownTime;
+            agent.destination = transform.position;
+            _rangedEnemyAnimationController.Play(ANIMATION.IDLE);
+            enemyState = EnemyState.cooldown;
+            
+            var halfCooldown = cooldownTime / 2f;
+
+            var vfx = VFXManager.CreateVFX(VFX.SHOOT_CHARGE,
+                _turretHead.transform.position + (transform.forward * 0.5f) + (Vector3.up * 0.5f), 
+                transform);
+
+            for (float t = 0; t < halfCooldown; t+=Time.deltaTime)
+            {
+                transform.forward = (_player.position - _turretHead.transform.position).normalized;
+                yield return null;
+            }
+            
+            ProjectileManager.CreateProjectile(gameObject, GetShootDirection(), bulletSpeed, bulletDamage);
+
+            Destroy(vfx);
+            
+            yield return new WaitForSeconds(halfCooldown);
+
+            attackTimer = Random.Range(0f, cooldownTime);
+        }
+
+        private void LookInDirection(Vector3 direction)
+        {
+            // ALEX -- how to have this compensate for the rotation of the mesh?
+            Vector3 dirToPlayer = Vector3.ProjectOnPlane(direction.normalized, Vector3.up);
+            _turretHead.transform.rotation = Quaternion.LookRotation(dirToPlayer, Vector3.up) * startRotation;
+        }
+
+        
+        private Vector3 GetShootDirection()
+        {
+            // NEW LEADING TARGET CODE
+            Vector2 _player2 = new Vector2(_player.position.x, _player.position.z);
+            Vector2 _thisPos = new Vector2(transform.position.x, transform.position.z);
+            float distance = Vector2.Distance(
+                _thisPos,
+                _player2
+            ); //distance in between in meters
+            // TODO -- move bullet velocity to variable
+            float travelTime = distance / bulletSpeed; //time in seconds the shot would need to arrive at the target
+            //Debug.Log(_player.GetComponent<Rigidbody>().velocity);
+            Vector3 vel = _player.GetComponent<Rigidbody>().velocity;
+            Vector2 vel2 = new Vector2(vel.x, vel.z);
+
+            // Lets lead the target if the shot would be fast
+            Vector2 aimPoint;
+            if (travelTime < 0.8f)
+            {
+                aimPoint = _player2 + vel2 * travelTime;
+            }
+            else
+            {
+                aimPoint = _player2;
+            }
+
+            return aimPoint - _thisPos;
+        }
+
 
     }
 }

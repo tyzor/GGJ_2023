@@ -13,6 +13,7 @@ namespace GGJ.Utilities
         SPIN_CHARGE = 3,
         SPIN_ATTACK = 4,
         HIT_EFFECT = 5,
+        SHOOT_CHARGE = 6
         //SPIN_ATTACK2 = 6,
         //SPIN_ATTACK3 = 7
     }

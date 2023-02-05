@@ -444,7 +444,7 @@ PrefabInstance:
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
       propertyPath: vfx.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
@@ -479,12 +479,12 @@ PrefabInstance:
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
       propertyPath: vfx.Array.data[3].name
-      value: Spin Attack 3
+      value: Hit Effect
       objectReference: {fileID: 0}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
       propertyPath: vfx.Array.data[3].type
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
@@ -528,7 +528,7 @@ PrefabInstance:
         type: 3}
       propertyPath: vfx.Array.data[3].prefab
       value: 
-      objectReference: {fileID: 6744995232597599897, guid: 9c7f00513abfdfc4896dbce84bad3284,
+      objectReference: {fileID: 2272745208528375763, guid: 7f50f1e4d17e2de40a7327aed2e6af84,
         type: 3}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
@@ -560,7 +560,7 @@ PrefabInstance:
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
       propertyPath: vfx.Array.data[3].lifetime
-      value: 0.875
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
@@ -585,7 +585,7 @@ PrefabInstance:
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
       propertyPath: vfx.Array.data[3].emitterEOL
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
         type: 3}
