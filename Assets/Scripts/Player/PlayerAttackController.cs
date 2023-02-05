@@ -5,7 +5,7 @@ using GGJ.Inputs;
 using GGJ.Projectiles;
 using UnityEngine;
 using GGJ.Utilities;
-
+using GGJ.Audio;
 
 namespace GGJ.Player
 {
@@ -157,6 +157,7 @@ namespace GGJ.Player
         
         private void DoAttack(int index, in AttackData attackData)
         {
+
             isAttacking = true;
             attackTimeLeft = attackData.attackTime;
             currentAttack = attackData;
@@ -174,7 +175,11 @@ namespace GGJ.Player
                 }
                 GetComponent<Rigidbody>().isKinematic = true;
                 Debug.DrawLine(rushPoint + Vector3.up*100.0f,rushPoint, Color.yellow, 5.0f);
-                
+
+                SFXController.PlaySound(SFX.PLAYER_ATTACK_CHARGED);
+
+            } else {
+                SFXController.PlaySound(SFX.PLAYER_ATTACK);
             }
 
             Debug.Log($"Did Attack {attackData.name}");
@@ -249,6 +254,7 @@ namespace GGJ.Player
                 TryCleanParticles(true);
                 _activeParticleSystem = VFXManager.CreateVFX(VFX.SPIN_CHARGE, transform.position, transform)
                     .GetComponent<ParticleSystem>();
+                SFXController.PlaySound(SFX.PLAYER_CHARGING);
                 PlayerMovementController.CanMove = false;
                 _pressStartTime = Time.time;
                 RAMDrainTimer = RAMDrainInterval;

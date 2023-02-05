@@ -20,7 +20,11 @@ namespace GGJ.Levels
 
         private EnemySpawnerType spawnerType = EnemySpawnerType.Cluster;
 
-        private void Awake() {
+        public void InitSpawnPoints() {
+
+            if(spawnPoints != null)
+                return;
+
             // initialize our spawn point array
             if(spawnPoints == null)
             {

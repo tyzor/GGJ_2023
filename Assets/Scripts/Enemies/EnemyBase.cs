@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using GGJ.Destructibles;
 using GGJ.Player;
+using GGJ.Audio;
 
 namespace GGJ.Enemies
 {
@@ -26,6 +27,7 @@ namespace GGJ.Enemies
 
         protected override void Kill()
         {
+            SFXController.PlaySound(SFX.ENEMY_DEATH);
             // TODO - Spawn RAM?
             Destroy(gameObject);
             OnEnemyDied?.Invoke();
