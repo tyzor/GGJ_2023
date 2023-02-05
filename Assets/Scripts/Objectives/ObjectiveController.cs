@@ -13,7 +13,7 @@ namespace GGJ.Objectives
     {
         NONE,
         FIND,
-        DESTROY,
+        TRASH,
         MOVE
     }
     public class ObjectiveController : MonoBehaviour
@@ -90,7 +90,7 @@ namespace GGJ.Objectives
                 case OBJECTIVE_TYPE.FIND:
                     FileInteractable.OnPickedUpFile += TryCompleteObjective;
                     break;
-                case OBJECTIVE_TYPE.DESTROY:
+                case OBJECTIVE_TYPE.TRASH:
                     FileInteractable.OnRecycledFile += TryCompleteObjective;
                     break;
                 case OBJECTIVE_TYPE.MOVE:
@@ -123,7 +123,7 @@ namespace GGJ.Objectives
 
             Debug.Log($"Completed Objective {_currentObjective.ToString()} {_targetFile.GetFileNameExtension()}");
             
-            if (_currentObjective == OBJECTIVE_TYPE.DESTROY)
+            if (_currentObjective == OBJECTIVE_TYPE.TRASH)
             {
                 _files.Remove(_targetFile);
                 _targetFile = null;
@@ -148,7 +148,7 @@ namespace GGJ.Objectives
                 case OBJECTIVE_TYPE.NONE:
                     return false;
                 case OBJECTIVE_TYPE.FIND:
-                case OBJECTIVE_TYPE.DESTROY:
+                case OBJECTIVE_TYPE.TRASH:
                     return fileInteractable.FileData == _targetFile;
                 case OBJECTIVE_TYPE.MOVE:
                     return fileInteractable.FileData == _targetFile && RoomManager.CurrentRoom.FolderRoomData == _targetRoom;
