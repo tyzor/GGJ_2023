@@ -7,6 +7,7 @@ namespace GGJ.Utilities.FolderGeneration
     {
         private readonly int _roomLayoutIndex;
         private Room _roomTemplate;
+        private readonly int _depth;
         private readonly string _titleName;
         private readonly FolderStub[] _childStubs;
         private File[] _files;
@@ -17,6 +18,7 @@ namespace GGJ.Utilities.FolderGeneration
 
         public int FolderRoomListIndex => _folderRoomListIndex;
         public int RoomLayoutIndex => _roomLayoutIndex;
+        public int Depth => _depth;
         public Room RoomTemplate => _roomTemplate;
         public string FolderName => _titleName;
         public FolderStub ParentStub => _parentStub;
@@ -26,25 +28,35 @@ namespace GGJ.Utilities.FolderGeneration
         public File[] Files => _files;
         public FolderStub[] ChildStubs => _childStubs;
 
-        public FolderRoom(int folderRoomCount, int roomLayoutIndex, string folderName, FolderStub parentFolder, FolderStub[] childStubs, File[] files)
+        public FolderRoom(int folderRoomCount, int roomLayoutIndex, string folderName, FolderStub parentFolder, FolderStub[] childStubs, File[] files, int depth)
         {
             _folderRoomListIndex = folderRoomCount;
             _roomLayoutIndex = roomLayoutIndex;
+            _depth = depth;
             _titleName = folderName;
             _parentStub = parentFolder;
             _childStubs = childStubs;
             _files = files;
         }
 
-        public int Depth()
-        {
-            int i = 0;
-            while(ParentFolder != null)
-            {
-                i += 1;
-            }
-            return i;
-        }
+        //public int Depth()
+        //{
+        //    int i = 0;
+        //    while (ParentFolder != null)
+        //    {
+        //        i += 1;
+        //    }
+        //    return i;
+        //}
+        //public int Depth()
+        //{
+        //    int i = 0;
+        //    while (ParentFolder != null)
+        //    {
+        //        i += 1;
+        //    }
+        //    return i;
+        //}
 
         // return string with folder's path from root
         public string GetAbsolutePath()
