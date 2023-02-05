@@ -441,7 +441,159 @@ PrefabInstance:
       propertyPath: m_Name
       value: === VFX MANAGER ===
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[0].name
+      value: Spin Charge
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[0].type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[1].name
+      value: Spin Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[1].type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[2].name
+      value: Hit Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[2].type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[3].name
+      value: Spin Attack 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[3].type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[4].name
+      value: Spin Attack 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[4].type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[5].name
+      value: Spin Attack 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[5].type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 8470071431484138916, guid: 4bf8d8be41ab9c444a2983efb465f9f4,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 8790807459229897393, guid: 4dc6ff8a197220442990aee86c399816,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 3630804843779927654, guid: 39f1255c02b927645be1fb321e953fad,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 6744995232597599897, guid: 9c7f00513abfdfc4896dbce84bad3284,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 6744995232597599897, guid: 9c7f00513abfdfc4896dbce84bad3284,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 6744995232597599897, guid: 9c7f00513abfdfc4896dbce84bad3284,
+        type: 3}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[0].lifetime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[1].lifetime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[2].lifetime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[3].lifetime
+      value: 0.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[4].lifetime
+      value: 0.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[0].emitterEOL
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[1].emitterEOL
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[2].emitterEOL
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[3].emitterEOL
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186846879523032126, guid: 106aa3c6ce52ada42a62eafb2f507703,
+        type: 3}
+      propertyPath: vfx.Array.data[4].emitterEOL
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 986966736, guid: 106aa3c6ce52ada42a62eafb2f507703, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 106aa3c6ce52ada42a62eafb2f507703, type: 3}
 --- !u!1 &1254740348
 GameObject:

@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Linear_Spin
-  m_Speed: 1
+  m_Speed: 4
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -60,7 +60,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CRT_Guy_AnimClips
+  m_Name: Player_Animator
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: doAttack
@@ -120,7 +120,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 3438689416267106535}
-    m_Position: {x: -180, y: 50, z: 0}
+    m_Position: {x: -180, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1080763180845444016}
     m_Position: {x: -180, y: 100, z: 0}
@@ -128,14 +128,11 @@ AnimatorStateMachine:
     m_State: {fileID: 6184998953030762754}
     m_Position: {x: 230, y: -70, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 5582651829692574714}
-    m_Position: {x: -180, y: 0, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 2974651961608812531}
     m_Position: {x: 240, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4129646364883526785}
-    m_Position: {x: 249, y: -196, z: 0}
+    m_Position: {x: -180, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8303515951092062478}
     m_Position: {x: -180, y: -50, z: 0}
@@ -184,33 +181,6 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Move
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 1358262452650834379, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
-    type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &5582651829692574714
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Spin_Attack
   m_Speed: 3
   m_CycleOffset: 0
   m_Transitions: []
@@ -223,7 +193,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2948695597577746909, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
+  m_Motion: {fileID: 1358262452650834379, guid: 0812bfb0e655ab14ab1602206c1fd3cd,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

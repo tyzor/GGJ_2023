@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2883009844398372072}
   - component: {fileID: 2652308248602019566}
   m_Layer: 0
-  m_Name: SpinAttackNew
+  m_Name: SpinAttackVfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,14 +42,14 @@ ParticleSystem:
   m_GameObject: {fileID: 8790807459229897393}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 3
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1

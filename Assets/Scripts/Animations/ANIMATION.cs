@@ -5,6 +5,7 @@
         NONE,
         IDLE,
         MOVE,
-        ATTACK
+        ATTACK,
+        CHARGING_UP
     }
 }

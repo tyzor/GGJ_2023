@@ -61,6 +61,8 @@ namespace GGJ.Player
         private float RAMDrainTimer;
         [SerializeField] private int RAMDrainTickDamage = 1;
         [SerializeField] private float chargeMoveMultiplier = 0.5f;
+        
+        private ParticleSystem _activeParticleSystem;
 
         //Unity Functions
         //============================================================================================================//
@@ -74,7 +76,8 @@ namespace GGJ.Player
         private void Update()
         {
             Debug.DrawRay(transform.position, transform.forward, Color.blue);
-            
+
+            TryCleanParticles();
             
             if(IsCharging)
             {
@@ -118,7 +121,7 @@ namespace GGJ.Player
                 {
                     // Move until we hit our rush point
                     Vector3 distance = rushPoint - transform.position;
-                    Vector3 newPos = transform.position + transform.forward * rushSpeed * Time.deltaTime;
+                    Vector3 newPos = transform.position + transform.forward * (rushSpeed * Time.deltaTime);
                 
                     float remainingDistanceSqr = (rushPoint-newPos).sqrMagnitude;
                     if(remainingDistanceSqr < distance.sqrMagnitude)
@@ -135,12 +138,15 @@ namespace GGJ.Player
                 PlayerHealth.canTakeDamage = true;
                 PlayerMovementController.CanMove = true;
                 GetComponent<Rigidbody>().isKinematic = false;
+                _activeParticleSystem?.Stop();
             }
+            
         }
 
         //PlayerAttackController Functions
         //============================================================================================================//
 
+        
         private void DoAttack(int index, in AttackData attackData)
         {
             isAttacking = true;
@@ -163,25 +169,15 @@ namespace GGJ.Player
                 
             }
 
-            Debug.Log($"Did Attack {attackData.name}");   
+            Debug.Log($"Did Attack {attackData.name}");
 
-            VFX vfxToPlay;
-            switch (index)
-            {
-                case 0:
-                    vfxToPlay = VFX.SPIN_ATTACK;
-                    break;
-                case 1:
-                    vfxToPlay = VFX.SPIN_ATTACK;
-                    break;
-                case 2:
-                    vfxToPlay = VFX.SPIN_ATTACK;
-                    break;
-                default:
-                    throw new NotImplementedException();
-
-            }
-            var fxGameObject = VFXManager.CreateVFX(vfxToPlay, transform.position, _spinAttackAnchor);
+            //Create Particles
+            //------------------------------------------------//
+            TryCleanParticles(true);
+            _activeParticleSystem = VFXManager.CreateVFX(VFX.SPIN_ATTACK, transform.position, _spinAttackAnchor)
+                .GetComponent<ParticleSystem>();
+            var scale = (attackData.attackRadius / attackInfo[0].attackRadius);
+            _activeParticleSystem.transform.localScale = new Vector3(scale, 1, scale);
         }
         
         private void OnAttackCollision(Collider collider, AttackData attackData)
@@ -207,6 +203,23 @@ namespace GGJ.Player
                 
             }
         }
+
+        //Particles
+        //============================================================================================================//
+
+        private void TryCleanParticles(bool forceClean = false)
+        {
+
+            if (forceClean && _activeParticleSystem)
+            {
+                Destroy(_activeParticleSystem.gameObject);
+                return;
+            }
+            if (_activeParticleSystem == null || _activeParticleSystem.particleCount > 0)
+                return;
+
+            Destroy(_activeParticleSystem.gameObject);
+        }
         
         //Callbacks
         //============================================================================================================//
@@ -225,6 +238,9 @@ namespace GGJ.Player
             
             if (isPressed)
             {
+                TryCleanParticles(true);
+                _activeParticleSystem = VFXManager.CreateVFX(VFX.SPIN_CHARGE, transform.position, transform)
+                    .GetComponent<ParticleSystem>();
                 PlayerMovementController.CanMove = false;
                 _pressStartTime = Time.time;
                 RAMDrainTimer = RAMDrainInterval;
