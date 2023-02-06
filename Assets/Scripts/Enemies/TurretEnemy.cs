@@ -154,6 +154,7 @@ namespace GGJ.Enemies
             for (float t = 0; t < halfCooldown; t+=Time.deltaTime)
             {
                 LookInDirection();
+                shooting = false;
                 yield return null;
             }
             
