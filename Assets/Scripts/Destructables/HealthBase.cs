@@ -24,6 +24,7 @@ namespace GGJ.Destructibles
 
         public virtual void DoDamage(int damageAmount, bool playVFX = true)
         {
+            Debug.Log("HealthBase -- DoDamage");
             _currentHealth -= Mathf.Abs(damageAmount);
         
             if(_currentHealth <= 0)

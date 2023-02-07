@@ -11,6 +11,8 @@ namespace GGJ.Player
         public static event Action OnPlayerDied;
 		
         public static bool canTakeDamage {get; set;} = true;
+
+        [SerializeField] int chanceToDropRAMPercent = 30;
         
         [ContextMenu("Test")]
         private void Test()
@@ -23,8 +25,18 @@ namespace GGJ.Player
             if(!canTakeDamage)
                 return;
             base.DoDamage(damageAmount, playVFX);
-            CollectableController.CreateCollectable(transform.position, damageAmount);
+
+            if(UnityEngine.Random.Range(1,101) <= chanceToDropRAMPercent )
+            {
+                CollectableController.CreateCollectable(transform.position, damageAmount);
+            }
             
+            OnPlayerHealthChanged?.Invoke((float)_currentHealth/startingHealth);
+        }
+
+        public override void AddHealth(int toAdd)
+        {
+            base.AddHealth(toAdd);
             OnPlayerHealthChanged?.Invoke((float)_currentHealth/startingHealth);
         }
 

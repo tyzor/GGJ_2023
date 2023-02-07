@@ -4,6 +4,7 @@ using UnityEngine;
 using GGJ.Destructibles;
 using GGJ.Player;
 using GGJ.Audio;
+using GGJ.Collectables;
 
 namespace GGJ.Enemies
 {
@@ -14,6 +15,8 @@ namespace GGJ.Enemies
         private Collider _hitCollider;
 
         private bool _HitCooldownActive;
+
+        [SerializeField] int chanceToDropRAMPercent = 10;
 
         // Start is called before the first frame update
         protected override void Start()
@@ -27,8 +30,13 @@ namespace GGJ.Enemies
 
         protected override void Kill()
         {
-            SFXController.PlaySound(SFX.ENEMY_DEATH);
-            // TODO - Spawn RAM?
+            SFXController.PlaySound(SFX.ENEMY_DEATH, .25f);
+            
+            if(UnityEngine.Random.Range(1,101) <= chanceToDropRAMPercent )
+            {
+                CollectableController.CreateCollectable(transform.position, 2, .3f);
+            }
+            
             Destroy(gameObject);
             OnEnemyDied?.Invoke();
         }

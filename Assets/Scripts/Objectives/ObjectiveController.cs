@@ -19,12 +19,17 @@ namespace GGJ.Objectives
     public class ObjectiveController : MonoBehaviour
     {
         public static event Action<(OBJECTIVE_TYPE objective, File targetFile, FolderRoom targetRoom)> OnNewObjective;
+        public static event Action<int,int> OnObjectiveCountChanged;
 
         private RoomManager _roomManager;
 
         private OBJECTIVE_TYPE _currentObjective;
         private File _targetFile;
         private FolderRoom _targetRoom;
+
+        [SerializeField] int targetObjectiveCount = 3;
+        private int completedObjectiveCount = 0;
+        [SerializeField] GameObject _winScreen;
 
         //Flattened Dungeon Data
         //------------------------------------------------//
@@ -122,6 +127,7 @@ namespace GGJ.Objectives
                 return;
 
             Debug.Log($"Completed Objective {_currentObjective.ToString()} {_targetFile.GetFileNameExtension()}");
+            OnObjectiveCountChanged?.Invoke(completedObjectiveCount, targetObjectiveCount);
             
             if (_currentObjective == OBJECTIVE_TYPE.TRASH)
             {
@@ -129,13 +135,19 @@ namespace GGJ.Objectives
                 _targetFile = null;
             }
             
-            //TODO Complete Objective
-            //TODO Give reward/points
-            
-            
             FileInteractable.OnPickedUpFile -= TryCompleteObjective;
             FileInteractable.OnDroppedFile -= TryCompleteObjective;
-            FileInteractable.OnRecycledFile -= TryCompleteObjective;
+            FileInteractable.OnRecycledFile -= TryCompleteObjective;            
+            
+            //TODO Complete Objective
+            //TODO Give reward/points
+            completedObjectiveCount++;
+            if(completedObjectiveCount >= targetObjectiveCount)
+            {
+                // Win condition!
+                Time.timeScale = 0;
+                _winScreen.SetActive(true);
+            }
             
             //Assign new Objective / Move to new dungeon
             GenerateObjective();
@@ -201,5 +213,22 @@ namespace GGJ.Objectives
         }
         
         //============================================================================================================//
+
+        // Testing win conditions
+        [ContextMenu("TriggerWinCondition")]
+        private void TriggerObjective()
+        {
+            //TODO Complete Objective
+            //TODO Give reward/points
+            completedObjectiveCount++;
+            if(completedObjectiveCount >= targetObjectiveCount)
+            {
+                // Win condition!
+                Time.timeScale = 0;
+                _winScreen.SetActive(true);
+            }
+            OnObjectiveCountChanged?.Invoke(completedObjectiveCount,targetObjectiveCount);
+        }
+
     }
 }

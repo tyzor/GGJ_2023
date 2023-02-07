@@ -49,7 +49,7 @@ MonoBehaviour:
   launchSpeed: 20
   pickupDelay: 1
   collectableBehaviourData:
-    pickupDistance: 5
+    pickupDistance: 8
     drag: 5
     accel: 20
   spawnCount: 4

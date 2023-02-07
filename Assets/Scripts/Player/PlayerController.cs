@@ -39,6 +39,14 @@ namespace GGJ.Player
 
             _currentInteractablesInRange.Add(interactable);
             CanAttack = false;
+
+            // Change to entering a door -- have player auto navigate into it
+            if(interactable is DoorInteractable)
+            {
+                CanAttack = true;
+                interactable.Interact();
+            }
+
         }
 
         public void OnExitInteractRange(IInteractable interactable)

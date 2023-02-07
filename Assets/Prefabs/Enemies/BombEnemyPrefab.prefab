@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 1
+  chanceToDropRAMPercent: 0
   moveSpeed: 5
   aggroRange: 8
   attackDamage: 2
@@ -57,7 +58,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  modelTransform: {fileID: 0}
 --- !u!135 &3871775793847177328
 SphereCollider:
   m_ObjectHideFlags: 0

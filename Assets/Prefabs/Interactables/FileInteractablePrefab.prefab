@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637275327132428855}
   m_LocalRotation: {x: 0.40034905, y: -0, z: -0, w: 0.91636276}
-  m_LocalPosition: {x: 0, y: 0, z: -1.026}
+  m_LocalPosition: {x: 0, y: 0, z: -1.08}
   m_LocalScale: {x: 2.73736, y: 0.946, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 3305939814933455909}
   - component: {fileID: 3305939814933455908}
   - component: {fileID: 3305939814933455905}
+  - component: {fileID: 2835443838058380844}
   m_Layer: 0
   m_Name: FileInteractablePrefab
   m_TagString: Untagged
@@ -313,7 +314,20 @@ BoxCollider:
   m_GameObject: {fileID: 3305939814933455904}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &2835443838058380844
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3305939814933455904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}

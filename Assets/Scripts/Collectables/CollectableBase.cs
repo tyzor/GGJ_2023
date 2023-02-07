@@ -1,6 +1,7 @@
 using System;
 using GGJ.Player;
 using UnityEngine;
+using GGJ.Destructibles;
 
 namespace GGJ.Collectables
 {
@@ -36,6 +37,11 @@ namespace GGJ.Collectables
         private float _pickupCountdown;
         private float _moveSpeed;
 
+        [SerializeField] private Transform shineSprite;
+
+        
+        // Using this to prevent collectables from flying through walls
+        [SerializeField] private float maxDistance = 100f;
 
         //Unity Functions
         //============================================================================================================//
@@ -54,17 +60,26 @@ namespace GGJ.Collectables
         // Update is called once per frame
         private void Update()
         {
+            // Spine the shine to draw attention
+            shineSprite.Rotate(Vector3.forward, 360*Time.deltaTime, Space.Self);
+
             //------------------------------------------------//
             
+            var dirToPlayer = _playerTransform.position - transform.position;
+
             void Slow()
             {
+                // Only move if we haven't hit max distance
+                if(dirToPlayer.magnitude >= maxDistance)
+                    return;
+
                 _velocity -= _velocity * (Time.deltaTime * _behaviourData.drag);
                 transform.position += _velocity * Time.deltaTime;
             }
 
             //------------------------------------------------//
             
-            var dirToPlayer = _playerTransform.position - transform.position;
+            
 
             switch (_currentState)
             {
@@ -126,6 +141,19 @@ namespace GGJ.Collectables
 
             _pickupCountdown = pickupDelay;
             
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
+            for(int i=0; i<hits.Length; i++)
+            {
+                // Ignore anything that has health -- we want geometry
+                HealthBase hp = hits[i].collider.GetComponent<HealthBase>();
+                if(hp == null)
+                {
+                    // We hit a wall or door etc
+                    maxDistance = Vector3.Distance(hits[i].point, transform.position);
+                }
+            }
+
+
             _currentState = STATE.LAUNCHING;
         }
         

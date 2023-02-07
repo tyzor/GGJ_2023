@@ -33,6 +33,8 @@ namespace GGJ.UI
         [SerializeField]
         private Button resumeButton;
 
+        [SerializeField, Header("Task Completion Window")]
+        private Image _playerTaskCompletionBar;
 
         
         //Unity Functions
@@ -43,6 +45,7 @@ namespace GGJ.UI
             RoomManager.OnRoomLoaded += OnRoomLoaded;
             RoomManager.OnNewRoomLoaded += OnRoomLoaded;
             ObjectiveController.OnNewObjective += OnNewObjective;
+            ObjectiveController.OnObjectiveCountChanged += OnObjectiveCountChanged;
             PlayerHealth.OnPlayerDied += OnPlayerDied;
         }
 
@@ -59,6 +62,7 @@ namespace GGJ.UI
             RoomManager.OnRoomLoaded -= OnRoomLoaded;
             RoomManager.OnNewRoomLoaded += OnRoomLoaded;
             ObjectiveController.OnNewObjective -= OnNewObjective;
+            ObjectiveController.OnObjectiveCountChanged -= OnObjectiveCountChanged;
             PlayerHealth.OnPlayerDied -= OnPlayerDied;
         }
 
@@ -71,6 +75,7 @@ namespace GGJ.UI
             pauseWindow.SetActive(false);
             
             _playerHealthbar.fillAmount = 0f;
+            _playerTaskCompletionBar.fillAmount = 0f;
             
             resumeButton.onClick.AddListener(OnResumePressed);
             restartButton.onClick.AddListener(OnRestartPressed);
@@ -123,8 +128,15 @@ namespace GGJ.UI
                 objectiveText.text = $"Objective is" +
                                      $"\n<b>{obj.objective.ToString()}</b>" +
                                      $"\n<b>{obj.targetFile.GetFileNameExtension()}</b>";
+
+            
         }
         
+        private void OnObjectiveCountChanged(int count, int max)
+        {
+            _playerTaskCompletionBar.fillAmount = (float)count/(float)max;
+        }
+
         private void OnPlayerDied()
         {
             SFXController.PlaySound(SFX.GAME_OVER);

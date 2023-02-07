@@ -2,6 +2,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using GGJ.Levels;
 
 namespace GGJ.Collectables
 {
@@ -43,10 +44,9 @@ namespace GGJ.Collectables
         {
             for (int i = 0; i < count; i++)
             {
-                var newCollectable = Instantiate(collectablePrefab, position, quaternion.identity, transform);
+                var newCollectable = Instantiate(collectablePrefab, position, quaternion.identity, RoomManager.CurrentRoom.transform);
 
-                var dir = Random.insideUnitCircle.normalized;
-                
+                var dir = Random.insideUnitCircle.normalized;                
                 newCollectable.Launch(collectableBehaviourData, new Vector3(dir.x, 0, dir.y), launchSpeed, delay);
             }
         }
