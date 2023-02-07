@@ -78,6 +78,7 @@ namespace GGJ.Objectives
             var newObjective = (OBJECTIVE_TYPE)Random.Range(1, 4);
             var targetFile = _files.GetRandomItem();
             var targetRoom = newObjective == OBJECTIVE_TYPE.MOVE ? _folderRooms.GetRandomItem() : default;
+            //Debug.Log($"Objective file is in {targetFile.GetAbsolutePath()}");
 
             SetupNewObjective(newObjective, targetFile, targetRoom);
         }
@@ -127,7 +128,6 @@ namespace GGJ.Objectives
                 return;
 
             Debug.Log($"Completed Objective {_currentObjective.ToString()} {_targetFile.GetFileNameExtension()}");
-            OnObjectiveCountChanged?.Invoke(completedObjectiveCount, targetObjectiveCount);
             
             if (_currentObjective == OBJECTIVE_TYPE.TRASH)
             {
@@ -141,7 +141,23 @@ namespace GGJ.Objectives
             
             //TODO Complete Objective
             //TODO Give reward/points
-            completedObjectiveCount++;
+            // Move/Trash are harder and worth more points
+            switch (_currentObjective)
+            {
+                case OBJECTIVE_TYPE.TRASH:
+                    completedObjectiveCount += 2;
+                    break;
+                case OBJECTIVE_TYPE.MOVE:
+                    completedObjectiveCount += 2;
+                    break;
+                case OBJECTIVE_TYPE.FIND:
+                    completedObjectiveCount += 1;
+                    break;
+                default:
+                    completedObjectiveCount++;
+                    break;
+            }
+            OnObjectiveCountChanged?.Invoke(completedObjectiveCount, targetObjectiveCount);
             if(completedObjectiveCount >= targetObjectiveCount)
             {
                 // Win condition!

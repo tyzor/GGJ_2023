@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GGJ.Inputs;
 using GGJ.Interactables;
+using GGJ.Levels;
 using UnityEngine;
 using Input = GGJ.Inputs.Input;
 
@@ -19,6 +20,7 @@ namespace GGJ.Player
         private void OnEnable()
         {
             InputDelegator.OnAttackPressed += OnInteractPressed;
+            RoomManager.OnRoomLoaded += OnRoomLoaded;
             InteractableBase.PlayerInteractableListener = this;
         }
 
@@ -26,6 +28,7 @@ namespace GGJ.Player
         private void OnDisable()
         {
             InputDelegator.OnAttackPressed -= OnInteractPressed;
+            RoomManager.OnRoomLoaded -= OnRoomLoaded;
             InteractableBase.PlayerInteractableListener = null;
         }
 
@@ -41,11 +44,13 @@ namespace GGJ.Player
             CanAttack = false;
 
             // Change to entering a door -- have player auto navigate into it
+            /*
             if(interactable is DoorInteractable)
             {
                 CanAttack = true;
                 interactable.Interact();
             }
+            */
 
         }
 
@@ -85,6 +90,13 @@ namespace GGJ.Player
                 var interactable = _currentInteractablesInRange[i];
                 interactable?.Interact();
             }
+        }
+
+        private void OnRoomLoaded()
+        {
+            // Clear any non-file interactables we are in range of
+            // This breaks file pickup -- will leave for now
+            //Debug.Log(_currentInteractablesInRange.Count);
         }
 
         //============================================================================================================//

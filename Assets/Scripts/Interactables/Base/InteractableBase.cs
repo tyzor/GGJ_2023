@@ -2,6 +2,7 @@
 using GGJ.Player;
 using UnityEngine;
 using UnityEngine.Assertions;
+using GGJ.Levels;
 
 namespace GGJ.Interactables
 {
@@ -19,7 +20,12 @@ namespace GGJ.Interactables
         protected bool IgnoreExits { get; set; }
 
         //============================================================================================================//
-        
+
+        private void OnEnable() 
+        {
+            RoomManager.OnRoomLoaded += OnRoomLoaded;
+        }
+
         private void Start()
         {
             if (PlayerTransform == null)
@@ -37,6 +43,8 @@ namespace GGJ.Interactables
 
         private void OnTriggerEnter(Collider other)
         {
+            //Debug.Log("OnTriggerEnter");
+
             //IF we're already in the player range, don't notify twice
             if (_playerInInteractRange)
                 return;
@@ -44,12 +52,16 @@ namespace GGJ.Interactables
             if (other.CompareTag(PLAYER_TAG) == false)
                 return;
 
+            //Debug.Log("OnEnterInteractRange");
+
             _playerInInteractRange = true;
             PlayerInteractableListener.OnEnterInteractRange(this);
         }
 
         private void OnTriggerExit(Collider other)
         {
+            //Debug.Log("OnTriggerExit");
+
             if (IgnoreExits)
                 return;
             if (other.CompareTag(PLAYER_TAG) == false)
@@ -61,12 +73,25 @@ namespace GGJ.Interactables
 
         private void OnDisable()
         {
+            RoomManager.OnRoomLoaded -= OnRoomLoaded;
+
             if (_playerInInteractRange == false)
                 return;
             
             PlayerInteractableListener?.OnExitInteractRange(this);
         }
+            
+        private void OnRoomLoaded()
+        {
+            if(this is DoorInteractable)
+            {
+                // Clear the state of the interactable so that the trigger enter/exit will fire properly
+                //Debug.Log("Clearing door playerInInteractRange");
+                _playerInInteractRange = false;
+            }
+        }
         
+
         //============================================================================================================//
 
         protected abstract void OnStart();

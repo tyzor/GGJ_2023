@@ -20,8 +20,8 @@ namespace GGJ.Interactables
 
         private void Start()
         {
-            var meshRenderer = GetComponent<MeshRenderer>();
-            _bounds = meshRenderer.bounds;
+            var collider = GetComponent<Collider>();
+            _bounds = collider.bounds;
         }
 
         private void OnDisable()
